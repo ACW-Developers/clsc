@@ -18,6 +18,12 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+				script: ['"Great Vibes"', 'cursive'],
+			},
+			boxShadow: { card: 'var(--shadow-card)' },
+			backgroundImage: { 'overlay': 'var(--gradient-overlay)', 'hero-fade': 'var(--gradient-hero-fade)' },
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
