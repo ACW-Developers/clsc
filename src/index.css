@@ -7,34 +7,29 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
+    --foreground: 350 35% 12%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
+    --card-foreground: 350 35% 12%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    --popover-foreground: 350 35% 12%;
+    --primary: 350 68% 27%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 350 60% 38%;
+    --secondary: 30 45% 96%;
+    --secondary-foreground: 350 68% 27%;
+    --muted: 30 30% 96%;
+    --muted-foreground: 350 8% 40%;
+    --accent: 38 85% 47%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 30 20% 89%;
+    --input: 30 20% 89%;
+    --ring: 350 68% 27%;
+    --radius: 0.75rem;
+    --shadow-card: 0 10px 30px -12px hsl(350 40% 20% / 0.18);
+    --gradient-overlay: linear-gradient(180deg, hsl(350 40% 8% / 0) 40%, hsl(350 40% 8% / 0.8) 100%);
+    --gradient-hero-fade: linear-gradient(90deg, hsl(0 0% 100%) 0%, hsl(0 0% 100% / 0.85) 35%, hsl(0 0% 100% / 0) 65%);
 
     --sidebar-background: 0 0% 98%;
 
@@ -98,6 +93,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
   }
 }
+html { scroll-behavior: smooth; }
