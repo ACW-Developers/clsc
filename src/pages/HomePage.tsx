@@ -1,13 +1,18 @@
-import { PageContainer } from "@/components/common/PageContainer";
-import { env } from "@/config/env";
+import { SiteHeader } from "@/components/common/SiteHeader";
+import { SiteFooter } from "@/components/common/SiteFooter";
+import { ContactBand, FeatureStrip, Hero, QuickServicesCard, ServicesGrid, WhyChoose } from "@/components/hospitality/HomeSections";
 
 const HomePage = () => (
-  <PageContainer className="flex items-center justify-center">
-    <div className="text-center">
-      <h1 className="mb-4 text-4xl font-bold">{env.appName}</h1>
-      <p className="text-xl text-muted-foreground">Hospitality Management and Online Booking</p>
-    </div>
-  </PageContainer>
+  <div className="relative overflow-x-hidden">
+    <SiteHeader />
+    <Hero />
+    <QuickServicesCard />
+    <FeatureStrip />
+    <ServicesGrid />
+    <WhyChoose />
+    <ContactBand />
+    <SiteFooter />
+  </div>
 );
 
 export default HomePage;
