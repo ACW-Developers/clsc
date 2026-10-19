@@ -1,11 +1,11 @@
 {
-  "version": 1,
   "asset_id": "5279b757-bcec-4172-9960-00f84c9b2d7f",
-  "project_id": "c196b30c-384c-4e30-8193-a0d11fb439d0",
-  "url": "/__l5e/assets-v1/5279b757-bcec-4172-9960-00f84c9b2d7f/cslc-logo.webp",
-  "r2_key": "a/v1/c196b30c-384c-4e30-8193-a0d11fb439d0/5279b757-bcec-4172-9960-00f84c9b2d7f/cslc-logo.webp",
-  "original_filename": "cslc-logo.webp",
-  "size": 218412,
   "content_type": "image/webp",
-  "created_at": "2026-10-19T09:34:02Z"
+  "created_at": "2026-10-19T09:34:02Z",
+  "original_filename": "cslc-logo.webp",
+  "project_id": "9b8a21c0-ae89-49dd-9c7e-067f57eea87a",
+  "r2_key": "a/v1/9b8a21c0-ae89-49dd-9c7e-067f57eea87a/5279b757-bcec-4172-9960-00f84c9b2d7f/cslc-logo.webp",
+  "size": 218412,
+  "url": "/__l5e/assets-v1/5279b757-bcec-4172-9960-00f84c9b2d7f/cslc-logo.webp",
+  "version": 1
 }
