@@ -29,6 +29,7 @@ const AuthPage = () => {
   const mode: Mode = (["signup", "forgot"].includes(params.get("mode") ?? "") ? params.get("mode") : "signin") as Mode;
   const navigate = useNavigate();
   const { user } = useAuth();
+  const returnTo = params.get("next") === paths.adminSetup ? paths.adminSetup : paths.home;
   const [form, setForm] = useState({ fullName: "", email: "", password: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [error, setError] = useState("");
@@ -36,12 +37,12 @@ const AuthPage = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user) navigate(paths.home, { replace: true });
-  }, [user, navigate]);
+    if (user) navigate(returnTo, { replace: true });
+  }, [user, navigate, returnTo]);
 
   const setMode = (m: Mode) => {
     setErrors({}); setError(""); setNotice("");
-    setParams(m === "signin" ? {} : { mode: m });
+    setParams({ ...(returnTo !== paths.home ? { next: returnTo } : {}), ...(m === "signin" ? {} : { mode: m }) });
   };
 
   const onSubmit = async (e: FormEvent) => {
@@ -61,7 +62,7 @@ const AuthPage = () => {
         if (error) throw error;
         toast.success("Welcome back!");
       } else if (mode === "signup") {
-        const { data, error } = await authService.signUp(em, form.password, form.fullName.trim());
+        const { data, error } = await authService.signUp(em, form.password, form.fullName.trim(), returnTo);
         if (error) throw error;
         if (!data.session) setNotice("Account created. Check your email to confirm your address, then sign in.");
         else toast.success("Account created");

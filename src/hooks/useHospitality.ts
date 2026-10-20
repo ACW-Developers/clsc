@@ -5,16 +5,31 @@ import { useAuth } from "./useAuth";
 
 export const useServices = () => useQuery({ queryKey: ["services"], queryFn: svc.listServices });
 export const useSubServices = () => useQuery({ queryKey: ["sub_services"], queryFn: svc.listSubServices });
-export const useBookings = () => useQuery({ queryKey: ["bookings"], queryFn: svc.listBookings });
-export const useProfiles = () => useQuery({ queryKey: ["profiles"], queryFn: svc.listProfiles });
-export const useAllRoles = () => useQuery({ queryKey: ["roles"], queryFn: svc.listRoles });
-export const useLogs = () => useQuery({ queryKey: ["logs"], queryFn: svc.listLogs });
-export const useSettings = () => useQuery({ queryKey: ["settings"], queryFn: svc.getSettings });
+export const useBookings = () => {
+  const { isStaff, isLoading } = useRoles();
+  return useQuery({ queryKey: ["bookings"], queryFn: svc.listBookings, enabled: isStaff && !isLoading });
+};
+export const useProfiles = () => {
+  const { isStaff, isLoading } = useRoles();
+  return useQuery({ queryKey: ["profiles"], queryFn: svc.listProfiles, enabled: isStaff && !isLoading });
+};
+export const useAllRoles = () => {
+  const { isStaff, isLoading } = useRoles();
+  return useQuery({ queryKey: ["roles"], queryFn: svc.listRoles, enabled: isStaff && !isLoading });
+};
+export const useLogs = () => {
+  const { isStaff, isLoading } = useRoles();
+  return useQuery({ queryKey: ["logs"], queryFn: svc.listLogs, enabled: isStaff && !isLoading });
+};
+export const useSettings = () => {
+  const { isSuperAdmin, isLoading } = useRoles();
+  return useQuery({ queryKey: ["settings"], queryFn: svc.getSettings, enabled: isSuperAdmin && !isLoading });
+};
 export const useSetupStatus = () => useQuery({ queryKey: ["setup"], queryFn: svc.setupStatus, staleTime: 0 });
 
 export function useRoles() {
   const { user } = useAuth();
-  const q = useQuery({ queryKey: ["myRoles", user?.id], queryFn: () => svc.myRoles(user!.id), enabled: !!user });
+  const q = useQuery({ queryKey: ["myRoles", user?.id], queryFn: () => user ? svc.myRoles(user.id) : Promise.resolve([]), enabled: !!user });
   const roles = q.data ?? [];
   return {
     ...q,
