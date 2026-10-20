@@ -8,3 +8,4 @@
 - Global providers live in `src/providers/AppProviders.tsx` — single composition point.
 - Future modules (hospitality, bookshop, programmes) get their own subfolders inside pages/components/services/hooks — modular growth.
 - Use semantic design tokens from `src/index.css`; no hardcoded color utilities — theming consistency.
+- Keep hospitality administration behind one role-guarded `/admin` page with query-driven views, reusing the existing service and React Query layers so staff permissions stay centralized.
