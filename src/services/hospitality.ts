@@ -55,6 +55,8 @@ export const hospitalityService = {
   updateBookingStatus: async (id: string, status: BookingStatus, admin_notes?: string | null) =>
     must(await supabase.from("bookings").update({ status, ...(admin_notes !== undefined ? { admin_notes } : {}) }).eq("id", id)),
 
+  bookedRanges: async (sub: string) => must(await supabase.rpc("facility_booked_ranges", { _sub_service_id: sub })) ?? [],
+
   // Users
   listProfiles: async () => must(await supabase.from("profiles").select("*").order("created_at", { ascending: false })),
   listRoles: async () => must(await supabase.from("user_roles").select("user_id, role")),
@@ -75,8 +77,9 @@ export const hospitalityService = {
     if (error) throw new Error(error.message);
     return !!data;
   },
-  setupAdmin: async (body: { fullName: string; email: string; password: string }) => {
-    const { data, error } = await supabase.functions.invoke("setup-admin", { body });
+  setupAdmin: async (body: { fullName: string; email: string; password: string } | { action: "claim" }) => {
+    const payload = "action" in body ? body : { ...body, redirectTo: `${window.location.origin}/setup-admin` };
+    const { data, error } = await supabase.functions.invoke("setup-admin", { body: payload });
     if (error) {
       const ctx = (error as { context?: Response }).context;
       const msg = ctx ? (await ctx.json().catch(() => null))?.error : null;

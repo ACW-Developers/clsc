@@ -22,6 +22,13 @@
       "when": 1792499952874,
       "tag": "0002_restore_data_api_grants_and_booking_guard",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792608131904,
+      "tag": "0003_facility_availability",
+      "breakpoints": true
     }
   ]
 }
