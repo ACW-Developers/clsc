@@ -18,20 +18,35 @@ import { cn } from "@/lib/utils";
 type Mode = "signin" | "signup" | "forgot";
 
 const email = z.string().trim().email("Enter a valid email address").max(255);
-const password = z.string().min(8, "Password must be at least 8 characters").max(72);
+const password = z
+  .string()
+  .min(8, "Password must be at least 8 characters")
+  .max(72);
 const schemas = {
-  signin: z.object({ email, password: z.string().min(1, "Enter your password") }),
-  signup: z.object({ fullName: z.string().trim().min(2, "Enter your full name").max(100), email, password }),
+  signin: z.object({
+    email,
+    password: z.string().min(1, "Enter your password"),
+  }),
+  signup: z.object({
+    fullName: z.string().trim().min(2, "Enter your full name").max(100),
+    email,
+    password,
+  }),
   forgot: z.object({ email }),
 };
 
 const AuthPage = () => {
   const [params, setParams] = useSearchParams();
-  const mode: Mode = (["signup", "forgot"].includes(params.get("mode") ?? "") ? params.get("mode") : "signin") as Mode;
+  const mode: Mode = (
+    ["signup", "forgot"].includes(params.get("mode") ?? "")
+      ? params.get("mode")
+      : "signin"
+  ) as Mode;
   const navigate = useNavigate();
   const { user } = useAuth();
   const next = params.get("next");
-  const returnTo = next && next.startsWith("/") && !next.startsWith("//") ? next : paths.home;
+  const returnTo =
+    next && next.startsWith("/") && !next.startsWith("//") ? next : paths.home;
   const { isStaff, isLoading: rolesLoading } = useRoles();
   const [form, setForm] = useState({ fullName: "", email: "", password: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -40,20 +55,33 @@ const AuthPage = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user && !rolesLoading) navigate(next ? returnTo : isStaff ? paths.admin : paths.home, { replace: true });
+    if (user && !rolesLoading)
+      navigate(next ? returnTo : isStaff ? paths.admin : paths.home, {
+        replace: true,
+      });
   }, [user, rolesLoading, isStaff, navigate, next, returnTo]);
 
   const setMode = (m: Mode) => {
-    setErrors({}); setError(""); setNotice("");
-    setParams({ ...(returnTo !== paths.home ? { next: returnTo } : {}), ...(m === "signin" ? {} : { mode: m }) });
+    setErrors({});
+    setError("");
+    setNotice("");
+    setParams({
+      ...(returnTo !== paths.home ? { next: returnTo } : {}),
+      ...(m === "signin" ? {} : { mode: m }),
+    });
   };
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setError(""); setNotice("");
+    setError("");
+    setNotice("");
     const parsed = schemas[mode].safeParse(form);
     if (!parsed.success) {
-      setErrors(Object.fromEntries(parsed.error.issues.map((i) => [i.path[0], i.message])));
+      setErrors(
+        Object.fromEntries(
+          parsed.error.issues.map((i) => [i.path[0], i.message]),
+        ),
+      );
       return;
     }
     setErrors({});
@@ -65,17 +93,31 @@ const AuthPage = () => {
         if (error) throw error;
         toast.success("Welcome back!");
       } else if (mode === "signup") {
-        const { data, error } = await authService.signUp(em, form.password, form.fullName.trim(), returnTo);
+        const { data, error } = await authService.signUp(
+          em,
+          form.password,
+          form.fullName.trim(),
+          returnTo,
+        );
         if (error) throw error;
-        if (!data.session) setNotice("Account created. Check your email to confirm your address, then sign in.");
+        if (!data.session)
+          setNotice(
+            "Account created. Check your email to confirm your address, then sign in.",
+          );
         else toast.success("Account created");
       } else {
         const { error } = await authService.requestPasswordReset(em);
         if (error) throw error;
-        setNotice("If an account exists for that email, a password reset link has been sent.");
+        setNotice(
+          "If an account exists for that email, a password reset link has been sent.",
+        );
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -83,7 +125,8 @@ const AuthPage = () => {
 
   const field = (k: keyof typeof form) => ({
     value: form[k],
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, [k]: e.target.value }),
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+      setForm({ ...form, [k]: e.target.value }),
     "aria-invalid": !!errors[k],
   });
 
@@ -92,7 +135,17 @@ const AuthPage = () => {
       {mode !== "forgot" ? (
         <div className="mb-6 grid grid-cols-2 rounded-xl bg-muted p-1">
           {(["signin", "signup"] as const).map((m) => (
-            <button key={m} type="button" onClick={() => setMode(m)} className={cn("rounded-lg py-2 text-sm font-medium transition", mode === m ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}>
+            <button
+              key={m}
+              type="button"
+              onClick={() => setMode(m)}
+              className={cn(
+                "rounded-lg py-2 text-sm font-medium transition",
+                mode === m
+                  ? "bg-card text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+            >
               {m === "signin" ? "Sign In" : "Create Account"}
             </button>
           ))}
@@ -100,7 +153,9 @@ const AuthPage = () => {
       ) : (
         <div className="mb-6 text-center">
           <p className="font-semibold">Reset your password</p>
-          <p className="text-sm text-muted-foreground">We'll email you a link to set a new password.</p>
+          <p className="text-sm text-muted-foreground">
+            We'll email you a link to set a new password.
+          </p>
         </div>
       )}
 
@@ -110,39 +165,95 @@ const AuthPage = () => {
             <Label htmlFor="fullName">Full name</Label>
             <div className="relative">
               <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input id="fullName" autoComplete="name" placeholder="Jane Wanjiku" className="h-11 bg-muted pl-10" {...field("fullName")} />
+              <Input
+                id="fullName"
+                autoComplete="name"
+                placeholder="Jane Wanjiku"
+                className="h-11 bg-muted pl-10"
+                {...field("fullName")}
+              />
             </div>
-            {errors.fullName && <p className="text-xs text-destructive">{errors.fullName}</p>}
+            {errors.fullName && (
+              <p className="text-xs text-destructive">{errors.fullName}</p>
+            )}
           </div>
         )}
         <div className="space-y-1.5">
           <Label htmlFor="email">Email</Label>
           <div className="relative">
             <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input id="email" type="email" autoComplete="email" placeholder="you@example.com" className="h-11 bg-muted pl-10" {...field("email")} />
+            <Input
+              id="email"
+              type="email"
+              autoComplete="email"
+              placeholder="you@example.com"
+              className="h-11 bg-muted pl-10"
+              {...field("email")}
+            />
           </div>
-          {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
+          {errors.email && (
+            <p className="text-xs text-destructive">{errors.email}</p>
+          )}
         </div>
         {mode !== "forgot" && (
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
               <Label htmlFor="password">Password</Label>
-              {mode === "signin" && <button type="button" onClick={() => setMode("forgot")} className="text-xs text-primary hover:underline">Forgot password?</button>}
+              {mode === "signin" && (
+                <button
+                  type="button"
+                  onClick={() => setMode("forgot")}
+                  className="text-xs text-primary hover:underline"
+                >
+                  Forgot password?
+                </button>
+              )}
             </div>
-            <PasswordInput id="password" autoComplete={mode === "signin" ? "current-password" : "new-password"} placeholder="••••••••" {...field("password")} />
-            {errors.password && <p className="text-xs text-destructive">{errors.password}</p>}
+            <PasswordInput
+              id="password"
+              autoComplete={
+                mode === "signin" ? "current-password" : "new-password"
+              }
+              placeholder="••••••••"
+              {...field("password")}
+            />
+            {errors.password && (
+              <p className="text-xs text-destructive">{errors.password}</p>
+            )}
           </div>
         )}
 
-        {error && <Alert variant="destructive"><AlertDescription>{error}</AlertDescription></Alert>}
-        {notice && <Alert><AlertDescription>{notice}</AlertDescription></Alert>}
+        {error && (
+          <Alert variant="destructive">
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+        {notice && (
+          <Alert>
+            <AlertDescription>{notice}</AlertDescription>
+          </Alert>
+        )}
 
-        <Button type="submit" disabled={loading} className="h-11 w-full text-base">
+        <Button
+          type="submit"
+          disabled={loading}
+          className="h-11 w-full text-base"
+        >
           {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-          {mode === "signin" ? "Sign In" : mode === "signup" ? "Create Account" : "Send Reset Link"}
+          {mode === "signin"
+            ? "Sign In"
+            : mode === "signup"
+              ? "Create Account"
+              : "Send Reset Link"}
         </Button>
         {mode === "forgot" && (
-          <button type="button" onClick={() => setMode("signin")} className="w-full text-sm text-primary hover:underline">Back to sign in</button>
+          <button
+            type="button"
+            onClick={() => setMode("signin")}
+            className="w-full text-sm text-primary hover:underline"
+          >
+            Back to sign in
+          </button>
         )}
       </form>
     </AuthShell>

@@ -8,5 +8,7 @@ interface PageContainerProps {
 
 /** Consistent page width and spacing for all pages. */
 export function PageContainer({ children, className }: PageContainerProps) {
-  return <div className={cn("container flex-1 py-10", className)}>{children}</div>;
+  return (
+    <div className={cn("container flex-1 py-10", className)}>{children}</div>
+  );
 }

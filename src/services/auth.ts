@@ -4,11 +4,19 @@ import { supabase } from "@/integrations/supabase/client";
 export const authService = {
   signIn: (email: string, password: string) =>
     supabase.auth.signInWithPassword({ email, password }),
-  signUp: (email: string, password: string, fullName: string, returnTo?: string) =>
+  signUp: (
+    email: string,
+    password: string,
+    fullName: string,
+    returnTo?: string,
+  ) =>
     supabase.auth.signUp({
       email,
       password,
-      options: { emailRedirectTo: `${window.location.origin}${returnTo ?? "/"}`, data: { full_name: fullName } },
+      options: {
+        emailRedirectTo: `${window.location.origin}${returnTo ?? "/"}`,
+        data: { full_name: fullName },
+      },
     }),
   signOut: () => supabase.auth.signOut(),
   requestPasswordReset: (email: string) =>

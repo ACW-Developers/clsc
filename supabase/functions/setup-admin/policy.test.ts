@@ -9,5 +9,7 @@ test("previous mailbox cannot register", () => {
 });
 test("approved mailbox must confirm email before claiming", () => {
   expect(canClaim("odongoclinton3@gmail.com", undefined)).toBe(false);
-  expect(canClaim("odongoclinton3@gmail.com", "2026-10-21T19:00:00Z")).toBe(true);
+  expect(canClaim("odongoclinton3@gmail.com", "2026-10-21T19:00:00Z")).toBe(
+    true,
+  );
 });

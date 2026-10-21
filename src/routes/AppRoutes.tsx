@@ -19,8 +19,22 @@ export function AppRoutes() {
         <Route path={paths.auth} element={<AuthPage />} />
         <Route path={paths.resetPassword} element={<ResetPasswordPage />} />
         <Route path={paths.adminSetup} element={<SetupAdminPage />} />
-        <Route path={paths.account} element={<RequireAuth><AccountPage /></RequireAuth>} />
-        <Route path={paths.admin} element={<RequireAuth staff><AdminPage /></RequireAuth>} />
+        <Route
+          path={paths.account}
+          element={
+            <RequireAuth>
+              <AccountPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path={paths.admin}
+          element={
+            <RequireAuth staff>
+              <AdminPage />
+            </RequireAuth>
+          }
+        />
         <Route path={paths.comingSoon} element={<ComingSoonPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

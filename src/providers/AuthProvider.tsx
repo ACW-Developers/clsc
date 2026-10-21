@@ -10,7 +10,9 @@ interface AuthContextValue {
   signOut: () => Promise<void>;
 }
 
-export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+export const AuthContext = createContext<AuthContextValue | undefined>(
+  undefined,
+);
 
 /** Restores and tracks the signed-in session for the whole app. */
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -34,7 +36,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ session, user: session?.user ?? null, loading, signOut }}>
+    <AuthContext.Provider
+      value={{ session, user: session?.user ?? null, loading, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );

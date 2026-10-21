@@ -3,4 +3,5 @@
 export type ID = string;
 
 /** Uniform result shape returned by service functions. */
-export type ServiceResult<T> = { data: T; error: null } | { data: null; error: Error };
+export type ServiceResult<T> =
+  { data: T; error: null } | { data: null; error: Error };
