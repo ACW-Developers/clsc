@@ -11,6 +11,7 @@ import { AuthShell } from "@/components/common/AuthShell";
 import { PasswordInput } from "@/components/common/PasswordInput";
 import { authService } from "@/services/auth";
 import { useAuth } from "@/hooks/useAuth";
+import { useRoles } from "@/hooks/useHospitality";
 import { paths } from "@/routes/paths";
 import { cn } from "@/lib/utils";
 
@@ -29,7 +30,9 @@ const AuthPage = () => {
   const mode: Mode = (["signup", "forgot"].includes(params.get("mode") ?? "") ? params.get("mode") : "signin") as Mode;
   const navigate = useNavigate();
   const { user } = useAuth();
-  const returnTo = params.get("next") === paths.adminSetup ? paths.adminSetup : paths.home;
+  const next = params.get("next");
+  const returnTo = next && next.startsWith("/") && !next.startsWith("//") ? next : paths.home;
+  const { isStaff, isLoading: rolesLoading } = useRoles();
   const [form, setForm] = useState({ fullName: "", email: "", password: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [error, setError] = useState("");
@@ -37,8 +40,8 @@ const AuthPage = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user) navigate(returnTo, { replace: true });
-  }, [user, navigate, returnTo]);
+    if (user && !rolesLoading) navigate(next ? returnTo : isStaff ? paths.admin : paths.home, { replace: true });
+  }, [user, rolesLoading, isStaff, navigate, next, returnTo]);
 
   const setMode = (m: Mode) => {
     setErrors({}); setError(""); setNotice("");
