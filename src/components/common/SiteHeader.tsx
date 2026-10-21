@@ -23,12 +23,12 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b bg-card/95 backdrop-blur">
       <div className="container flex h-20 items-center justify-between gap-4">
-        <Link to={paths.home} aria-label="CSLC home"><BrandLogo className="h-10 sm:h-12" /></Link>
+        <Link to={paths.home} aria-label="CSLC home" className="shrink-0"><BrandLogo className="h-10 sm:h-12" /></Link>
 
         <nav className="hidden items-center gap-1 xl:flex" aria-label="Main">
           {mainNav.map((g) => g.items ? (
             <div key={g.label} className="group relative">
-              <button className={cn("flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium hover:text-primary", g.label === "Hospitality" && "text-primary")} aria-haspopup="true">
+              <button className={cn("flex items-center gap-1 whitespace-nowrap rounded-md px-2 py-2 text-sm font-medium hover:text-primary", g.label === "Hospitality" && "text-primary")} aria-haspopup="true">
                 {g.label} <ChevronDown className="h-3.5 w-3.5 transition group-hover:rotate-180" />
               </button>
               <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 pt-2 opacity-0 transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
@@ -43,7 +43,7 @@ export function SiteHeader() {
               </div>
             </div>
           ) : (
-            <NavItem key={g.label} to={g.to!} className="rounded-md px-3 py-2 text-sm font-medium hover:text-primary">{g.label}</NavItem>
+            <NavItem key={g.label} to={g.to!} className="whitespace-nowrap rounded-md px-2 py-2 text-sm font-medium hover:text-primary">{g.label}</NavItem>
           ))}
         </nav>
 
