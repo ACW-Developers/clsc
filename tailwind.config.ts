@@ -23,7 +23,7 @@ export default {
 				script: ['"Great Vibes"', 'cursive'],
 			},
 			boxShadow: { card: 'var(--shadow-card)' },
-			backgroundImage: { 'overlay': 'var(--gradient-overlay)', 'hero-fade': 'var(--gradient-hero-fade)' },
+			backgroundImage: { 'overlay': 'var(--gradient-overlay)', 'hero-fade': 'var(--gradient-hero-fade)', 'hero-dark': 'var(--gradient-hero-dark)' },
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

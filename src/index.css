@@ -30,6 +30,7 @@
     --shadow-card: 0 10px 30px -12px hsl(350 40% 20% / 0.18);
     --gradient-overlay: linear-gradient(180deg, hsl(350 40% 8% / 0) 40%, hsl(350 40% 8% / 0.8) 100%);
     --gradient-hero-fade: linear-gradient(90deg, hsl(0 0% 100%) 0%, hsl(0 0% 100% / 0.85) 35%, hsl(0 0% 100% / 0) 65%);
+    --gradient-hero-dark: linear-gradient(90deg, hsl(350 40% 6% / 0.78) 0%, hsl(350 40% 6% / 0.55) 55%, hsl(350 40% 6% / 0.3) 100%);
 
     --sidebar-background: 0 0% 98%;
 
