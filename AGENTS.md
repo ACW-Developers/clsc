@@ -10,4 +10,5 @@
 - Use semantic design tokens from `src/index.css`; no hardcoded color utilities — theming consistency.
 - Keep hospitality administration behind one role-guarded `/admin` page with query-driven views, reusing the existing service and React Query layers so staff permissions stay centralized.
 - First super-admin setup is two-step (register approved mailbox, then claim after email confirmation) in the setup-admin function — server enforces approval and one-time use.
+- Keep first-admin eligibility in the setup function's shared policy module with focused tests — registration and claiming must enforce the same approval.
 - Unbuilt modules route to a shared Coming Soon page driven by `src/config/navigation.ts` — one place to grow the menu.

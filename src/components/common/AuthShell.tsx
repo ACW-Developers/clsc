@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import authImage from "@/assets/auth.jpg";
-import icon from "@/assets/cslc-icon.png.asset.json";
+import icon from "@/assets/cslc-icon.png";
 import { BrandLogo } from "./BrandLogo";
 import { paths } from "@/routes/paths";
 
@@ -22,7 +22,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
       <div className="flex items-center justify-center px-4 py-10 sm:px-8">
         <div className="w-full max-w-md rounded-2xl border border-primary/30 bg-card p-6 shadow-card sm:p-8">
           <div className="mb-6 flex flex-col items-center text-center">
-            <img src={icon.url} alt="CSLC crest" width={894} height={724} className="h-16 w-auto" />
+            <img src={icon} alt="CSLC crest" width={894} height={724} className="h-16 w-auto" />
             <p className="mt-3 text-lg font-bold text-primary">Christian Student Leadership Centre</p>
             <p className="text-sm text-muted-foreground">Hospitality Services</p>
           </div>
