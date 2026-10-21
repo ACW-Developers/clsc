@@ -55,6 +55,8 @@ export const hospitalityService = {
   updateBookingStatus: async (id: string, status: BookingStatus, admin_notes?: string | null) =>
     must(await supabase.from("bookings").update({ status, ...(admin_notes !== undefined ? { admin_notes } : {}) }).eq("id", id)),
 
+  bookedRanges: async (sub: string) => must(await supabase.rpc("facility_booked_ranges", { _sub_service_id: sub })) ?? [],
+
   // Users
   listProfiles: async () => must(await supabase.from("profiles").select("*").order("created_at", { ascending: false })),
   listRoles: async () => must(await supabase.from("user_roles").select("user_id, role")),

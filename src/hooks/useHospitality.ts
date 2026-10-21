@@ -9,6 +9,13 @@ export const useBookings = () => {
   const { isStaff, isLoading } = useRoles();
   return useQuery({ queryKey: ["bookings"], queryFn: svc.listBookings, enabled: isStaff && !isLoading });
 };
+/** Customer's own bookings (RLS limits rows to the signed-in user). */
+export const useMyBookings = () => {
+  const { user } = useAuth();
+  return useQuery({ queryKey: ["bookings", "mine", user?.id], queryFn: svc.listBookings, enabled: !!user });
+};
+export const useBookedRanges = (sub?: string) =>
+  useQuery({ queryKey: ["ranges", sub], queryFn: () => svc.bookedRanges(sub!), enabled: !!sub, refetchInterval: 15000 });
 export const useProfiles = () => {
   const { isStaff, isLoading } = useRoles();
   return useQuery({ queryKey: ["profiles"], queryFn: svc.listProfiles, enabled: isStaff && !isLoading });
