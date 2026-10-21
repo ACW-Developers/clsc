@@ -77,8 +77,9 @@ export const hospitalityService = {
     if (error) throw new Error(error.message);
     return !!data;
   },
-  setupAdmin: async (body: { fullName: string; email: string; password: string }) => {
-    const { data, error } = await supabase.functions.invoke("setup-admin", { body });
+  setupAdmin: async (body: { fullName: string; email: string; password: string } | { action: "claim" }) => {
+    const payload = "action" in body ? body : { ...body, redirectTo: `${window.location.origin}/setup-admin` };
+    const { data, error } = await supabase.functions.invoke("setup-admin", { body: payload });
     if (error) {
       const ctx = (error as { context?: Response }).context;
       const msg = ctx ? (await ctx.json().catch(() => null))?.error : null;
