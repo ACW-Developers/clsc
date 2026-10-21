@@ -13,9 +13,6 @@ export function Hero() {
       <div className="absolute inset-0 bg-hero-dark" />
       <div className="container relative pb-36 pt-24 text-primary-foreground md:pb-44 md:pt-32">
         <div className="max-w-xl">
-          <span className="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-foreground shadow-card">
-            <Sparkles className="h-3.5 w-3.5 text-accent" /> Stay. Meet. Celebrate.
-          </span>
           <h1 className="mt-5 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">Welcome to CSLC</h1>
           <p className="font-script text-5xl leading-tight text-accent sm:text-6xl">Hospitality Services</p>
           <p className="mt-4 max-w-md opacity-90">Accommodation, conference facilities, dining, grounds, catering and hostels at {site.location.split(",")[0]} — everything you need for your stay or event.</p>

@@ -20,7 +20,7 @@ export const mainNav: NavGroup[] = [
     { label: "Book Now", to: paths.book, description: "Check live availability and request a booking" },
   ] },
   { label: "Student Programmes", items: [soon("Events Calendar", "events"), soon("Programme Materials", "materials"), soon("Donate Now", "donate")] },
-  { label: "Spiritual Resources", items: [soon("Daily Devotional", "devotional"), soon("Bible Study Resources", "bible-study"), soon("Submit Content", "submit-content")] },
+  { label: "Resources", items: [soon("Daily Devotional", "devotional"), soon("Bible Study Resources", "bible-study"), soon("Submit Content", "submit-content")] },
   { label: "My Account", items: [{ label: "Login / Register", to: paths.auth }, soon("My Orders", "my-orders"), { label: "My Bookings", to: paths.account }, soon("My Donations", "my-donations"), { label: "Contact", to: "/#contact" }], },
 ];
 
