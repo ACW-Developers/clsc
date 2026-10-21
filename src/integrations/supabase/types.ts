@@ -270,6 +270,13 @@ export type Database = {
         Args: { _full_name: string; _user_id: string }
         Returns: boolean
       }
+      facility_booked_ranges: {
+        Args: { _sub_service_id: string }
+        Returns: {
+          end_date: string
+          start_date: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
