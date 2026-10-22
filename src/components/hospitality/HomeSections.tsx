@@ -169,6 +169,12 @@ export function ServicesGrid() {
             <span className="absolute left-4 top-4 rounded-full bg-card px-3 py-1 text-xs font-semibold text-primary">
               {s.tag}
             </span>
+            <span
+              aria-hidden="true"
+              className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-card/90 text-primary shadow-card transition group-hover:bg-primary group-hover:text-primary-foreground"
+            >
+              <ArrowUpRight className="h-4 w-4" />
+            </span>
             <div className="absolute inset-x-0 bottom-0 p-5 text-primary-foreground">
               <h3 className="text-xl font-bold">{s.title}</h3>
               <p className="mt-1 text-sm opacity-90">{s.description}</p>
