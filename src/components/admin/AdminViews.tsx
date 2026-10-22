@@ -447,9 +447,9 @@ export function Services() {
               key={s.id}
               className="flex gap-3 rounded-xl border bg-card p-3"
             >
-              {s.images[0] ?? s.image_url ? (
+              {s.image_url ? (
                 <img
-                  src={s.images[0] ?? s.image_url!}
+                  src={s.image_url}
                   alt=""
                   className="h-16 w-20 rounded object-cover"
                 />
