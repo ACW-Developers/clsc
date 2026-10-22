@@ -92,24 +92,6 @@ export function SiteHeader() {
           {user ? (
             <UserMenu />
           ) : (
-                    <User className="h-4 w-4" />
-                  )}
-                  <span className="hidden sm:inline">
-                    {isStaff ? "Dashboard" : "My Bookings"}
-                  </span>
-                </Link>
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="rounded-full"
-                onClick={handleSignOut}
-                aria-label="Sign out"
-              >
-                <LogOut className="h-4 w-4" />
-              </Button>
-            </>
-          ) : (
             <Button asChild size="sm" className="rounded-full">
               <Link to={paths.auth}>
                 <User className="h-4 w-4" /> Sign in
