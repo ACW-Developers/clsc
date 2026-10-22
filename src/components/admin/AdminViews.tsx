@@ -245,6 +245,9 @@ export function Bookings() {
                 <Badge variant={statusVariant(b.status)} className="capitalize">
                   {b.status}
                 </Badge>
+                <Badge variant={labelVariant(bookingLabel(b))}>
+                  {bookingLabel(b)} · {kes(b.total_amount)}
+                </Badge>
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Input
