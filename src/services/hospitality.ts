@@ -11,6 +11,7 @@ export type BookingStatus = Database["public"]["Enums"]["booking_status"];
 export type AppRole = Database["public"]["Enums"]["app_role"];
 export type Profile = T["profiles"]["Row"];
 export type ActivityLog = T["activity_logs"]["Row"];
+export type Receipt = T["receipts"]["Row"];
 
 export const BOOKING_STATUSES: BookingStatus[] = [
   "pending",
@@ -101,6 +102,8 @@ export const hospitalityService = {
     ) as BookingRow[],
   createBooking: async (b: {
     sub_service_id: string;
+    start_time?: string;
+    end_time?: string;
     start_date: string;
     end_date: string;
     guests: number;
@@ -154,6 +157,49 @@ export const hospitalityService = {
     id: string,
     p: { full_name?: string; phone?: string },
   ) => must(await supabase.from("profiles").update(p).eq("id", id)),
+
+  myProfile: async (id: string) =>
+    must(await supabase.from("profiles").select("*").eq("id", id).maybeSingle()),
+  uploadAvatar: async (userId: string, file: File) => {
+    if (!file.type.startsWith("image/"))
+      throw new Error("Please choose an image file");
+    if (file.size > 2 * 1024 * 1024)
+      throw new Error("Photo must be 2 MB or smaller");
+    const path = `${userId}/${crypto.randomUUID()}.${file.name.split(".").pop() ?? "jpg"}`;
+    const up = await supabase.storage.from("avatars").upload(path, file, { contentType: file.type });
+    if (up.error) throw new Error(up.error.message);
+    const signed = await supabase.storage.from("avatars").createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
+    if (signed.error) throw new Error(signed.error.message);
+    must(await supabase.from("profiles").update({ avatar_url: signed.data.signedUrl }).eq("id", userId));
+    return signed.data.signedUrl;
+  },
+
+  // Payments & receipts (simulated M-Pesa — no real money moves)
+  getBooking: async (id: string): Promise<BookingRow | null> =>
+    must(
+      await supabase
+        .from("bookings")
+        .select("*, sub_services(name, service_id, services(name))")
+        .eq("id", id)
+        .maybeSingle(),
+    ) as BookingRow | null,
+  simulatePayment: async (a: { id: string; phone: string; success: boolean }) =>
+    must(
+      await supabase.rpc("simulate_payment", {
+        _booking_id: a.id,
+        _phone: a.phone,
+        _success: a.success,
+      }),
+    ),
+  listReceipts: async () =>
+    must(
+      await supabase
+        .from("receipts")
+        .select("*")
+        .order("created_at", { ascending: false }),
+    ),
+  getReceipt: async (id: string) =>
+    must(await supabase.from("receipts").select("*").eq("id", id).maybeSingle()),
 
   // Logs & settings
   listLogs: async () =>

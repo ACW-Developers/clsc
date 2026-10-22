@@ -67,12 +67,16 @@ export type Database = {
           admin_notes: string | null
           created_at: string
           end_date: string
+          end_time: string | null
           guests: number
           id: string
           notes: string | null
+          payment_status: string
           start_date: string
+          start_time: string | null
           status: Database["public"]["Enums"]["booking_status"]
           sub_service_id: string
+          total_amount: number | null
           updated_at: string
           user_id: string
         }
@@ -80,12 +84,16 @@ export type Database = {
           admin_notes?: string | null
           created_at?: string
           end_date: string
+          end_time?: string | null
           guests?: number
           id?: string
           notes?: string | null
+          payment_status?: string
           start_date: string
+          start_time?: string | null
           status?: Database["public"]["Enums"]["booking_status"]
           sub_service_id: string
+          total_amount?: number | null
           updated_at?: string
           user_id?: string
         }
@@ -93,12 +101,16 @@ export type Database = {
           admin_notes?: string | null
           created_at?: string
           end_date?: string
+          end_time?: string | null
           guests?: number
           id?: string
           notes?: string | null
+          payment_status?: string
           start_date?: string
+          start_time?: string | null
           status?: Database["public"]["Enums"]["booking_status"]
           sub_service_id?: string
+          total_amount?: number | null
           updated_at?: string
           user_id?: string
         }
@@ -141,6 +153,50 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      receipts: {
+        Row: {
+          amount: number
+          booking_id: string
+          created_at: string
+          id: string
+          method: string
+          phone: string | null
+          receipt_number: string
+          reference: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          booking_id: string
+          created_at?: string
+          id?: string
+          method?: string
+          phone?: string | null
+          receipt_number: string
+          reference: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          booking_id?: string
+          created_at?: string
+          id?: string
+          method?: string
+          phone?: string | null
+          receipt_number?: string
+          reference?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "receipts_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: true
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       services: {
         Row: {
@@ -189,6 +245,7 @@ export type Database = {
           description: string | null
           id: string
           image_url: string | null
+          images: string[]
           is_available: boolean
           is_published: boolean
           min_notice_days: number
@@ -205,6 +262,7 @@ export type Database = {
           description?: string | null
           id?: string
           image_url?: string | null
+          images?: string[]
           is_available?: boolean
           is_published?: boolean
           min_notice_days?: number
@@ -221,6 +279,7 @@ export type Database = {
           description?: string | null
           id?: string
           image_url?: string | null
+          images?: string[]
           is_available?: boolean
           is_published?: boolean
           min_notice_days?: number
@@ -285,6 +344,10 @@ export type Database = {
         Returns: boolean
       }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      simulate_payment: {
+        Args: { _booking_id: string; _phone: string; _success: boolean }
+        Returns: string
+      }
       super_admin_exists: { Args: never; Returns: boolean }
     }
     Enums: {

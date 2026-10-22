@@ -19,6 +19,8 @@ export const site = {
   name: "Christian Student Leadership Centre",
   short: "CSLC",
   location: "Ufungamano House, Nairobi, Kenya",
+  email: "info@ufungamano.org",
+  phone: "+254 748 290170",
 };
 
 export interface HospitalityService {
