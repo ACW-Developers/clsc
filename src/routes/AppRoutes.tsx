@@ -7,6 +7,10 @@ import SetupAdminPage from "@/pages/SetupAdminPage";
 import ComingSoonPage from "@/pages/ComingSoonPage";
 import AccountPage from "@/pages/hospitality/AccountPage";
 import AdminPage from "@/pages/admin/AdminPage";
+import ServiceListPage from "@/pages/hospitality/ServiceListPage";
+import FacilityPage from "@/pages/hospitality/FacilityPage";
+import CheckoutPage from "@/pages/hospitality/CheckoutPage";
+import ReceiptPage from "@/pages/hospitality/ReceiptPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 import { RequireAuth } from "@/components/common/RouteGuards";
 import { paths } from "./paths";
@@ -35,6 +39,10 @@ export function AppRoutes() {
             </RequireAuth>
           }
         />
+        <Route path={paths.serviceList} element={<ServiceListPage />} />
+        <Route path={paths.facility} element={<FacilityPage />} />
+        <Route path={paths.checkout} element={<RequireAuth><CheckoutPage /></RequireAuth>} />
+        <Route path={paths.receipt} element={<RequireAuth><ReceiptPage /></RequireAuth>} />
         <Route path={paths.comingSoon} element={<ComingSoonPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

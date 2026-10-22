@@ -1,5 +1,6 @@
 import { useMemo, useState, type ReactNode } from "react";
-import { Loader2, Pencil, Plus, Search, Trash2, Upload } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2, Pencil, Plus, Search, Trash2, Upload, X } from "lucide-react";
+import { bookingLabel, kes, labelVariant } from "@/lib/booking";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -127,9 +128,10 @@ export function Overview({ go }: { go: (v: string) => void }) {
     b.data?.filter((x) => x.status === st).length ?? 0;
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
         <Card label="Total bookings" value={b.data?.length ?? "–"} />
-        <Card label="Pending review" value={b.data ? count("pending") : "–"} />
+        <Card label="Fully paid" value={b.data ? b.data.filter((x) => x.payment_status === "paid").length : "–"} />
+        <Card label="Revenue (simulated)" value={b.data ? kes(b.data.filter((x) => x.payment_status === "paid").reduce((t, x) => t + Number(x.total_amount ?? 0), 0)) : "–"} />
         <Card
           label="Services / Facilities"
           value={`${s.data?.length ?? "–"} / ${f.data?.length ?? "–"}`}
@@ -355,6 +357,64 @@ function ImageField({
   );
 }
 
+function GalleryField({
+  value,
+  onChange,
+}: {
+  value: string[];
+  onChange: (v: string[]) => void;
+}) {
+  const [busy, setBusy] = useState(false);
+  const move = (i: number, d: number) => {
+    const n = [...value];
+    [n[i], n[i + d]] = [n[i + d], n[i]];
+    onChange(n);
+  };
+  return (
+    <div className="space-y-1.5">
+      <Label>Photos ({value.length}/12) — first photo is the cover</Label>
+      <div className="grid grid-cols-3 gap-2">
+        {value.map((u, i) => (
+          <div key={u} className="group relative overflow-hidden rounded-lg border">
+            <img src={u} alt={`Photo ${i + 1}`} className="aspect-[4/3] w-full object-cover" />
+            <div className="absolute inset-x-0 bottom-0 flex justify-between bg-card/90 p-1">
+              <Button type="button" size="icon" variant="ghost" className="h-6 w-6" disabled={i === 0} onClick={() => move(i, -1)} aria-label="Move left"><ChevronLeft className="h-3 w-3" /></Button>
+              <Button type="button" size="icon" variant="ghost" className="h-6 w-6" onClick={() => onChange(value.filter((_, j) => j !== i))} aria-label="Remove photo"><X className="h-3 w-3 text-destructive" /></Button>
+              <Button type="button" size="icon" variant="ghost" className="h-6 w-6" disabled={i === value.length - 1} onClick={() => move(i, 1)} aria-label="Move right"><ChevronRight className="h-3 w-3" /></Button>
+            </div>
+          </div>
+        ))}
+        {value.length < 12 && (
+          <label className="flex aspect-[4/3] cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border border-dashed text-xs text-muted-foreground hover:bg-secondary">
+            {busy ? <Loader2 className="h-5 w-5 animate-spin" /> : <Upload className="h-5 w-5" />}
+            Add photos
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              className="hidden"
+              onChange={async (e) => {
+                const files = Array.from(e.target.files ?? []).slice(0, 12 - value.length);
+                if (!files.length) return;
+                setBusy(true);
+                try {
+                  const urls = await Promise.all(files.map((f) => svc.uploadImage(f)));
+                  onChange([...value, ...urls]);
+                } catch (err) {
+                  toast.error((err as Error).message);
+                } finally {
+                  setBusy(false);
+                  e.target.value = "";
+                }
+              }}
+            />
+          </label>
+        )}
+      </div>
+    </div>
+  );
+}
+
 const slugify = (s: string) =>
   s
     .toLowerCase()
@@ -384,9 +444,9 @@ export function Services() {
               key={s.id}
               className="flex gap-3 rounded-xl border bg-card p-3"
             >
-              {s.image_url ? (
+              {s.images[0] ?? s.image_url ? (
                 <img
-                  src={s.image_url}
+                  src={s.images[0] ?? s.image_url!}
                   alt=""
                   className="h-16 w-20 rounded object-cover"
                 />
@@ -574,6 +634,7 @@ export function Facilities() {
               service_id: parents.data?.[0]?.id,
               is_available: true,
               is_published: false,
+              images: [],
               price_unit: "per day",
               min_notice_days: 0,
               amenitiesText: "",
@@ -590,9 +651,9 @@ export function Facilities() {
               key={s.id}
               className="flex gap-3 rounded-xl border bg-card p-3"
             >
-              {s.image_url ? (
+              {s.images[0] ?? s.image_url ? (
                 <img
-                  src={s.image_url}
+                  src={s.images[0] ?? s.image_url!}
                   alt=""
                   className="h-16 w-20 rounded object-cover"
                 />
@@ -662,7 +723,8 @@ export function Facilities() {
                     service_id: edit.service_id,
                     name: edit.name.trim(),
                     description: edit.description ?? null,
-                    image_url: edit.image_url ?? null,
+                    images: edit.images ?? [],
+                    image_url: edit.images?.[0] ?? null,
                     amenities: (edit.amenitiesText ?? "")
                       .split(",")
                       .map((a) => a.trim())
@@ -782,9 +844,9 @@ export function Facilities() {
                   />
                 </div>
               </div>
-              <ImageField
-                value={edit.image_url ?? ""}
-                onChange={(u) => setEdit({ ...edit, image_url: u })}
+              <GalleryField
+                value={edit.images ?? []}
+                onChange={(images) => setEdit({ ...edit, images })}
               />
               <label className="flex items-center gap-2 text-sm">
                 <Switch

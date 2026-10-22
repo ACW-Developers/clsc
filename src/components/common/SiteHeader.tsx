@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { BrandLogo } from "./BrandLogo";
 import { NavItem } from "./NavItem";
+import { UserMenu } from "./UserMenu";
 import { useAuth } from "@/hooks/useAuth";
 import { useRoles } from "@/hooks/useHospitality";
 import { mainNav } from "@/config/navigation";
@@ -89,17 +90,8 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2">
           {user ? (
-            <>
-              <Button
-                asChild
-                size="sm"
-                variant="secondary"
-                className="rounded-full"
-              >
-                <Link to={isStaff ? paths.admin : paths.account}>
-                  {isStaff ? (
-                    <LayoutDashboard className="h-4 w-4" />
-                  ) : (
+            <UserMenu />
+          ) : (
                     <User className="h-4 w-4" />
                   )}
                   <span className="hidden sm:inline">
