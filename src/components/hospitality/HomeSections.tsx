@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { hospitalityServices, site } from "@/config/site";
-import { paths } from "@/routes/paths";
+import { paths, serviceUrl } from "@/routes/paths";
 import { useAuth } from "@/hooks/useAuth";
 import hero from "@/assets/hero.jpg";
 
