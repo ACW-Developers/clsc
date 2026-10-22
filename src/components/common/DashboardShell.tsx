@@ -56,13 +56,19 @@ export function DashboardShell({
           mini ? "lg:w-[4.5rem]" : "lg:w-64",
         )}
       >
-        <Link to={paths.home} className="flex h-12 items-center justify-center px-1" aria-label="CSLC home">
-          {mini ? (
-            <img src={icon} alt="CSLC" className="h-10 w-10 object-contain" />
-          ) : (
-            <BrandLogo className="h-10" />
-          )}
-        </Link>
+        <div className="-mx-3 -mt-3 border-b">
+          <Link
+            to={paths.home}
+            className="flex h-16 items-center justify-start px-3"
+            aria-label="CSLC home"
+          >
+            {mini ? (
+              <img src={icon} alt="CSLC" className="h-11 w-11 object-contain" />
+            ) : (
+              <BrandLogo className="h-12" />
+            )}
+          </Link>
+        </div>
         <nav className="mt-6 grid gap-1" aria-label="Dashboard">
           {views.map(({ id, label, icon: Icon }) => (
             <button
