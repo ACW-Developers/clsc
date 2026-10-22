@@ -70,14 +70,14 @@ export function QuickServicesCard() {
         <p className="mb-4 text-sm font-semibold">What are you planning?</p>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {hospitalityServices.map(({ id, title, icon: Icon }) => (
-            <a
+            <Link
               key={id}
-              href={`#${id}`}
+              to={serviceUrl(id)}
               className="flex items-center gap-2 rounded-xl border px-3 py-3 text-sm font-medium transition hover:border-primary hover:bg-secondary hover:text-primary"
             >
               <Icon className="h-4 w-4 shrink-0 text-primary" />{" "}
               <span className="truncate">{title}</span>
-            </a>
+            </Link>
           ))}
         </div>
       </div>
@@ -150,10 +150,12 @@ export function ServicesGrid() {
       </div>
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {hospitalityServices.map((s) => (
-          <article
+          <Link
+            to={serviceUrl(s.id)}
             id={s.id}
             key={s.id}
-            className="group relative h-72 scroll-mt-24 overflow-hidden rounded-2xl shadow-card"
+            aria-label={`View ${s.title}`}
+            className="group relative block h-72 scroll-mt-24 overflow-hidden rounded-2xl shadow-card"
           >
             <img
               src={s.image}
@@ -171,7 +173,7 @@ export function ServicesGrid() {
               <h3 className="text-xl font-bold">{s.title}</h3>
               <p className="mt-1 text-sm opacity-90">{s.description}</p>
             </div>
-          </article>
+          </Link>
         ))}
       </div>
     </section>

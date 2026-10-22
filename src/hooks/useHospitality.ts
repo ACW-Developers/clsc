@@ -63,6 +63,22 @@ export const useSettings = () => {
     enabled: isSuperAdmin && !isLoading,
   });
 };
+export const useReceipts = () => {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ["receipts", user?.id],
+    queryFn: svc.listReceipts,
+    enabled: !!user,
+  });
+};
+export const useMyProfile = () => {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ["profiles", "me", user?.id],
+    queryFn: () => svc.myProfile(user!.id),
+    enabled: !!user,
+  });
+};
 export const useSetupStatus = () =>
   useQuery({ queryKey: ["setup"], queryFn: svc.setupStatus, staleTime: 0 });
 

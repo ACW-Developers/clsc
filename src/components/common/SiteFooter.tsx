@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { MapPin, Mail } from "lucide-react";
+import { MapPin, Mail, Phone } from "lucide-react";
 import { hospitalityServices, site } from "@/config/site";
-import { comingSoon, paths } from "@/routes/paths";
+import { comingSoon, paths, serviceUrl } from "@/routes/paths";
 import { BrandLogo } from "./BrandLogo";
 
 export function SiteFooter() {
@@ -24,8 +24,14 @@ export function SiteFooter() {
             </li>
             <li className="flex gap-2">
               <Mail className="h-4 w-4 shrink-0 text-primary" />
-              <a href="/#contact" className="hover:text-primary">
-                Send an enquiry
+              <a href={`mailto:${site.email}`} className="hover:text-primary">
+                {site.email}
+              </a>
+            </li>
+            <li className="flex gap-2">
+              <Phone className="h-4 w-4 shrink-0 text-primary" />
+              <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="hover:text-primary">
+                {site.phone}
               </a>
             </li>
           </ul>
@@ -35,9 +41,9 @@ export function SiteFooter() {
           <ul className="grid gap-2 text-sm text-muted-foreground">
             {hospitalityServices.map((s) => (
               <li key={s.id}>
-                <a href={`/#${s.id}`} className="hover:text-primary">
+                <Link to={serviceUrl(s.id)} className="hover:text-primary">
                   {s.title}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

@@ -1,4 +1,4 @@
-import { comingSoon, paths } from "@/routes/paths";
+import { comingSoon, paths, serviceUrl } from "@/routes/paths";
 
 export interface NavLink {
   label: string;
@@ -44,12 +44,12 @@ export const mainNav: NavGroup[] = [
   {
     label: "Hospitality",
     items: [
-      { label: "Accommodation", to: "/#accommodation" },
-      { label: "Conference Facilities", to: "/#conference" },
-      { label: "Restaurant", to: "/#restaurant" },
-      { label: "Grounds", to: "/#grounds" },
-      { label: "Outside Catering", to: "/#catering" },
-      { label: "Hostels", to: "/#hostels" },
+      { label: "Accommodation", to: serviceUrl("accommodation") },
+      { label: "Conference Facilities", to: serviceUrl("conference") },
+      { label: "Restaurant", to: serviceUrl("restaurant") },
+      { label: "Grounds", to: serviceUrl("grounds") },
+      { label: "Outside Catering", to: serviceUrl("catering") },
+      { label: "Hostels", to: serviceUrl("hostels") },
       {
         label: "Book Now",
         to: paths.book,
@@ -78,7 +78,7 @@ export const mainNav: NavGroup[] = [
     items: [
       { label: "Login / Register", to: paths.auth },
       soon("My Orders", "my-orders"),
-      { label: "My Bookings", to: paths.account },
+      { label: "My Bookings", to: "/account?view=bookings" },
       soon("My Donations", "my-donations"),
       { label: "Contact", to: "/#contact" },
     ],
