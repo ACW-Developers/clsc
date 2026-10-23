@@ -243,6 +243,7 @@ export type Database = {
           capacity: number | null
           created_at: string
           description: string | null
+          details: Json
           id: string
           image_url: string | null
           images: string[]
@@ -260,6 +261,7 @@ export type Database = {
           capacity?: number | null
           created_at?: string
           description?: string | null
+          details?: Json
           id?: string
           image_url?: string | null
           images?: string[]
@@ -277,6 +279,7 @@ export type Database = {
           capacity?: number | null
           created_at?: string
           description?: string | null
+          details?: Json
           id?: string
           image_url?: string | null
           images?: string[]
