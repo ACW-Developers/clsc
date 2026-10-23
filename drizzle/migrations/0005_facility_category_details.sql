@@ -1,0 +1,2 @@
+ALTER TABLE public.sub_services ADD COLUMN IF NOT EXISTS details jsonb NOT NULL DEFAULT '{}'::jsonb;
+COMMENT ON COLUMN public.sub_services.details IS 'Category-specific facility information, keyed by display label; existing facilities remain compatible.';

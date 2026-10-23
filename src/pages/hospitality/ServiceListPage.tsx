@@ -24,8 +24,8 @@ const ServiceListPage = () => {
       <SiteHeader />
       <section className="relative h-64 overflow-hidden sm:h-80">
         {hero && <img src={hero} alt="" className="absolute inset-0 h-full w-full object-cover" />}
-        <div className="absolute inset-0 bg-overlay" />
-        <div className="container relative flex h-full flex-col justify-end pb-8 text-primary-foreground">
+        <div className="category-overlay absolute inset-0" />
+        <div className="container relative flex h-full flex-col items-center justify-center text-center text-primary-foreground">
           <nav className="mb-2 text-sm opacity-90" aria-label="Breadcrumb">
             <Link to={paths.home} className="hover:underline">Home</Link> / Hospitality
           </nav>
@@ -34,6 +34,10 @@ const ServiceListPage = () => {
         </div>
       </section>
       <main className="container flex-1 py-10">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
+          <h2 className="text-2xl font-bold">Explore {service?.name ?? meta?.title}</h2>
+          <span className="text-sm text-muted-foreground">{list.length} facilities</span>
+        </div>
         {subs.isLoading || services.isLoading ? (
           <Loader2 className="mx-auto h-6 w-6 animate-spin text-primary" />
         ) : subs.error ? (
@@ -47,9 +51,9 @@ const ServiceListPage = () => {
             {list.map((f) => {
               const img = f.images[0] ?? f.image_url;
               return (
-                <Link key={f.id} to={facilityUrl(slug, f.id)} className="group overflow-hidden rounded-2xl border bg-card shadow-card transition hover:-translate-y-0.5">
+                <Link key={f.id} to={facilityUrl(slug, f.id)} className="group min-w-0 overflow-hidden rounded-lg border bg-card shadow-card transition hover:-translate-y-0.5">
                   <div className="aspect-[4/3] overflow-hidden bg-muted">
-                    {img && <img src={img} alt={f.name} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />}
+                    {img && <img src={img} alt={f.name} loading="lazy" decoding="async" width={640} height={480} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />}
                   </div>
                   <div className="space-y-2 p-5">
                     <div className="flex items-start justify-between gap-2">

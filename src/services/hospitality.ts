@@ -1,5 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
+import { compressImage } from "@/lib/image";
 
 type T = Database["public"]["Tables"];
 export type Service = T["services"]["Row"];
@@ -30,7 +31,7 @@ export type BookingRow = Booking & {
   sub_services: {
     name: string;
     service_id: string;
-    services: { name: string } | null;
+    services: { name: string; slug: string } | null;
   } | null;
 };
 
@@ -80,6 +81,7 @@ export const hospitalityService = {
       throw new Error("Please choose an image file");
     if (file.size > 5 * 1024 * 1024)
       throw new Error("Image must be 5 MB or smaller");
+    file = await compressImage(file);
     const path = `${crypto.randomUUID()}.${file.name.split(".").pop() ?? "jpg"}`;
     const up = await supabase.storage
       .from("service-images")
@@ -97,7 +99,7 @@ export const hospitalityService = {
     must(
       await supabase
         .from("bookings")
-        .select("*, sub_services(name, service_id, services(name))")
+        .select("*, sub_services(name, service_id, services(name, slug))")
         .order("created_at", { ascending: false }),
     ) as BookingRow[],
   createBooking: async (b: {
@@ -179,7 +181,7 @@ export const hospitalityService = {
     must(
       await supabase
         .from("bookings")
-        .select("*, sub_services(name, service_id, services(name))")
+        .select("*, sub_services(name, service_id, services(name, slug))")
         .eq("id", id)
         .maybeSingle(),
     ) as BookingRow | null,

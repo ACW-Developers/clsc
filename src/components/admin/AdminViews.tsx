@@ -35,6 +35,9 @@ import {
   type BookingStatus,
 } from "@/services/hospitality";
 
+import { categoryConfig } from "@/config/facilityCategories";
+import { OverviewCharts } from "./OverviewCharts";
+
 const PAGE = 10;
 
 export function State({
@@ -111,9 +114,9 @@ const statusVariant = (s: string) =>
 
 function Card({ label, value }: { label: string; value: ReactNode }) {
   return (
-    <div className="rounded-2xl border bg-card p-5 shadow-card">
+    <div className="min-w-0 rounded-lg border bg-card p-4 shadow-card">
       <p className="text-sm text-muted-foreground">{label}</p>
-      <p className="mt-1 text-3xl font-bold text-primary">{value}</p>
+      <p className="mt-1 break-words text-xl font-bold text-primary sm:text-2xl">{value}</p>
     </div>
   );
 }
@@ -128,7 +131,7 @@ export function Overview({ go }: { go: (v: string) => void }) {
     b.data?.filter((x) => x.status === st).length ?? 0;
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 xl:grid-cols-5">
         <Card label="Total bookings" value={b.data?.length ?? "–"} />
         <Card label="Fully paid" value={b.data ? b.data.filter((x) => x.payment_status === "paid").length : "–"} />
         <Card label="Revenue (simulated)" value={b.data ? kes(b.data.filter((x) => x.payment_status === "paid").reduce((t, x) => t + Number(x.total_amount ?? 0), 0)) : "–"} />
@@ -147,6 +150,7 @@ export function Overview({ go }: { go: (v: string) => void }) {
           Manage services
         </Button>
       </div>
+      <State q={b} empty={false}><OverviewCharts bookings={b.data ?? []} /></State>
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="rounded-2xl border bg-card p-5">
           <h3 className="mb-3 font-semibold">Booking summary</h3>
@@ -183,6 +187,8 @@ export function Bookings() {
   const q = useBookings();
   const [term, setTerm] = useState("");
   const [status, setStatus] = useState("all");
+  const [category, setCategory] = useState("all");
+  const services = useServices();
   const [page, setPage] = useState(1);
   const [notes, setNotes] = useState<Record<string, string>>({});
   const upd = useAction(
@@ -196,11 +202,12 @@ export function Bookings() {
       (q.data ?? []).filter(
         (b) =>
           (status === "all" || b.status === status) &&
+          (category === "all" || b.sub_services?.service_id === category) &&
           `${b.sub_services?.name} ${b.sub_services?.services?.name} ${b.notes ?? ""}`
             .toLowerCase()
             .includes(term.toLowerCase()),
       ),
-    [q.data, term, status],
+    [q.data, term, status, category],
   );
   return (
     <div>
@@ -227,11 +234,12 @@ export function Bookings() {
             </option>
           ))}
         </select>
+        <select aria-label="Category filter" value={category} onChange={(e) => { setCategory(e.target.value); setPage(1); }} className="h-10 max-w-full rounded-md border bg-background px-3 text-sm"><option value="all">All categories</option>{services.data?.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}</select>
       </Toolbar>
       <State q={q} empty={!rows.length}>
-        <div className="grid gap-3">
+        <div className="grid gap-4 xl:grid-cols-2">
           {rows.slice((page - 1) * PAGE, page * PAGE).map((b) => (
-            <div key={b.id} className="rounded-xl border bg-card p-4">
+            <div key={b.id} className="min-w-0 rounded-lg border bg-card p-5 shadow-card">
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div>
                   <p className="font-semibold">
@@ -240,7 +248,9 @@ export function Bookings() {
                   <p className="text-sm text-muted-foreground">
                     {b.start_date} → {b.end_date} · {b.guests} guest(s)
                   </p>
-                  {b.notes && <p className="mt-1 text-sm">“{b.notes}”</p>}
+                  {b.start_time && <p className="text-xs text-muted-foreground">{b.start_time.slice(0, 5)}{b.end_time ? ` – ${b.end_time.slice(0, 5)}` : ""}</p>}
+                  <p className="mt-1 font-mono text-xs text-muted-foreground">#{b.id.slice(0, 8).toUpperCase()}</p>
+                  {b.notes && <p className="mt-2 whitespace-pre-line break-words text-sm">{b.notes}</p>}
                 </div>
                 <Badge variant={statusVariant(b.status)} className="capitalize">
                   {b.status}
@@ -599,6 +609,8 @@ export function Facilities() {
     ["sub_services"],
     "Facility deleted",
   );
+  const selectedCategory = categoryConfig(parents.data?.find((p) => p.id === edit?.service_id)?.slug ?? "");
+  const details = edit?.details && typeof edit.details === "object" && !Array.isArray(edit.details) ? edit.details : {};
   const pname = (id?: string) =>
     parents.data?.find((p) => p.id === id)?.name ?? "";
   const rows = (q.data ?? []).filter(
@@ -656,7 +668,7 @@ export function Facilities() {
             >
               {s.images[0] ?? s.image_url ? (
                 <img
-                  src={s.images[0] ?? s.image_url!}
+                  src={s.images[0] ?? s.image_url ?? undefined}
                   alt=""
                   className="h-16 w-20 rounded object-cover"
                 />
@@ -726,6 +738,7 @@ export function Facilities() {
                     service_id: edit.service_id,
                     name: edit.name.trim(),
                     description: edit.description ?? null,
+                    details: edit.details ?? {},
                     images: edit.images ?? [],
                     image_url: edit.images?.[0] ?? null,
                     amenities: (edit.amenitiesText ?? "")
@@ -752,7 +765,7 @@ export function Facilities() {
                 <select
                   value={edit.service_id ?? ""}
                   onChange={(e) =>
-                    setEdit({ ...edit, service_id: e.target.value })
+                    setEdit({ ...edit, service_id: e.target.value, details: {}, price_unit: categoryConfig(parents.data?.find((p) => p.id === e.target.value)?.slug ?? "").unit })
                   }
                   className="h-10 w-full rounded-md border bg-background px-3 text-sm"
                 >
@@ -781,6 +794,7 @@ export function Facilities() {
                   }
                 />
               </div>
+              {selectedCategory.information.map((key) => <div className="space-y-1.5" key={key}><Label htmlFor={`detail-${key}`}>{key}</Label><Input id={`detail-${key}`} maxLength={300} value={typeof details[key] === "string" ? details[key] as string : ""} onChange={(e) => setEdit({ ...edit, details: { ...details, [key]: e.target.value } })} /></div>)}
               <div className="space-y-1.5">
                 <Label>Amenities (comma separated)</Label>
                 <Input
@@ -792,7 +806,7 @@ export function Facilities() {
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <Label>Capacity</Label>
+                  <Label>{selectedCategory.capacity}</Label>
                   <Input
                     type="number"
                     min={0}
