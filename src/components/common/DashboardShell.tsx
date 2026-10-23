@@ -117,10 +117,10 @@ export function DashboardShell({
       <div className="min-w-0 flex-1">
         <header className="sticky top-0 z-20 flex h-16 items-center justify-between gap-3 border-b bg-card/95 px-4 backdrop-blur sm:px-6">
           <div className="flex min-w-0 items-center gap-2">
-            <Button size="icon" variant="ghost" className="lg:hidden" onClick={() => setMobile(true)} aria-label="Open menu">
+            <Button size="icon" variant="ghost" className="h-11 w-11 shrink-0 lg:hidden [&_svg]:!h-7 [&_svg]:!w-7" onClick={() => setMobile(true)} aria-label="Open menu">
               <Menu className="h-7 w-7" />
             </Button>
-            <Button size="icon" variant="ghost" className="hidden h-11 w-11 lg:inline-flex" onClick={toggle} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} title="Toggle sidebar">
+            <Button size="icon" variant="ghost" className="hidden h-11 w-11 lg:inline-flex [&_svg]:!h-7 [&_svg]:!w-7" onClick={toggle} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} title="Toggle sidebar">
               <Menu className="h-7 w-7" />
             </Button>
             <div className="min-w-0">
