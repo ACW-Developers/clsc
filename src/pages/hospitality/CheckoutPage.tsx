@@ -50,6 +50,7 @@ const CheckoutPage = () => {
               <dt>Guests</dt><dd className="text-right">{b.guests}</dd>
               <dt className="text-base font-bold">Total</dt><dd className="text-right text-base font-bold text-primary">{kes(b.total_amount)}</dd>
             </dl>
+            {b.notes && <section className="border-y py-3 text-sm"><h2 className="font-semibold">Booking details</h2><p className="mt-1 whitespace-pre-line break-words text-muted-foreground">{b.notes}</p></section>}
             <Alert>
               <AlertTriangle className="h-4 w-4" />
               <AlertDescription>
