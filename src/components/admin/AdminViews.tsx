@@ -650,7 +650,7 @@ export function Facilities() {
               is_available: true,
               is_published: false,
               images: [],
-              price_unit: "per day",
+              price_unit: categoryConfig(parents.data?.[0]?.slug ?? "").unit,
               min_notice_days: 0,
               amenitiesText: "",
             })
