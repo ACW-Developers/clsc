@@ -114,3 +114,20 @@
 html {
   scroll-behavior: smooth;
 }
+
+.category-overlay { background: hsl(var(--foreground) / 0.48); }
+.category-progress { accent-color: hsl(var(--accent)); }
+.category-progress::-webkit-progress-bar { background: hsl(var(--muted)); border-radius: 4px; }
+.category-progress::-webkit-progress-value { background: hsl(var(--accent)); border-radius: 4px; }
+.dashboard-bottom { padding-bottom: env(safe-area-inset-bottom); }
+input[type="date"], input[type="time"] { min-width: 0; max-width: 100%; }
+.pos-receipt { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.pos-receipt dd { overflow-wrap: anywhere; }
+@media print {
+  @page { margin: 8mm; }
+  .pos-receipt { max-width: 80mm; margin: 0 auto; box-shadow: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

@@ -72,11 +72,11 @@ function Overview() {
   ];
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
         {stats.map(([k, v]) => (
           <div key={k} className="rounded-2xl border bg-card p-5 shadow-card">
             <p className="text-sm text-muted-foreground">{k}</p>
-            <p className="mt-1 text-2xl font-bold text-primary">{mine.isLoading ? "–" : v}</p>
+            <p className="mt-1 break-words text-xl font-bold text-primary">{mine.isLoading ? "–" : v}</p>
           </div>
         ))}
       </div>
