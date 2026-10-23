@@ -8,6 +8,7 @@ import { hospitalityServices } from "@/config/site";
 import { facilityUrl, paths } from "@/routes/paths";
 import { kes } from "@/lib/booking";
 import NotFoundPage from "@/pages/NotFoundPage";
+import { categoryConfig } from "@/config/facilityCategories";
 
 const ServiceListPage = () => {
   const { slug = "" } = useParams();
@@ -61,6 +62,7 @@ const ServiceListPage = () => {
                       <Badge variant={f.is_available ? "secondary" : "destructive"}>{f.is_available ? "Bookable" : "Unavailable"}</Badge>
                     </div>
                     <p className="line-clamp-2 text-sm text-muted-foreground">{f.description}</p>
+                    {f.details && typeof f.details === "object" && !Array.isArray(f.details) && <p className="text-xs text-muted-foreground">{categoryConfig(slug).information.slice(0, 2).map((key) => { const value = (f.details as Record<string, unknown>)[key]; return typeof value === "string" ? value : ""; }).filter(Boolean).join(" · ")}</p>}
                     <div className="flex items-center justify-between pt-1 text-sm">
                       <span className="font-semibold text-primary">
                         {kes(f.price)} {f.price != null && <span className="font-normal text-muted-foreground">{f.price_unit}</span>}
