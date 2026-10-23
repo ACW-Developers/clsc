@@ -94,7 +94,7 @@ export function DashboardShell({
               aria-current={view === id ? "page" : undefined}
               className={cn(
                 item,
-                mini && "justify-center px-0",
+                mini ? "justify-center px-0" : "justify-start",
                 view === id ? "bg-primary text-primary-foreground" : "hover:bg-secondary",
               )}
             >
@@ -103,10 +103,10 @@ export function DashboardShell({
           ))}
         </nav>
         <div className="mt-auto grid gap-1 border-t pt-3">
-          <Link to={paths.home} title="View site" aria-label="View site" className={cn(item, mini && "justify-center px-0", "hover:bg-secondary")}>
+          <Link to={paths.home} title="View site" aria-label="View site" className={cn(item, mini ? "justify-center px-0" : "justify-start", "hover:bg-secondary")}>
             <Home className="h-4 w-4 shrink-0" /> {!mini && "View site"}
           </Link>
-          <Button variant="ghost" onClick={() => signOut()} title="Sign out" aria-label="Sign out" className={cn(item, mini && "justify-center px-0", "text-destructive hover:bg-secondary")}>
+          <Button variant="ghost" onClick={() => signOut()} title="Sign out" aria-label="Sign out" className={cn(item, mini ? "justify-center px-0" : "justify-start", "text-destructive hover:bg-secondary")}>
             <LogOut className="h-4 w-4 shrink-0" /> {!mini && "Sign out"}
           </Button>
         </div>
