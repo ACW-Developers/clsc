@@ -115,7 +115,7 @@ export function DashboardShell({
         <div className="fixed inset-0 z-30 bg-foreground/40 lg:hidden" onClick={() => setMobile(false)} />
       )}
       <div className="min-w-0 flex-1">
-        <header className="sticky top-0 z-20 flex h-16 items-center justify-between gap-3 border-b bg-card/95 px-4 backdrop-blur sm:px-6">
+        <header className="sticky top-0 z-20 flex h-16 items-center justify-between gap-3 border-b bg-card/95 px-1 backdrop-blur sm:px-6">
           <div className="flex min-w-0 items-center gap-2">
             <Button size="icon" variant="ghost" className="h-11 w-11 shrink-0 lg:hidden [&_svg]:!h-7 [&_svg]:!w-7" onClick={() => setMobile(true)} aria-label="Open menu">
               <Menu className="h-7 w-7" />
@@ -124,7 +124,7 @@ export function DashboardShell({
               <Menu className="h-7 w-7" />
             </Button>
             <div className="min-w-0">
-              <h1 className="truncate text-lg font-bold">{title}</h1>
+              <h1 className="truncate text-base font-bold sm:text-lg">{title}</h1>
               {subtitle && <p className="truncate text-xs text-muted-foreground">{subtitle}</p>}
             </div>
           </div>
@@ -134,7 +134,7 @@ export function DashboardShell({
             <UserMenu />
           </div>
         </header>
-        <main className="p-4 pb-24 sm:p-6 sm:pb-24 lg:pb-6">{children}</main>
+        <main className="px-1 py-4 pb-24 sm:p-6 sm:pb-24 lg:pb-6">{children}</main>
         <nav aria-label="Mobile dashboard" className="dashboard-bottom fixed inset-x-0 bottom-0 z-20 flex justify-around border-t bg-card lg:hidden">
           {bottomViews.map(({ id, label, icon: Icon }) => <Button key={id} variant="ghost" aria-label={label} aria-current={view === id ? "page" : undefined} onClick={() => select(id)} className={cn("h-16 min-w-0 flex-1 flex-col gap-1 px-1 text-[10px]", view === id && "text-primary bg-secondary")}><Icon className="h-5 w-5" /><span className="truncate max-w-full">{label === "Booking History" ? "Bookings" : label}</span></Button>)}
         </nav>

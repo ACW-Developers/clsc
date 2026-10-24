@@ -123,6 +123,13 @@ html {
 input[type="date"], input[type="time"] { min-width: 0; max-width: 100%; }
 .pos-receipt { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 .pos-receipt dd { overflow-wrap: anywhere; }
+@media (max-width: 639px) {
+  .container { padding-left: 4px; padding-right: 4px; }
+  h1.text-4xl { font-size: 2rem; }
+  h1.text-3xl, h2.text-3xl { font-size: 1.75rem; }
+  h2.text-2xl { font-size: 1.375rem; }
+  .font-script.text-5xl { font-size: 2.5rem; }
+}
 @media print {
   @page { margin: 8mm; }
   .pos-receipt { max-width: 80mm; margin: 0 auto; box-shadow: none; }
