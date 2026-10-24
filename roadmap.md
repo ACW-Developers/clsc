@@ -1,5 +1,10 @@
 # Requested changes
 
+- [ ] Reset scroll on navigation and apply consistent small-screen page spacing.
+- [ ] Add database-backed customer orders/donations and staff management views; reuse bookings/receipts.
+- [ ] Remove My Account navigation while preserving contact and profile access.
+- [ ] Verify navigation, sidebar, dashboard views and data permissions.
+
 - [x] Refine category listings, mobile galleries and POS receipts.
 - [x] Add labelled test facilities and category-specific information/forms.
 - [x] Upgrade dashboard charts, navigation, filters, theme and refresh controls.
