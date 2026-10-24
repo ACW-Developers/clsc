@@ -1,5 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
-import { CalendarCheck, History, LayoutDashboard, Loader2, Receipt, Settings, User } from "lucide-react";
+import { CalendarCheck, History, HeartHandshake, LayoutDashboard, Loader2, Receipt, Settings, ShoppingBag, User } from "lucide-react";
+import { PhaseRecords } from "@/components/common/PhaseRecords";
 import { DashboardShell, type DashView } from "@/components/common/DashboardShell";
 import { ProfileForm } from "@/components/common/ProfileForm";
 import { PasswordSettings } from "@/components/common/PasswordSettings";
@@ -14,7 +15,9 @@ import { bookingLabel, kes, labelVariant } from "@/lib/booking";
 
 const views: DashView[] = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
-  { id: "bookings", label: "Booking History", icon: History },
+  { id: "orders", label: "My Orders", icon: ShoppingBag },
+  { id: "bookings", label: "My Bookings", icon: History },
+  { id: "donations", label: "My Donations", icon: HeartHandshake },
   { id: "receipts", label: "Receipts", icon: Receipt },
   { id: "profile", label: "Profile", icon: User },
   { id: "settings", label: "Settings", icon: Settings },
@@ -96,6 +99,8 @@ const AccountPage = () => {
   return (
     <DashboardShell views={views} view={view} go={(v) => setParams({ view: v })} subtitle="My CSLC account">
       {view === "overview" && <Overview />}
+      {view === "orders" && <PhaseRecords kind="orders" />}
+      {view === "donations" && <PhaseRecords kind="donations" />}
       {view === "bookings" && <BookingList />}
       {view === "receipts" && <ReceiptsTable />}
       {view === "profile" && <ProfileForm />}

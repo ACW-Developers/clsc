@@ -7,6 +7,8 @@
 - Client env vars are read only through `src/config/env.ts` (zod-validated); private keys never go in client code — security.
 - Global providers live in `src/providers/AppProviders.tsx` — single composition point.
 - Future modules (hospitality, bookshop, programmes) get their own subfolders inside pages/components/services/hooks — modular growth.
+- Orders and donations use module-specific services/hooks and a shared records view; customers read their own records, staff manage orders and donation notes, and payment state remains server-owned — extend future phases without adding checkout prematurely.
+- RootLayout owns navigation scroll reset for path/query changes, preserving deliberate section anchors — consistent navigation across all pages and dashboard views.
 - Use semantic design tokens from `src/index.css`; no hardcoded color utilities — theming consistency.
 - Keep hospitality administration behind one role-guarded `/admin` page with query-driven views, reusing the existing service and React Query layers so staff permissions stay centralized.
 - First super-admin setup is two-step (register approved mailbox, then claim after email confirmation) in the setup-admin function — server enforces approval and one-time use.
