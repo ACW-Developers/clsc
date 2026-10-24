@@ -73,16 +73,7 @@ export const mainNav: NavGroup[] = [
       soon("Submit Content", "submit-content"),
     ],
   },
-  {
-    label: "My Account",
-    items: [
-      { label: "Login / Register", to: paths.auth },
-      soon("My Orders", "my-orders"),
-      { label: "My Bookings", to: "/account?view=bookings" },
-      soon("My Donations", "my-donations"),
-      { label: "Contact", to: "/#contact" },
-    ],
-  },
+  { label: "Contact", to: `${paths.home}#contact` },
 ];
 
 export const findSoonLabel = (slug: string) =>
