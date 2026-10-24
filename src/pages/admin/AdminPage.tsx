@@ -5,6 +5,8 @@ import {
   CalendarCheck,
   LayoutDashboard,
   Layers,
+  HeartHandshake,
+  ShoppingBag,
   Receipt,
   Settings as Cog,
   User,
@@ -15,10 +17,13 @@ import { ProfileForm } from "@/components/common/ProfileForm";
 import { ReceiptsTable } from "@/components/common/ReceiptsTable";
 import { Bookings, Facilities, Logs, Overview, Services, Settings, Users } from "@/components/admin/AdminViews";
 import { useRoles } from "@/hooks/useHospitality";
+import { PhaseRecords } from "@/components/common/PhaseRecords";
 
 const views = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
   { id: "bookings", label: "Bookings", icon: CalendarCheck },
+  { id: "orders", label: "Orders Management", icon: ShoppingBag },
+  { id: "donations", label: "Donations Management", icon: HeartHandshake },
   { id: "receipts", label: "Receipts", icon: Receipt },
   { id: "services", label: "Services", icon: Layers },
   { id: "facilities", label: "Facilities", icon: BedDouble },
@@ -38,6 +43,8 @@ const AdminPage = () => {
     <DashboardShell views={list} view={view} go={go} subtitle={isSuperAdmin ? "Super admin" : "Admin"}>
       {view === "overview" && <Overview go={go} />}
       {view === "bookings" && <Bookings />}
+      {view === "orders" && <PhaseRecords kind="orders" management />}
+      {view === "donations" && <PhaseRecords kind="donations" management />}
       {view === "receipts" && <ReceiptsTable />}
       {view === "services" && <Services />}
       {view === "facilities" && <Facilities />}
