@@ -40,9 +40,18 @@ export function DashboardShell({
     setRefreshing(true);
     try {
       await qc.cancelQueries();
-      await qc.resetQueries({ predicate: (q) => !["myRoles", "setup"].includes(String(q.queryKey[0])) });
-      toast.success("Dashboard refreshed");
-    } finally { setRefreshing(false); }
+      qc.clear();
+      if ("caches" in window) {
+        const keys = await window.caches.keys();
+        await Promise.all(keys.map((key) => window.caches.delete(key)));
+      }
+      // Revalidate the page without deleting the user's session or preferences.
+      await fetch(window.location.href, { cache: "reload", credentials: "same-origin" });
+      window.location.reload();
+    } catch {
+      toast.error("Could not fully clear the cache. Reloading the site.");
+      window.location.reload();
+    }
   };
   const bottomViews = views.filter((v) => ["overview", "bookings", "receipts", "facilities", "profile"].includes(v.id)).slice(0, 5);
   const [mobile, setMobile] = useState(false);
