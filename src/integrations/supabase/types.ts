@@ -124,6 +124,72 @@ export type Database = {
           },
         ]
       }
+      donations: {
+        Row: {
+          admin_notes: string | null
+          amount: number
+          created_at: string
+          description: string
+          id: string
+          reference: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          amount?: number
+          created_at?: string
+          description?: string
+          id?: string
+          reference: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          admin_notes?: string | null
+          amount?: number
+          created_at?: string
+          description?: string
+          id?: string
+          reference?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          admin_notes: string | null
+          amount: number
+          created_at: string
+          description: string
+          id: string
+          reference: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          amount?: number
+          created_at?: string
+          description?: string
+          id?: string
+          reference: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          admin_notes?: string | null
+          amount?: number
+          created_at?: string
+          description?: string
+          id?: string
+          reference?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
