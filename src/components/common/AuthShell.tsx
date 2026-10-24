@@ -28,7 +28,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
           </p>
         </div>
       </div>
-      <div className="flex items-center justify-center px-1 py-10 sm:px-8">
+      <div className="flex items-center justify-center px-3 py-10 sm:px-8">
         <div className="w-full max-w-md rounded-2xl border border-primary/30 bg-card p-6 shadow-card sm:p-8">
           <div className="mb-6 flex flex-col items-center text-center">
             <img
