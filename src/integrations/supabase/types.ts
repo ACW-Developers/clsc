@@ -124,6 +124,42 @@ export type Database = {
           },
         ]
       }
+      contact_enquiries: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          status: string
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          status?: string
+          subject: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          status?: string
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       donations: {
         Row: {
           admin_notes: string | null
@@ -154,6 +190,39 @@ export type Database = {
           reference?: string
           status?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          audience: string
+          body: string | null
+          created_at: string
+          id: string
+          link: string | null
+          read_at: string | null
+          title: string
+          user_id: string | null
+        }
+        Insert: {
+          audience?: string
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read_at?: string | null
+          title: string
+          user_id?: string | null
+        }
+        Update: {
+          audience?: string
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read_at?: string | null
+          title?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -368,6 +437,39 @@ export type Database = {
           },
         ]
       }
+      support_tickets: {
+        Row: {
+          admin_reply: string | null
+          created_at: string
+          id: string
+          message: string
+          status: string
+          subject: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          admin_reply?: string | null
+          created_at?: string
+          id?: string
+          message: string
+          status?: string
+          subject: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          admin_reply?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+          status?: string
+          subject?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -413,6 +515,16 @@ export type Database = {
         Returns: boolean
       }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      notify: {
+        Args: {
+          _audience: string
+          _body: string
+          _link: string
+          _title: string
+          _user_id: string
+        }
+        Returns: undefined
+      }
       simulate_payment: {
         Args: { _booking_id: string; _phone: string; _success: boolean }
         Returns: string

@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   Layers,
   HeartHandshake,
+  LifeBuoy,
   ShoppingBag,
   Receipt,
   Settings as Cog,
@@ -18,12 +19,14 @@ import { ReceiptsTable } from "@/components/common/ReceiptsTable";
 import { Bookings, Facilities, Logs, Overview, Services, Settings, Users } from "@/components/admin/AdminViews";
 import { useRoles } from "@/hooks/useHospitality";
 import { PhaseRecords } from "@/components/common/PhaseRecords";
+import { AdminSupport } from "@/components/admin/AdminSupport";
 
 const views = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
   { id: "bookings", label: "Bookings", icon: CalendarCheck },
   { id: "orders", label: "Orders Management", icon: ShoppingBag },
   { id: "donations", label: "Donations Management", icon: HeartHandshake },
+  { id: "support", label: "Support", icon: LifeBuoy },
   { id: "receipts", label: "Receipts", icon: Receipt },
   { id: "services", label: "Services", icon: Layers },
   { id: "facilities", label: "Facilities", icon: BedDouble },
@@ -45,6 +48,7 @@ const AdminPage = () => {
       {view === "bookings" && <Bookings />}
       {view === "orders" && <PhaseRecords kind="orders" management />}
       {view === "donations" && <PhaseRecords kind="donations" management />}
+      {view === "support" && <AdminSupport />}
       {view === "receipts" && <ReceiptsTable />}
       {view === "services" && <Services />}
       {view === "facilities" && <Facilities />}

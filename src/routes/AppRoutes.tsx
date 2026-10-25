@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { RootLayout } from "@/layouts/RootLayout";
 import HomePage from "@/pages/HomePage";
+import ContactPage from "@/pages/ContactPage";
 import AuthPage from "@/pages/AuthPage";
 import ResetPasswordPage from "@/pages/ResetPasswordPage";
 import SetupAdminPage from "@/pages/SetupAdminPage";
@@ -20,6 +21,7 @@ export function AppRoutes() {
     <Routes>
       <Route element={<RootLayout />}>
         <Route path={paths.home} element={<HomePage />} />
+        <Route path={paths.contact} element={<ContactPage />} />
         <Route path={paths.auth} element={<AuthPage />} />
         <Route path={paths.resetPassword} element={<ResetPasswordPage />} />
         <Route path={paths.adminSetup} element={<SetupAdminPage />} />

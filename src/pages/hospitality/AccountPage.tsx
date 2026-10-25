@@ -1,10 +1,11 @@
 import { Link, useSearchParams } from "react-router-dom";
-import { CalendarCheck, History, HeartHandshake, LayoutDashboard, Loader2, Receipt, Settings, ShoppingBag, User } from "lucide-react";
+import { CalendarCheck, History, HeartHandshake, LayoutDashboard, LifeBuoy, Loader2, Receipt, Settings, ShoppingBag, User } from "lucide-react";
 import { PhaseRecords } from "@/components/common/PhaseRecords";
 import { DashboardShell, type DashView } from "@/components/common/DashboardShell";
 import { ProfileForm } from "@/components/common/ProfileForm";
 import { PasswordSettings } from "@/components/common/PasswordSettings";
 import { ReceiptsTable } from "@/components/common/ReceiptsTable";
+import { UserSupport } from "@/components/common/UserSupport";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -19,6 +20,7 @@ const views: DashView[] = [
   { id: "bookings", label: "My Bookings", icon: History },
   { id: "donations", label: "My Donations", icon: HeartHandshake },
   { id: "receipts", label: "Receipts", icon: Receipt },
+  { id: "support", label: "Support", icon: LifeBuoy },
   { id: "profile", label: "Profile", icon: User },
   { id: "settings", label: "Settings", icon: Settings },
 ];
@@ -103,6 +105,7 @@ const AccountPage = () => {
       {view === "donations" && <PhaseRecords kind="donations" />}
       {view === "bookings" && <BookingList />}
       {view === "receipts" && <ReceiptsTable />}
+      {view === "support" && <UserSupport />}
       {view === "profile" && <ProfileForm />}
       {view === "settings" && <PasswordSettings />}
     </DashboardShell>

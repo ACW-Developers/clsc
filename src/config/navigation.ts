@@ -73,7 +73,7 @@ export const mainNav: NavGroup[] = [
       soon("Submit Content", "submit-content"),
     ],
   },
-  { label: "Contact", to: `${paths.home}#contact` },
+  { label: "Contact", to: paths.contact },
 ];
 
 export const findSoonLabel = (slug: string) =>
