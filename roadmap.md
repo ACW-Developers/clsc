@@ -16,3 +16,9 @@
 - [x] Verify confirmed-account dashboard access with the approved super-admin session.
 - [x] Booking journey: category pages, facility galleries, simulated M-Pesa checkout, receipts, dashboards.
 - [x] Signed-in walkthrough: dashboard, category form, filters, test checkout and receipt; temporary verification booking removed.
+
+- [x] PWA: installable manifest with crest icons, guarded offline service worker (never in preview).
+- [x] Contact page with hero, map and enquiry form stored in the backend.
+- [x] Admin Support module (enquiries + tickets) and customer Support tickets.
+- [x] Notification bell with unread badges and sidebar indicators.
+- [x] Tooltips on icon-only dashboard controls.
