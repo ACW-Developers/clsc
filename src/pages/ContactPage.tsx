@@ -35,7 +35,7 @@ const ContactPage = () => {
     }
     setSending(true);
     try {
-      await supportService.submitEnquiry(parsed.data as z.infer<typeof schema>);
+      await supportService.submitEnquiry({ name: parsed.data.name!, email: parsed.data.email!, subject: parsed.data.subject!, message: parsed.data.message! });
       toast.success("Thank you — your message has been sent. We will get back to you soon.");
       setForm({ name: "", email: "", subject: "", message: "" });
     } catch (err) {

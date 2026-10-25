@@ -26,7 +26,7 @@ export function UserSupport() {
   const submit = useAction(
     async (input: { subject: string; message: string }) => {
       const parsed = schema.parse(input);
-      await supportService.submitTicket(parsed as z.infer<typeof schema>);
+      await supportService.submitTicket({ subject: parsed.subject!, message: parsed.message! });
     },
     ["tickets", "notifications"],
     "Ticket submitted — we will get back to you soon.",
@@ -40,7 +40,7 @@ export function UserSupport() {
           e.preventDefault();
           const parsed = schema.safeParse(form);
           if (!parsed.success) return;
-          submit.mutate(parsed.data, { onSuccess: () => setForm({ subject: "", message: "" }) });
+          submit.mutate({ subject: parsed.data.subject!, message: parsed.data.message! }, { onSuccess: () => setForm({ subject: "", message: "" }) });
         }}
       >
         <h2 className="flex items-center gap-2 text-lg font-semibold">
