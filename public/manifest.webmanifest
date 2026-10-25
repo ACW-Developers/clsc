@@ -1,0 +1,14 @@
+{
+  "name": "CSLC Hospitality & Booking",
+  "short_name": "CSLC",
+  "description": "Accommodation, conference facilities, dining, grounds, catering and hostels at the Christian Student Leadership Centre, Ufungamano House.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#faf7f2",
+  "theme_color": "#6b1f2a",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
