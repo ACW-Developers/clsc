@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   Layers,
   HeartHandshake,
+  LifeBuoy,
   ShoppingBag,
   Receipt,
   Settings as Cog,
