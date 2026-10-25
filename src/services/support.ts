@@ -14,7 +14,7 @@ const must = <D>(r: { data: D; error: { message: string } | null }) => {
 export const supportService = {
   // Contact enquiries (public form)
   submitEnquiry: async (input: { name: string; email: string; subject: string; message: string }) =>
-    must(await supabase.from("contact_enquiries").insert(input).select().single()),
+    must(await supabase.from("contact_enquiries").insert(input)),
   listEnquiries: async () =>
     must(await supabase.from("contact_enquiries").select("*").order("created_at", { ascending: false })),
   updateEnquiry: async (id: string, patch: { status?: string; admin_notes?: string }) =>
