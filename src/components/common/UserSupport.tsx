@@ -26,7 +26,7 @@ export function UserSupport() {
   const submit = useAction(
     async (input: { subject: string; message: string }) => {
       const parsed = schema.parse(input);
-      await supportService.submitTicket(parsed);
+      await supportService.submitTicket(parsed as z.infer<typeof schema>);
     },
     ["tickets", "notifications"],
     "Ticket submitted — we will get back to you soon.",

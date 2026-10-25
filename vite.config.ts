@@ -29,7 +29,7 @@ export default defineConfig(({ mode }) => ({
           },
           {
             urlPattern: ({ url, request }: { url: URL; request: Request }) =>
-              url.origin === self.location.origin &&
+              url.origin === new URL(request.url).origin &&
               ["style", "script", "font", "image"].includes(request.destination),
             handler: "CacheFirst",
             options: { cacheName: "cslc-assets" },
