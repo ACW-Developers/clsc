@@ -134,20 +134,41 @@ export function DashboardShell({
       <div className="min-w-0 flex-1">
         <header className="sticky top-0 z-20 flex h-16 items-center justify-between gap-3 border-b bg-card/95 px-3 backdrop-blur sm:px-6">
           <div className="flex min-w-0 items-center gap-2">
-            <Button size="icon" variant="ghost" className="h-11 w-11 shrink-0 lg:hidden [&_svg]:!h-7 [&_svg]:!w-7" onClick={() => setMobile(true)} aria-label="Open menu">
-              <Menu className="h-7 w-7" />
-            </Button>
-            <Button size="icon" variant="ghost" className="hidden h-11 w-11 lg:inline-flex [&_svg]:!h-7 [&_svg]:!w-7" onClick={toggle} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} title="Toggle sidebar">
-              <Menu className="h-7 w-7" />
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button size="icon" variant="ghost" className="h-11 w-11 shrink-0 lg:hidden [&_svg]:!h-7 [&_svg]:!w-7" onClick={() => setMobile(true)} aria-label="Open menu">
+                  <Menu className="h-7 w-7" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Open menu</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button size="icon" variant="ghost" className="hidden h-11 w-11 lg:inline-flex [&_svg]:!h-7 [&_svg]:!w-7" onClick={toggle} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}>
+                  <Menu className="h-7 w-7" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{collapsed ? "Expand sidebar" : "Collapse sidebar"}</TooltipContent>
+            </Tooltip>
             <div className="min-w-0">
               <h1 className="truncate text-base font-bold sm:text-lg">{title}</h1>
               {subtitle && <p className="truncate text-xs text-muted-foreground">{subtitle}</p>}
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-1">
-            <Button size="icon" variant="ghost" title="Toggle theme" aria-label="Toggle theme" onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}>{resolvedTheme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}</Button>
-            <Button size="icon" variant="ghost" title="Clear data cache and refresh" aria-label="Clear data cache and refresh" disabled={refreshing} onClick={refresh}><RefreshCw className={cn("h-5 w-5", refreshing && "animate-spin")} /></Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button size="icon" variant="ghost" aria-label="Toggle theme" onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}>{resolvedTheme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}</Button>
+              </TooltipTrigger>
+              <TooltipContent>Toggle theme</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button size="icon" variant="ghost" aria-label="Clear data cache and refresh" disabled={refreshing} onClick={refresh}><RefreshCw className={cn("h-5 w-5", refreshing && "animate-spin")} /></Button>
+              </TooltipTrigger>
+              <TooltipContent>Clear cache & refresh</TooltipContent>
+            </Tooltip>
+            <NotificationBell />
             <UserMenu />
           </div>
         </header>
