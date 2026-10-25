@@ -38,6 +38,10 @@ export function DashboardShell({
   const { signOut } = useAuth();
   const { resolvedTheme, setTheme } = useTheme();
   const qc = useQueryClient();
+  const notes = useNotifications();
+  const unread = (notes.data ?? []).filter((n) => !n.read_at);
+  const badgeFor = (id: string) =>
+    unread.some((n) => n.link?.includes(`view=${id}`));
   const [refreshing, setRefreshing] = useState(false);
   const refresh = async () => {
     setRefreshing(true);
@@ -111,6 +115,7 @@ export function DashboardShell({
               )}
             >
               <Icon className="h-4 w-4 shrink-0" /> {!mini && label}
+              {badgeFor(id) && <span className="ml-auto h-2 w-2 shrink-0 rounded-full bg-destructive" aria-label="New activity" />}
             </Button>
           ))}
         </nav>
