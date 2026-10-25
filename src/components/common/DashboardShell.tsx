@@ -7,8 +7,11 @@ import { toast } from "sonner";
 import icon from "@/assets/cslc-icon.png";
 import { BrandLogo } from "./BrandLogo";
 import { UserMenu } from "./UserMenu";
+import { NotificationBell } from "./NotificationBell";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
+import { useNotifications } from "@/hooks/useSupport";
 import { paths } from "@/routes/paths";
 import { cn } from "@/lib/utils";
 
