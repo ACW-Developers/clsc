@@ -7,7 +7,9 @@
 - Client env vars are read only through `src/config/env.ts` (zod-validated); private keys never go in client code — security.
 - Global providers live in `src/providers/AppProviders.tsx` — single composition point.
 - Future modules (hospitality, bookshop, programmes) get their own subfolders inside pages/components/services/hooks — modular growth.
-- Orders and donations use module-specific services/hooks and a shared records view; customers read their own records, staff manage orders and donation notes, and payment state remains server-owned — extend future phases without adding checkout prematurely.
+- Orders and donations use module-specific services/hooks and a shared records view; customers read their own records, staff manage fulfilment and notes, and payment state remains server-owned — keep trusted transaction state separate from administration.
+- Bookshop catalogue and stock use module-specific services/hooks; atomic checkout locks branch stock, snapshots order items and issues separate bookshop receipts while reusing the orders table — prevent overselling and preserve hospitality receipts.
+- Bookshop cart stores only branch, book IDs and quantities locally; checkout derives prices and ownership on the server — browser state must never authorize payment or set prices.
 - RootLayout owns navigation scroll reset for path/query changes, preserving deliberate section anchors — consistent navigation across all pages and dashboard views.
 - Use semantic design tokens from `src/index.css`; no hardcoded color utilities — theming consistency.
 - Keep hospitality administration behind one role-guarded `/admin` page with query-driven views, reusing the existing service and React Query layers so staff permissions stay centralized.

@@ -12,6 +12,11 @@ import ServiceListPage from "@/pages/hospitality/ServiceListPage";
 import FacilityPage from "@/pages/hospitality/FacilityPage";
 import CheckoutPage from "@/pages/hospitality/CheckoutPage";
 import ReceiptPage from "@/pages/hospitality/ReceiptPage";
+import CatalogPage from "@/pages/bookshop/CatalogPage";
+import BookDetailPage from "@/pages/bookshop/BookDetailPage";
+import CartPage from "@/pages/bookshop/CartPage";
+import BookshopCheckoutPage from "@/pages/bookshop/BookshopCheckoutPage";
+import BookshopReceiptPage from "@/pages/bookshop/BookshopReceiptPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 import { RequireAuth } from "@/components/common/RouteGuards";
 import { paths } from "./paths";
@@ -45,6 +50,12 @@ export function AppRoutes() {
         <Route path={paths.facility} element={<FacilityPage />} />
         <Route path={paths.checkout} element={<RequireAuth><CheckoutPage /></RequireAuth>} />
         <Route path={paths.receipt} element={<RequireAuth><ReceiptPage /></RequireAuth>} />
+        <Route path={paths.bookshop} element={<CatalogPage />} />
+        <Route path={paths.bookshopBranch} element={<CatalogPage />} />
+        <Route path={paths.bookDetail} element={<BookDetailPage />} />
+        <Route path={paths.cart} element={<CartPage />} />
+        <Route path={paths.bookshopCheckout} element={<RequireAuth><BookshopCheckoutPage /></RequireAuth>} />
+        <Route path={paths.bookshopReceipt} element={<RequireAuth><BookshopReceiptPage /></RequireAuth>} />
         <Route path={paths.comingSoon} element={<ComingSoonPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
