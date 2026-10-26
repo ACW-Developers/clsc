@@ -5,7 +5,7 @@ import type { CartLine } from "@/lib/bookshop";
 const schema = z.object({ branch: z.enum(["yaya", "kisumu"]), lines: z.array(z.object({ book_id: z.string().uuid(), quantity: z.number().int().min(1).max(99) })).max(50) });
 type Cart = { branch: Branch; lines: CartLine[] };
 const empty: Cart = { branch: "yaya", lines: [] };
-const read = (): Cart => { try { const v = schema.safeParse(JSON.parse(localStorage.getItem("cslc-bookshop-cart") ?? "null")); return v.success ? v.data : empty; } catch { return empty; } };
+const read = (): Cart => { try { const v = schema.safeParse(JSON.parse(localStorage.getItem("cslc-bookshop-cart") ?? "null")); return v.success ? v.data as Cart : empty; } catch { return empty; } };
 let state = read();
 const listeners = new Set<() => void>();
 function commit(next: Cart) { state = next; try { localStorage.setItem("cslc-bookshop-cart", JSON.stringify(state)); } catch { /* cart still works without browser storage */ } listeners.forEach(f => f()); }
