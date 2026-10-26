@@ -124,6 +124,181 @@ export type Database = {
           },
         ]
       }
+      books: {
+        Row: {
+          author: string
+          category: string
+          created_at: string
+          description: string
+          id: string
+          image_url: string
+          is_published: boolean
+          is_sample: boolean
+          isbn: string
+          price: number
+          rating: number | null
+          rating_count: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author?: string
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string
+          is_published?: boolean
+          is_sample?: boolean
+          isbn?: string
+          price?: number
+          rating?: number | null
+          rating_count?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author?: string
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string
+          is_published?: boolean
+          is_sample?: boolean
+          isbn?: string
+          price?: number
+          rating?: number | null
+          rating_count?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      bookshop_order_items: {
+        Row: {
+          book_id: string
+          id: string
+          order_id: string
+          quantity: number
+          title: string
+          unit_price: number
+        }
+        Insert: {
+          book_id: string
+          id?: string
+          order_id: string
+          quantity: number
+          title: string
+          unit_price: number
+        }
+        Update: {
+          book_id?: string
+          id?: string
+          order_id?: string
+          quantity?: number
+          title?: string
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookshop_order_items_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookshop_order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bookshop_receipts: {
+        Row: {
+          amount: number
+          branch: string
+          created_at: string
+          id: string
+          method: string
+          order_id: string
+          phone: string
+          receipt_number: string
+          reference: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          branch: string
+          created_at?: string
+          id?: string
+          method?: string
+          order_id: string
+          phone: string
+          receipt_number: string
+          reference: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          branch?: string
+          created_at?: string
+          id?: string
+          method?: string
+          order_id?: string
+          phone?: string
+          receipt_number?: string
+          reference?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookshop_receipts_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: true
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bookshop_stock: {
+        Row: {
+          book_id: string
+          branch: string
+          is_available: boolean
+          low_stock_threshold: number
+          quantity: number
+          updated_at: string
+        }
+        Insert: {
+          book_id: string
+          branch: string
+          is_available?: boolean
+          low_stock_threshold?: number
+          quantity?: number
+          updated_at?: string
+        }
+        Update: {
+          book_id?: string
+          branch?: string
+          is_available?: boolean
+          low_stock_threshold?: number
+          quantity?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookshop_stock_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_enquiries: {
         Row: {
           admin_notes: string | null
@@ -230,30 +405,39 @@ export type Database = {
         Row: {
           admin_notes: string | null
           amount: number
+          branch: string | null
           created_at: string
           description: string
           id: string
+          payment_status: string
           reference: string
+          request_id: string | null
           status: string
           user_id: string
         }
         Insert: {
           admin_notes?: string | null
           amount?: number
+          branch?: string | null
           created_at?: string
           description?: string
           id?: string
+          payment_status?: string
           reference: string
+          request_id?: string | null
           status?: string
           user_id: string
         }
         Update: {
           admin_notes?: string | null
           amount?: number
+          branch?: string | null
           created_at?: string
           description?: string
           id?: string
+          payment_status?: string
           reference?: string
+          request_id?: string | null
           status?: string
           user_id?: string
         }
@@ -496,6 +680,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      bookshop_checkout: {
+        Args: {
+          _branch: string
+          _items: Json
+          _phone: string
+          _request_id: string
+          _success: boolean
+        }
+        Returns: string
+      }
       bootstrap_super_admin: {
         Args: { _full_name: string; _user_id: string }
         Returns: boolean
@@ -524,6 +718,10 @@ export type Database = {
           _user_id: string
         }
         Returns: undefined
+      }
+      save_bookshop_book: {
+        Args: { _book: Json; _stock: Json }
+        Returns: string
       }
       simulate_payment: {
         Args: { _booking_id: string; _phone: string; _success: boolean }

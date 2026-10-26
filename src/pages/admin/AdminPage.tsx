@@ -12,6 +12,8 @@ import {
   Settings as Cog,
   User,
   Users as UsersIcon,
+  BookOpen,
+  Package,
 } from "lucide-react";
 import { DashboardShell } from "@/components/common/DashboardShell";
 import { ProfileForm } from "@/components/common/ProfileForm";
@@ -20,16 +22,21 @@ import { Bookings, Facilities, Logs, Overview, Services, Settings, Users } from 
 import { useRoles } from "@/hooks/useHospitality";
 import { PhaseRecords } from "@/components/common/PhaseRecords";
 import { AdminSupport } from "@/components/admin/AdminSupport";
+import { BookManagement } from "@/components/bookshop/BookManagement";
+import { Inventory } from "@/components/bookshop/Inventory";
+import type { DashView } from "@/components/common/DashboardShell";
 
-const views = [
+const views: (DashView & { superOnly?: boolean })[] = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
-  { id: "bookings", label: "Bookings", icon: CalendarCheck },
-  { id: "orders", label: "Orders Management", icon: ShoppingBag },
-  { id: "donations", label: "Donations Management", icon: HeartHandshake },
+  { id: "bookings", label: "Bookings", icon: CalendarCheck, group: "Hospitality" },
+  { id: "orders", label: "Orders Management", icon: ShoppingBag, group: "Bookshop" },
+  { id: "books", label: "Books", icon: BookOpen, group: "Bookshop", superOnly: true },
+  { id: "inventory", label: "Stock & Sales", icon: Package, group: "Bookshop" },
+  { id: "donations", label: "Donations Management", icon: HeartHandshake, group: "Student Programmes" },
   { id: "support", label: "Support", icon: LifeBuoy },
   { id: "receipts", label: "Receipts", icon: Receipt },
-  { id: "services", label: "Services", icon: Layers },
-  { id: "facilities", label: "Facilities", icon: BedDouble },
+  { id: "services", label: "Services", icon: Layers, group: "Hospitality" },
+  { id: "facilities", label: "Facilities", icon: BedDouble, group: "Hospitality" },
   { id: "users", label: "Users", icon: UsersIcon },
   { id: "logs", label: "Activity Logs", icon: Activity },
   { id: "profile", label: "Profile", icon: User },
@@ -47,6 +54,8 @@ const AdminPage = () => {
       {view === "overview" && <Overview go={go} />}
       {view === "bookings" && <Bookings />}
       {view === "orders" && <PhaseRecords kind="orders" management />}
+      {view === "books" && <BookManagement />}
+      {view === "inventory" && <Inventory />}
       {view === "donations" && <PhaseRecords kind="donations" management />}
       {view === "support" && <AdminSupport />}
       {view === "receipts" && <ReceiptsTable />}

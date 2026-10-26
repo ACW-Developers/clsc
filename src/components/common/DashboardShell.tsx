@@ -19,6 +19,7 @@ export interface DashView {
   id: string;
   label: string;
   icon: LucideIcon;
+  group?: "General" | "Hospitality" | "Bookshop" | "Student Programmes";
 }
 
 /** Responsive dashboard frame: expanded (icons + labels) or collapsed (icons only). */
@@ -100,8 +101,10 @@ export function DashboardShell({
             )}
           </Link>
         </div>
-        <nav className="mt-6 grid gap-1" aria-label="Dashboard">
-          {views.map(({ id, label, icon: Icon }) => (
+        <nav className="mt-3 grid min-h-0 gap-1 overflow-y-auto" aria-label="Dashboard">
+          {(["General", "Hospitality", "Bookshop", "Student Programmes"] as const).map(group => <div key={group} className="grid gap-1">
+          {!mini && <h2 className="px-3 pb-1 pt-3 text-[10px] font-semibold uppercase text-muted-foreground">{group}</h2>}
+          {views.filter(v => (v.group ?? "General") === group).map(({ id, label, icon: Icon }) => (
             <Button variant="ghost"
               key={id}
               onClick={() => select(id)}
@@ -118,6 +121,7 @@ export function DashboardShell({
               {badgeFor(id) && <span className="ml-auto h-2 w-2 shrink-0 rounded-full bg-destructive" aria-label="New activity" />}
             </Button>
           ))}
+          </div>)}
         </nav>
         <div className="mt-auto grid gap-1 border-t pt-3">
           <Link to={paths.home} title="View site" aria-label="View site" className={cn(item, mini ? "justify-center px-0" : "justify-start", "hover:bg-secondary")}>

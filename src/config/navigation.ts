@@ -1,4 +1,4 @@
-import { comingSoon, paths, serviceUrl } from "@/routes/paths";
+import { branchUrl, comingSoon, paths, serviceUrl } from "@/routes/paths";
 
 export interface NavLink {
   label: string;
@@ -34,11 +34,10 @@ export const mainNav: NavGroup[] = [
   {
     label: "Bookshop",
     items: [
-      soon("Browse Products", "bookshop"),
-      soon("Yaya Centre Stock", "yaya-stock"),
-      soon("Kisumu Stock", "kisumu-stock"),
-      soon("Shopping Cart", "cart"),
-      soon("Order Management", "orders"),
+      { label: "Browse Products", to: paths.bookshop },
+      { label: "Yaya Centre Bookshop", to: branchUrl("yaya") },
+      { label: "Kisumu Bookshop", to: branchUrl("kisumu") },
+      { label: "Shopping Cart", to: paths.cart },
     ],
   },
   {

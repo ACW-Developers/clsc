@@ -12,13 +12,15 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAction, useMyBookings, useReceipts } from "@/hooks/useHospitality";
 import { hospitalityService as svc } from "@/services/hospitality";
 import { checkoutUrl, paths } from "@/routes/paths";
+import { BookOpen } from "lucide-react";
 import { bookingLabel, kes, labelVariant } from "@/lib/booking";
 
 const views: DashView[] = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
-  { id: "orders", label: "My Orders", icon: ShoppingBag },
-  { id: "bookings", label: "My Bookings", icon: History },
-  { id: "donations", label: "My Donations", icon: HeartHandshake },
+  { id: "shop", label: "Browse Books", icon: BookOpen, group: "Bookshop" },
+  { id: "orders", label: "My Orders", icon: ShoppingBag, group: "Bookshop" },
+  { id: "bookings", label: "My Bookings", icon: History, group: "Hospitality" },
+  { id: "donations", label: "My Donations", icon: HeartHandshake, group: "Student Programmes" },
   { id: "receipts", label: "Receipts", icon: Receipt },
   { id: "support", label: "Support", icon: LifeBuoy },
   { id: "profile", label: "Profile", icon: User },
@@ -102,6 +104,7 @@ const AccountPage = () => {
     <DashboardShell views={views} view={view} go={(v) => setParams({ view: v })} subtitle="My CSLC account">
       {view === "overview" && <Overview />}
       {view === "orders" && <PhaseRecords kind="orders" />}
+      {view === "shop" && <section className="border-y py-8"><h2 className="mb-4 text-xl font-semibold">CSLC Bookshop</h2><Button asChild><Link to={paths.bookshop}>Browse books</Link></Button></section>}
       {view === "donations" && <PhaseRecords kind="donations" />}
       {view === "bookings" && <BookingList />}
       {view === "receipts" && <ReceiptsTable />}

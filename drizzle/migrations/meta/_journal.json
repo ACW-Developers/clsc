@@ -57,6 +57,13 @@
       "when": 1792951353076,
       "tag": "0007_support_enquiries_notifications",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1793029018726,
+      "tag": "0008_bookshop_catalog_inventory_checkout",
+      "breakpoints": true
     }
   ]
 }
