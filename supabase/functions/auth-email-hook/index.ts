@@ -15,7 +15,7 @@ const corsHeaders = {
 }
 
 // Configuration
-const SITE_NAME = "CLSC"
+const SITE_NAME = "CSLC"
 const SENDER_DOMAIN = "notify.ufungamano.netlify.app"
 const ROOT_DOMAIN = "ufungamano.netlify.app"
 const FROM_DOMAIN = "ufungamano.netlify.app"
