@@ -23,7 +23,7 @@
 - [x] Notification bell with unread badges and sidebar indicators.
 - [x] Tooltips on icon-only dashboard controls.
 
-- [ ] Bookshop catalogue, branch filters, book details and persistent cart.
-- [ ] Super-admin book and branch inventory management with stock/sales charts.
-- [ ] Atomic simulated checkout, order items and bookshop POS receipts.
-- [ ] Group dashboard navigation and verify shopping and inventory end-to-end.
+- [x] Bookshop catalogue, branch filters, book details and persistent cart.
+- [x] Super-admin book and branch inventory management with stock/sales charts.
+- [x] Atomic simulated checkout, order items and bookshop POS receipts.
+- [x] Group dashboard navigation and verify shopping and inventory end-to-end; temporary orders removed and sample stock restored.
