@@ -14,6 +14,10 @@ import { useAction } from "@/hooks/useHospitality";
 import { ordersService, orderStatuses, type OrderStatus } from "@/services/bookshop/orders";
 import { donationsService } from "@/services/programmes/donations";
 import { kes } from "@/lib/booking";
+import { Link } from "react-router-dom";
+import { useBookshopReceipts } from "@/hooks/bookshop/useCatalog";
+import { bookshopReceiptUrl } from "@/routes/paths";
+import { branchName } from "@/services/bookshop/catalog";
 
 type RecordRow = { id: string; user_id: string; reference: string; description: string; amount: number; status: string; admin_notes: string | null; created_at: string };
 
@@ -22,6 +26,7 @@ export function PhaseRecords({ kind, management = false }: { kind: "orders" | "d
   const orders = useOrders(management && kind === "orders");
   const donations = useDonations(management && kind === "donations");
   const query = kind === "orders" ? orders : donations;
+  const receipts = useBookshopReceipts();
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
   const [page, setPage] = useState(0);
@@ -58,7 +63,7 @@ export function PhaseRecords({ kind, management = false }: { kind: "orders" | "d
         <div className="divide-y border-y">
           {rows.slice(current * 10, current * 10 + 10).map((row) => <div key={row.id} className="flex min-w-0 flex-wrap items-center justify-between gap-3 py-4">
             <div className="min-w-0 flex-1 basis-48"><p className="break-all font-semibold">{row.reference}</p><p className="break-words text-sm text-muted-foreground">{row.description}</p><p className="text-xs text-muted-foreground">{new Date(row.created_at).toLocaleDateString()}</p>{management && <p className="break-all text-xs text-muted-foreground">Customer ID: {row.user_id}</p>}</div>
-            <div className="flex flex-wrap items-center gap-3"><span className="font-semibold">{kes(row.amount)}</span><Badge variant="secondary" className="capitalize">{row.status}</Badge><Button variant="outline" size="sm" onClick={() => { setSelected(row); setNotes(row.admin_notes ?? ""); const value = orderStatuses.find((s) => s === row.status); setStatus(value ?? "pending"); }}>View</Button></div>
+            <div className="flex flex-wrap items-center gap-3"><span className="font-semibold">{kes(row.amount)}</span><Badge variant="secondary" className="capitalize">{row.status}</Badge>{kind === "orders" && receipts.data?.filter(r => r.order_id === row.id).map(r => <Button key={r.id} asChild variant="outline" size="sm"><Link to={bookshopReceiptUrl(r.id)}>Receipt · {branchName(r.branch)}</Link></Button>)}<Button variant="outline" size="sm" onClick={() => { setSelected(row); setNotes(row.admin_notes ?? ""); const value = orderStatuses.find((s) => s === row.status); setStatus(value ?? "pending"); }}>View</Button></div>
           </div>)}
         </div>
         <div className="flex items-center justify-end gap-3"><span className="text-sm text-muted-foreground">{current + 1} / {Math.ceil(rows.length / 10)}</span><Button size="icon" variant="outline" aria-label="Previous page" disabled={current === 0} onClick={() => setPage(current - 1)}><ChevronLeft className="h-4 w-4" /></Button><Button size="icon" variant="outline" aria-label="Next page" disabled={(current + 1) * 10 >= rows.length} onClick={() => setPage(current + 1)}><ChevronRight className="h-4 w-4" /></Button></div>
