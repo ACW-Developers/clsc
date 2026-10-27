@@ -29,7 +29,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
         </div>
       </div>
       <div className="flex items-center justify-center px-3 py-10 sm:px-8">
-        <div className="w-full max-w-md rounded-2xl border border-primary/30 bg-card p-6 shadow-card sm:p-8">
+        <div className="w-full max-w-md overflow-hidden rounded-lg border bg-card p-6 shadow-card sm:p-8">
           <div className="mb-6 flex flex-col items-center text-center">
             <img
               src={icon}
@@ -41,9 +41,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
             <p className="mt-3 text-lg font-bold text-primary">
               Christian Student Leadership Centre
             </p>
-            <p className="text-sm text-muted-foreground">
-              Hospitality Services
-            </p>
+            <p className="text-sm text-muted-foreground">Your CSLC account</p>
           </div>
           {children}
           <div className="mt-6 text-center text-xs text-muted-foreground">

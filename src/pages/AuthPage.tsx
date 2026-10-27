@@ -14,6 +14,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { useRoles } from "@/hooks/useHospitality";
 import { paths } from "@/routes/paths";
 import { cn } from "@/lib/utils";
+import { Checkbox } from "@/components/ui/checkbox";
+import { signupSchema } from "@/lib/registration";
 
 type Mode = "signin" | "signup" | "forgot";
 
@@ -27,11 +29,7 @@ const schemas = {
     email,
     password: z.string().min(1, "Enter your password"),
   }),
-  signup: z.object({
-    fullName: z.string().trim().min(2, "Enter your full name").max(100),
-    email,
-    password,
-  }),
+  signup: signupSchema,
   forgot: z.object({ email }),
 };
 
@@ -49,6 +47,7 @@ const AuthPage = () => {
     next && next.startsWith("/") && !next.startsWith("//") ? next : paths.home;
   const { isStaff, isLoading: rolesLoading } = useRoles();
   const [form, setForm] = useState({ fullName: "", email: "", password: "" });
+  const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
@@ -75,7 +74,7 @@ const AuthPage = () => {
     e.preventDefault();
     setError("");
     setNotice("");
-    const parsed = schemas[mode].safeParse(form);
+    const parsed = schemas[mode].safeParse({ ...form, consent });
     if (!parsed.success) {
       setErrors(
         Object.fromEntries(
@@ -135,9 +134,10 @@ const AuthPage = () => {
       {mode !== "forgot" ? (
         <div className="mb-6 grid grid-cols-2 rounded-xl bg-muted p-1">
           {(["signin", "signup"] as const).map((m) => (
-            <button
+            <Button
               key={m}
               type="button"
+              variant="ghost"
               onClick={() => setMode(m)}
               className={cn(
                 "rounded-lg py-2 text-sm font-medium transition",
@@ -147,7 +147,7 @@ const AuthPage = () => {
               )}
             >
               {m === "signin" ? "Sign In" : "Create Account"}
-            </button>
+            </Button>
           ))}
         </div>
       ) : (
@@ -200,13 +200,14 @@ const AuthPage = () => {
             <div className="flex items-center justify-between">
               <Label htmlFor="password">Password</Label>
               {mode === "signin" && (
-                <button
+                <Button
                   type="button"
+                  variant="link" size="sm"
                   onClick={() => setMode("forgot")}
                   className="text-xs text-primary hover:underline"
                 >
                   Forgot password?
-                </button>
+                </Button>
               )}
             </div>
             <PasswordInput
@@ -223,6 +224,11 @@ const AuthPage = () => {
           </div>
         )}
 
+        {mode === "signup" && <div className="space-y-2 border-t pt-4">
+          <div className="flex items-start gap-3"><Checkbox id="signup-consent" checked={consent} onCheckedChange={(value) => setConsent(value === true)} aria-invalid={!!errors.consent} />
+            <Label htmlFor="signup-consent" className="text-xs font-normal leading-relaxed">I consent to CSLC processing my account and contact details to manage my bookings, orders, and support requests.</Label></div>
+          {errors.consent && <p role="alert" className="text-xs text-destructive">{errors.consent}</p>}
+        </div>}
         {error && (
           <Alert variant="destructive">
             <AlertDescription>{error}</AlertDescription>
@@ -236,7 +242,7 @@ const AuthPage = () => {
 
         <Button
           type="submit"
-          disabled={loading}
+          disabled={loading || (mode === "signup" && !consent)}
           className="h-11 w-full text-base"
         >
           {loading && <Loader2 className="h-4 w-4 animate-spin" />}
@@ -247,13 +253,14 @@ const AuthPage = () => {
               : "Send Reset Link"}
         </Button>
         {mode === "forgot" && (
-          <button
+          <Button
             type="button"
+            variant="link"
             onClick={() => setMode("signin")}
             className="w-full text-sm text-primary hover:underline"
           >
             Back to sign in
-          </button>
+          </Button>
         )}
       </form>
     </AuthShell>
