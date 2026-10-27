@@ -47,6 +47,12 @@ import {
 
 import { categoryConfig } from "@/config/facilityCategories";
 import { OverviewCharts } from "./OverviewCharts";
+import { StatCard } from "@/components/common/StatCard";
+import { UserAnalytics } from "./UserAnalytics";
+import { useOrders } from "@/hooks/bookshop/useOrders";
+import { useDonations } from "@/hooks/programmes/useDonations";
+import { useCatalog } from "@/hooks/bookshop/useCatalog";
+import { ShoppingBag, Users as UsersIcon, BookOpen, BedDouble, CalendarCheck, HeartHandshake, TrendingUp } from "lucide-react";
 
 const PAGE = 10;
 
@@ -134,42 +140,24 @@ function Card({ label, value }: { label: string; value: ReactNode }) {
 }
 
 export function Overview({ go }: { go: (v: string) => void }) {
-  const b = useBookings(),
-    s = useServices(),
-    f = useSubServices(),
-    p = useProfiles(),
-    l = useLogs();
-  const count = (st: string) =>
-    b.data?.filter((x) => x.status === st).length ?? 0;
+  const b = useBookings(), s = useServices(), f = useSubServices(), p = useProfiles(), l = useLogs();
+  const orders = useOrders(true), donations = useDonations(true), books = useCatalog();
+  const count = (st: string) => b.data?.filter((x) => x.status === st).length ?? 0;
+  const hospitalitySales = (b.data ?? []).filter((x) => x.payment_status === "paid").reduce((n, x) => n + Number(x.total_amount ?? 0), 0);
+  const bookSales = (orders.data ?? []).filter((x) => x.payment_status === "paid").reduce((n, x) => n + Number(x.amount), 0);
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 gap-3 xl:grid-cols-5">
-        <Card label="Total bookings" value={b.data?.length ?? "–"} />
-        <Card
-          label="Fully paid"
-          value={
-            b.data
-              ? b.data.filter((x) => x.payment_status === "paid").length
-              : "–"
-          }
-        />
-        <Card
-          label="Revenue (simulated)"
-          value={
-            b.data
-              ? kes(
-                  b.data
-                    .filter((x) => x.payment_status === "paid")
-                    .reduce((t, x) => t + Number(x.total_amount ?? 0), 0),
-                )
-              : "–"
-          }
-        />
-        <Card
-          label="Services / Facilities"
-          value={`${s.data?.length ?? "–"} / ${f.data?.length ?? "–"}`}
-        />
-        <Card label="Registered users" value={p.data?.length ?? "–"} />
+      <div><h2 className="text-2xl font-bold">CSLC at a glance</h2><p className="mt-1 text-sm text-muted-foreground">Hospitality, bookshop and student programme records</p></div>
+      {[b, orders, donations, books, p].some((q) => q.error) && <Alert variant="destructive"><AlertDescription>Some records could not be loaded. Refresh to try again.</AlertDescription></Alert>}
+      <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
+        <StatCard label="Bookings" value={b.data?.length ?? "–"} icon={CalendarCheck} detail={`${count("pending")} awaiting review / payment`} />
+        <StatCard label="Bookshop orders" value={orders.data?.length ?? "–"} icon={ShoppingBag} />
+        <StatCard label="Combined sales (simulated)" value={b.data && orders.data ? kes(hospitalitySales + bookSales) : "–"} icon={TrendingUp} detail="Paid hospitality + bookshop test transactions" />
+        <StatCard label="Registered users" value={p.data?.length ?? "–"} icon={UsersIcon} />
+        <StatCard label="Facilities" value={f.data?.length ?? "–"} icon={BedDouble} detail={`${s.data?.length ?? "–"} hospitality categories`} />
+        <StatCard label="Book titles" value={books.data?.length ?? "–"} icon={BookOpen} />
+        <StatCard label="Donations received" value={donations.data ? kes(donations.data.filter((d) => d.status === "received").reduce((n, d) => n + Number(d.amount), 0)) : "–"} icon={HeartHandshake} detail={`${donations.data?.length ?? "–"} donation records`} />
+        <StatCard label="Student programmes" value="Not available" icon={HeartHandshake} detail="Programme records are not implemented yet" />
       </div>
       <div className="flex flex-wrap gap-2">
         <Button onClick={() => go("bookings")}>Review bookings</Button>
@@ -181,10 +169,10 @@ export function Overview({ go }: { go: (v: string) => void }) {
         </Button>
       </div>
       <State q={b} empty={false}>
-        <OverviewCharts bookings={b.data ?? []} />
+        <OverviewCharts bookings={b.data ?? []} orders={orders.data ?? []} donations={donations.data ?? []} />
       </State>
       <div className="grid gap-6 lg:grid-cols-2">
-        <section className="rounded-2xl border bg-card p-5">
+        <section className="min-w-0 border-y py-5">
           <h3 className="mb-3 font-semibold">Booking summary</h3>
           {BOOKING_STATUSES.map((st) => (
             <div
@@ -196,7 +184,7 @@ export function Overview({ go }: { go: (v: string) => void }) {
             </div>
           ))}
         </section>
-        <section className="rounded-2xl border bg-card p-5">
+        <section className="min-w-0 border-y py-5">
           <h3 className="mb-3 font-semibold">Recent activity</h3>
           <State q={l} empty={!l.data?.length}>
             {l.data?.slice(0, 6).map((x) => (
@@ -1049,6 +1037,7 @@ export function Users() {
   );
   return (
     <div>
+      <UserAnalytics />
       <Toolbar
         term={term}
         setTerm={(t) => {
@@ -1108,10 +1097,12 @@ export function Users() {
 
 export function Logs() {
   const q = useLogs();
+  const profiles = useProfiles();
+  const actor = (id: string | null) => id ? profiles.data?.find((p) => p.id === id)?.full_name || profiles.data?.find((p) => p.id === id)?.email || "Unknown user" : "System";
   const [term, setTerm] = useState("");
   const [page, setPage] = useState(1);
   const rows = (q.data ?? []).filter((l) =>
-    `${l.action} ${l.entity} ${l.summary ?? ""}`
+    `${actor(l.actor_id)} ${l.action} ${l.entity} ${l.summary ?? ""}`
       .toLowerCase()
       .includes(term.toLowerCase()),
   );
@@ -1126,22 +1117,22 @@ export function Logs() {
       />
       <State q={q} empty={!rows.length}>
         <div className="overflow-x-auto rounded-xl border bg-card">
-          <table className="w-full text-sm">
+          <table className="w-full min-w-[680px] text-sm">
             <thead className="bg-muted text-left">
               <tr>
-                <th className="p-3">When</th>
-                <th className="p-3">Action</th>
-                <th className="p-3">Record</th>
+                <th className="p-4">User</th>
+                <th className="p-4">Action</th>
+                <th className="p-4">Record / details</th>
+                <th className="p-4">Timestamp</th>
               </tr>
             </thead>
             <tbody>
               {rows.slice((page - 1) * PAGE, page * PAGE).map((l) => (
-                <tr key={l.id} className="border-t">
-                  <td className="whitespace-nowrap p-3">
-                    {new Date(l.created_at).toLocaleString()}
-                  </td>
-                  <td className="p-3 capitalize">{l.action}</td>
-                  <td className="p-3">{l.entity}</td>
+                <tr key={l.id} className="border-t transition-colors hover:bg-muted/50">
+                  <td className="p-4 font-medium">{actor(l.actor_id)}</td>
+                  <td className="p-4"><Badge variant="secondary" className="capitalize">{l.action}</Badge></td>
+                  <td className="p-4"><p className="capitalize">{l.entity.replaceAll("_", " ")}</p><p className="mt-1 text-xs text-muted-foreground">{l.summary}</p></td>
+                  <td className="whitespace-nowrap p-4"><p>{new Date(l.created_at).toLocaleDateString("en-KE", { day: "numeric", month: "short", year: "numeric" })}</p><p className="mt-1 text-xs text-muted-foreground">{new Date(l.created_at).toLocaleTimeString("en-KE", { hour: "2-digit", minute: "2-digit" })}</p></td>
                 </tr>
               ))}
             </tbody>
@@ -1221,7 +1212,7 @@ export function Settings() {
     <State q={q} empty={false}>
       <div className="grid gap-6 lg:grid-cols-2">
         <form
-          className="space-y-3 rounded-2xl border bg-card p-5"
+          className="space-y-4 rounded-lg border bg-card p-5 shadow-card"
           onSubmit={(e) => {
             e.preventDefault();
             save.mutate({
@@ -1248,7 +1239,7 @@ export function Settings() {
             Save contact details
           </Button>
         </form>
-        <div className="space-y-3 rounded-2xl border bg-card p-5">
+        <div className="space-y-4 rounded-lg border bg-card p-5 shadow-card">
           <h3 className="font-semibold">Branding images</h3>
           <p className="text-xs text-muted-foreground">
             Images are stored as files; only their links are saved.
