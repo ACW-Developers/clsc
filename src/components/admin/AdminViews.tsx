@@ -153,12 +153,12 @@ export function Overview({ go }: { go: (v: string) => void }) {
       <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
         <StatCard label="Bookings" value={b.data?.length ?? "–"} icon={CalendarCheck} detail={`${count("pending")} awaiting review / payment`} />
         <StatCard label="Bookshop orders" value={orders.data?.length ?? "–"} icon={ShoppingBag} />
-        <StatCard label="Combined sales (simulated)" value={b.data && orders.data ? kes(hospitalitySales + bookSales) : "–"} icon={TrendingUp} detail="Paid hospitality + bookshop test transactions" />
+        <StatCard label="Combined sales" value={b.data && orders.data ? kes(hospitalitySales + bookSales) : "–"} icon={TrendingUp} detail="hospitality + bookshop Sales" />
         <StatCard label="Registered users" value={p.data?.length ?? "–"} icon={UsersIcon} />
         <StatCard label="Facilities" value={f.data?.length ?? "–"} icon={BedDouble} detail={`${s.data?.length ?? "–"} hospitality categories`} />
         <StatCard label="Book titles" value={books.data?.length ?? "–"} icon={BookOpen} />
         <StatCard label="Donations received" value={donations.data ? kes(donations.data.filter((d) => d.status === "received").reduce((n, d) => n + Number(d.amount), 0)) : "–"} icon={HeartHandshake} detail={`${donations.data?.length ?? "–"} donation records`} />
-        <StatCard label="Student programmes" value="Not available" icon={HeartHandshake} detail="Programme records are not implemented yet" />
+        <StatCard label="Student programmes" value="Coming Soon"  />
       </div>
       <div className="flex flex-wrap gap-2">
         <Button onClick={() => go("bookings")}>Review bookings</Button>

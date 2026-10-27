@@ -97,7 +97,7 @@ export default function CatalogPage() {
             </p>
             <p className="hidden sm:flex items-center gap-3">
               <Smartphone className="h-6 w-6 text-primary" />
-              Simulated M-Pesa · Test only
+              M-Pesa · Card · Cash
             </p>
           </div>
         </div>

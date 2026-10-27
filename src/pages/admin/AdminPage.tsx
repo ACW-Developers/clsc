@@ -46,7 +46,7 @@ const views: (DashView & { superOnly?: boolean })[] = [
   },
   {
     id: "orders",
-    label: "Orders Management",
+    label: "Orders",
     icon: ShoppingBag,
     group: "Bookshop",
   },
@@ -60,7 +60,7 @@ const views: (DashView & { superOnly?: boolean })[] = [
   { id: "inventory", label: "Stock & Sales", icon: Package, group: "Bookshop" },
   {
     id: "donations",
-    label: "Donations Management",
+    label: "Donations",
     icon: HeartHandshake,
     group: "Student Programmes",
   },
@@ -74,7 +74,6 @@ const views: (DashView & { superOnly?: boolean })[] = [
     group: "Hospitality",
   },
   { id: "users", label: "Users", icon: UsersIcon },
-  { id: "traffic", label: "Traffic Analytics", icon: ChartNoAxesCombined },
   { id: "logs", label: "Activity Logs", icon: Activity },
   { id: "profile", label: "Profile", icon: User },
   { id: "settings", label: "Settings", icon: Cog, superOnly: true },

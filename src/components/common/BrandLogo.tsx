@@ -1,4 +1,4 @@
-import logo from "@/assets/cslc-logo.webp";
+import logo from "@/assets/cslc-logo.png";
 import { cn } from "@/lib/utils";
 
 /** Full CSLC logo (crest + name). */
