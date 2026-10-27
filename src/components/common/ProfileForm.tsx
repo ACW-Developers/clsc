@@ -31,6 +31,7 @@ export function ProfileForm() {
   );
   if (me.isLoading)
     return <Loader2 className="h-5 w-5 animate-spin text-primary" />;
+  if (me.error) return <p role="alert" className="text-destructive">Your profile could not be loaded. Please refresh and try again.</p>;
   const p = me.data;
   const name = p?.full_name || user?.email || "";
   return (

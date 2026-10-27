@@ -20,10 +20,6 @@ import { signupSchema } from "@/lib/registration";
 type Mode = "signin" | "signup" | "forgot";
 
 const email = z.string().trim().email("Enter a valid email address").max(255);
-const password = z
-  .string()
-  .min(8, "Password must be at least 8 characters")
-  .max(72);
 const schemas = {
   signin: z.object({
     email,
