@@ -1131,7 +1131,7 @@ export function Logs() {
                 <tr key={l.id} className="border-t transition-colors hover:bg-muted/50">
                   <td className="p-4 font-medium">{actor(l.actor_id)}</td>
                   <td className="p-4"><Badge variant="secondary" className="capitalize">{l.action}</Badge></td>
-                  <td className="p-4"><p className="capitalize">{l.entity.replaceAll("_", " ")}</p><p className="mt-1 text-xs text-muted-foreground">{l.summary}</p></td>
+                  <td className="p-4"><p className="capitalize">{l.entity.replace(/_/g, " ")}</p><p className="mt-1 text-xs text-muted-foreground">{l.summary}</p></td>
                   <td className="whitespace-nowrap p-4"><p>{new Date(l.created_at).toLocaleDateString("en-KE", { day: "numeric", month: "short", year: "numeric" })}</p><p className="mt-1 text-xs text-muted-foreground">{new Date(l.created_at).toLocaleTimeString("en-KE", { hour: "2-digit", minute: "2-digit" })}</p></td>
                 </tr>
               ))}

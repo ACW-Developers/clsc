@@ -148,11 +148,11 @@ export function DashboardShell({
               {!mini && views.some((v) => (v.group ?? "General") === group) && (
                 group === "General" ? <h2 className="px-3 pb-1 pt-3 text-[10px] font-semibold uppercase text-muted-foreground">General</h2> :
                 <Button variant="ghost" onClick={() => toggleGroup(group)} aria-expanded={groups[group] !== false}
-                  aria-controls={`group-${group.replaceAll(" ", "-")}`} className="mt-2 h-9 justify-between px-3 text-xs font-semibold text-muted-foreground hover:bg-primary/10 hover:text-primary">
+                  aria-controls={`group-${group.replace(/ /g, "-")}`} className="mt-2 h-9 justify-between px-3 text-xs font-semibold text-muted-foreground hover:bg-primary/10 hover:text-primary">
                   {group}<ChevronDown className={cn("h-4 w-4 transition-transform duration-200", groups[group] === false && "-rotate-90")} />
                 </Button>
               )}
-              <div id={`group-${group.replaceAll(" ", "-")}`} className="grid gap-1" hidden={!mini && group !== "General" && groups[group] === false}>
+              <div id={`group-${group.replace(/ /g, "-")}`} className="grid gap-1" hidden={!mini && group !== "General" && groups[group] === false}>
               {(mini || group === "General" || groups[group] !== false) && views
                 .filter((v) => (v.group ?? "General") === group)
                 .map(({ id, label, icon: Icon }) => (
