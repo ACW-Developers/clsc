@@ -155,7 +155,7 @@ const FacilityPage = () => {
         >
           <ChevronLeft className="h-4 w-4" /> {parent?.name ?? "Back"}
         </Link>
-        <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
+        <div className="grid items-start gap-8 lg:grid-cols-[1.4fr_1fr]">
           <div className="min-w-0 space-y-6">
             <div className="relative overflow-hidden rounded-lg bg-muted shadow-card">
               <div
@@ -294,13 +294,17 @@ const FacilityPage = () => {
           </div>
 
           <aside
-            className="min-w-0 h-fit rounded-lg border bg-card p-4 sm:p-6 shadow-card lg:sticky lg:top-24"
+            className="relative z-10 min-w-0 h-fit overflow-hidden rounded-lg border bg-card p-4 sm:p-6 shadow-card lg:sticky lg:top-24 lg:mt-12"
             aria-label="Book this facility"
           >
+            <div className="-mx-4 -mt-4 mb-5 border-b bg-primary/5 p-4 sm:-mx-6 sm:-mt-6 sm:p-6">
+            <p className="mb-2 text-xs font-semibold uppercase text-primary">{parent?.name}</p>
             <h2 className="flex items-center gap-2 text-xl font-bold">
               <CalendarCheck className="h-5 w-5 text-primary" /> Book this
               facility
             </h2>
+            <p className="mt-2 text-sm text-muted-foreground">{kes(fac.price)} {fac.price != null && fac.price_unit}</p>
+            </div>
             {ranges.data && ranges.data.length > 0 && (
               <div className="mt-3 rounded-lg bg-muted p-3 text-xs">
                 <p className="font-semibold">Reserved (paid) dates</p>
