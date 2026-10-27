@@ -10,6 +10,7 @@ import { availableStock } from "@/lib/bookshop";
 import { branches } from "@/services/bookshop/catalog";
 import { kes } from "@/lib/booking";
 import { paths } from "@/routes/paths";
+import { BookCard } from "@/components/bookshop/BookCard";
 export default function BookDetailPage() {
   const { id } = useParams(),
     [params, setParams] = useSearchParams(),
@@ -23,6 +24,8 @@ export default function BookDetailPage() {
           ? "yaya"
           : cart.branch;
   const stock = book ? availableStock(book, branch) : 0;
+  const similar = book ? (q.data ?? []).filter((b) => b.is_published && b.id !== book.id).sort((a, b) =>
+    Number(b.category === book.category) - Number(a.category === book.category) || Number(b.author === book.author) - Number(a.author === book.author)).slice(0, 4) : [];
   return (
     <ShopFrame>
       <main className="container py-8 sm:py-12">
@@ -70,7 +73,7 @@ export default function BookDetailPage() {
               )}
               <div>
                 <h2 className="mb-2 font-semibold">Bookshop branch</h2>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {branches.map((b) => (
                     <Button
                       key={b.id}
@@ -111,6 +114,7 @@ export default function BookDetailPage() {
             </div>
           </div>
         )}
+        {similar.length > 0 && <section className="mt-12 border-t pt-8"><h2 className="mb-6 font-serif text-2xl font-bold">Similar Books</h2><div className="grid grid-cols-2 gap-3 lg:grid-cols-4">{similar.map((b) => <BookCard key={b.id} book={b} branch={branch} />)}</div></section>}
       </main>
     </ShopFrame>
   );

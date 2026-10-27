@@ -654,6 +654,36 @@ export type Database = {
         }
         Relationships: []
       }
+      traffic_events: {
+        Row: {
+          created_at: string
+          device: string
+          event_type: string
+          id: string
+          os: string
+          path: string
+          session_id: string
+        }
+        Insert: {
+          created_at?: string
+          device: string
+          event_type: string
+          id?: string
+          os: string
+          path: string
+          session_id: string
+        }
+        Update: {
+          created_at?: string
+          device?: string
+          event_type?: string
+          id?: string
+          os?: string
+          path?: string
+          session_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -728,6 +758,16 @@ export type Database = {
         Returns: string
       }
       super_admin_exists: { Args: never; Returns: boolean }
+      track_traffic: {
+        Args: {
+          _device: string
+          _event_type: string
+          _os: string
+          _path: string
+          _session_id: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "super_admin" | "admin" | "customer"

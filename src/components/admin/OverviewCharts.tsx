@@ -9,7 +9,8 @@ import {
 } from "recharts";
 import type { BookingRow } from "@/services/hospitality";
 
-export function OverviewCharts({ bookings }: { bookings: BookingRow[] }) {
+type Transaction = { created_at: string; amount: number; status: string };
+export function OverviewCharts({ bookings, orders = [], donations = [] }: { bookings: BookingRow[]; orders?: Transaction[]; donations?: Transaction[] }) {
   const months = Array.from({ length: 6 }, (_, i) => {
     const date = new Date();
     date.setDate(1);
@@ -19,6 +20,8 @@ export function OverviewCharts({ bookings }: { bookings: BookingRow[] }) {
     return {
       month: date.toLocaleDateString("en", { month: "short" }),
       bookings: rows.length,
+      orders: orders.filter((o) => o.created_at.startsWith(key)).length,
+      donations: donations.filter((o) => o.created_at.startsWith(key)).length,
     };
   });
   const categories = [
@@ -32,9 +35,9 @@ export function OverviewCharts({ bookings }: { bookings: BookingRow[] }) {
   return (
     <div className="grid min-w-0 gap-6 xl:grid-cols-2">
       <section className="min-w-0 border-y py-5">
-        <h2 className="font-semibold">Bookings over time</h2>
+        <h2 className="font-semibold">Module activity over time</h2>
         <p className="mb-4 text-xs text-muted-foreground">
-          Last six months · booking creation date
+          Last six months · record creation date
         </p>
         <div
           className="h-64"
@@ -64,7 +67,10 @@ export function OverviewCharts({ bookings }: { bookings: BookingRow[] }) {
                   color: "hsl(var(--foreground))",
                 }}
               />
+              <Bar name="Orders" dataKey="orders" fill="hsl(var(--accent))" radius={[4,4,0,0]} isAnimationActive={false} />
+              <Bar name="Donations" dataKey="donations" fill="hsl(var(--muted-foreground))" radius={[4,4,0,0]} isAnimationActive={false} />
               <Bar
+                name="Bookings"
                 dataKey="bookings"
                 fill="hsl(var(--primary))"
                 radius={[4, 4, 0, 0]}
@@ -74,6 +80,7 @@ export function OverviewCharts({ bookings }: { bookings: BookingRow[] }) {
             </BarChart>
           </ResponsiveContainer>
         </div>
+        <p className="text-xs text-muted-foreground">Maroon: bookings · Gold: orders · Grey: donations</p>
       </section>
       <section className="min-w-0 border-y py-5">
         <h2 className="mb-4 font-semibold">Bookings by category</h2>

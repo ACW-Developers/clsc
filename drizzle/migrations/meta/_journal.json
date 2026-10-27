@@ -64,6 +64,13 @@
       "when": 1793029018726,
       "tag": "0008_bookshop_catalog_inventory_checkout",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1793103394740,
+      "tag": "0009_traffic_events_tracking",
+      "breakpoints": true
     }
   ]
 }
