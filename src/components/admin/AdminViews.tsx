@@ -53,6 +53,7 @@ import { useOrders } from "@/hooks/bookshop/useOrders";
 import { useDonations } from "@/hooks/programmes/useDonations";
 import { useCatalog } from "@/hooks/bookshop/useCatalog";
 import { ShoppingBag, Users as UsersIcon, BookOpen, BedDouble, CalendarCheck, HeartHandshake, TrendingUp } from "lucide-react";
+import { TrafficAnalytics } from "./TrafficAnalytics";
 
 const PAGE = 10;
 
@@ -1028,13 +1029,16 @@ export function Users() {
   const { isSuperAdmin } = useRoles();
   const [term, setTerm] = useState("");
   const [page, setPage] = useState(1);
+  const [roleFilter, setRoleFilter] = useState("all");
   const grant = useAction(svc.grantAdmin, ["roles"], "Admin access granted");
   const revoke = useAction(svc.revokeAdmin, ["roles"], "Admin access removed");
   const rolesOf = (id: string) =>
     roles.data?.filter((r) => r.user_id === id).map((r) => r.role) ?? [];
-  const rows = (q.data ?? []).filter((p) =>
-    `${p.full_name} ${p.email}`.toLowerCase().includes(term.toLowerCase()),
-  );
+  const rows = (q.data ?? []).filter((p) => {
+    const r = rolesOf(p.id);
+    const matchesRole = roleFilter === "all" || (roleFilter === "regular" ? !r.includes("admin") && !r.includes("super_admin") : r.includes(roleFilter as "admin" | "super_admin"));
+    return matchesRole && `${p.full_name} ${p.email}`.toLowerCase().includes(term.toLowerCase());
+  });
   return (
     <div>
       <UserAnalytics />
@@ -1044,7 +1048,11 @@ export function Users() {
           setTerm(t);
           setPage(1);
         }}
-      />
+      >
+        <select aria-label="Filter users by role" value={roleFilter} onChange={(e) => { setRoleFilter(e.target.value); setPage(1); }} className="h-10 rounded-md border bg-background px-3 text-sm">
+          <option value="all">All roles</option><option value="regular">Regular users</option><option value="admin">Administrators</option><option value="super_admin">Super administrators</option>
+        </select>
+      </Toolbar>
       <State q={q} empty={!rows.length}>
         <div className="grid gap-2">
           {rows.slice((page - 1) * PAGE, page * PAGE).map((p) => {
@@ -1108,6 +1116,7 @@ export function Logs() {
   );
   return (
     <div>
+      <p className="mb-4 text-xs text-muted-foreground">Most recent 500 events · timestamps shown in your local timezone</p>
       <Toolbar
         term={term}
         setTerm={(t) => {
@@ -1210,6 +1219,8 @@ export function Settings() {
   const branding = get("branding");
   return (
     <State q={q} empty={false}>
+      <div className="space-y-8">
+      <div><h2 className="text-xl font-semibold">Admin Settings</h2><p className="mt-1 text-sm text-muted-foreground">Contact information and CSLC branding</p></div>
       <div className="grid gap-6 lg:grid-cols-2">
         <form
           className="space-y-4 rounded-lg border bg-card p-5 shadow-card"
@@ -1254,6 +1265,8 @@ export function Settings() {
             />
           ))}
         </div>
+      </div>
+      <TrafficAnalytics />
       </div>
     </State>
   );
