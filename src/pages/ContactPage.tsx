@@ -21,10 +21,17 @@ const schema = z.object({
 });
 
 const ContactPage = () => {
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
   const [sending, setSending] = useState(false);
-  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-    setForm({ ...form, [k]: e.target.value });
+  const set =
+    (k: keyof typeof form) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setForm({ ...form, [k]: e.target.value });
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,8 +42,15 @@ const ContactPage = () => {
     }
     setSending(true);
     try {
-      await supportService.submitEnquiry({ name: parsed.data.name!, email: parsed.data.email!, subject: parsed.data.subject!, message: parsed.data.message! });
-      toast.success("Thank you — your message has been sent. We will get back to you soon.");
+      await supportService.submitEnquiry({
+        name: parsed.data.name!,
+        email: parsed.data.email!,
+        subject: parsed.data.subject!,
+        message: parsed.data.message!,
+      });
+      toast.success(
+        "Thank you — your message has been sent. We will get back to you soon.",
+      );
       setForm({ name: "", email: "", subject: "", message: "" });
     } catch (err) {
       toast.error((err as Error).message);
@@ -49,10 +63,16 @@ const ContactPage = () => {
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
       <section className="relative flex h-56 items-center justify-center overflow-hidden sm:h-72">
-        <img src={hero} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <img
+          src={hero}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+        />
         <div className="absolute inset-0 bg-hero-dark" />
         <div className="relative z-10 text-center text-primary-foreground">
-          <p className="text-xs uppercase tracking-widest opacity-80">Home / Contact</p>
+          <p className="text-xs uppercase tracking-widest opacity-80">
+            Home / Contact
+          </p>
           <h1 className="mt-2 text-3xl font-bold sm:text-4xl">Contact Us</h1>
         </div>
       </section>
@@ -63,7 +83,8 @@ const ContactPage = () => {
             <div>
               <h2 className="text-2xl font-bold">Get in touch</h2>
               <p className="mt-2 text-muted-foreground">
-                Questions about bookings, facilities or programmes? Send us a message and the CSLC team will respond.
+                Questions about bookings, facilities or programmes? Send us a
+                message and the CSLC team will respond.
               </p>
             </div>
             <ul className="space-y-4">
@@ -73,11 +94,18 @@ const ContactPage = () => {
               </li>
               <li className="flex items-start gap-3">
                 <Mail className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-                <a href={`mailto:${site.email}`} className="hover:underline">{site.email}</a>
+                <a href={`mailto:${site.email}`} className="hover:underline">
+                  {site.email}
+                </a>
               </li>
               <li className="flex items-start gap-3">
                 <Phone className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-                <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="hover:underline">{site.phone}</a>
+                <a
+                  href={`tel:${site.phone.replace(/\s/g, "")}`}
+                  className="hover:underline"
+                >
+                  {site.phone}
+                </a>
               </li>
             </ul>
             <div className="overflow-hidden rounded-2xl border shadow-card">
@@ -90,28 +118,65 @@ const ContactPage = () => {
             </div>
           </div>
 
-          <form onSubmit={submit} className="space-y-4 rounded-2xl border bg-card p-6 shadow-card sm:p-8">
+          <form
+            onSubmit={submit}
+            className="space-y-4 rounded-2xl border bg-card p-6 shadow-card sm:p-8"
+          >
             <h2 className="text-xl font-semibold">Send a message</h2>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
                 <Label htmlFor="c-name">Name</Label>
-                <Input id="c-name" value={form.name} onChange={set("name")} maxLength={100} required />
+                <Input
+                  id="c-name"
+                  value={form.name}
+                  onChange={set("name")}
+                  maxLength={100}
+                  required
+                />
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="c-email">Email</Label>
-                <Input id="c-email" type="email" value={form.email} onChange={set("email")} maxLength={255} required />
+                <Input
+                  id="c-email"
+                  type="email"
+                  value={form.email}
+                  onChange={set("email")}
+                  maxLength={255}
+                  required
+                />
               </div>
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="c-subject">Subject</Label>
-              <Input id="c-subject" value={form.subject} onChange={set("subject")} maxLength={150} required />
+              <Input
+                id="c-subject"
+                value={form.subject}
+                onChange={set("subject")}
+                maxLength={150}
+                required
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="c-message">Message</Label>
-              <Textarea id="c-message" value={form.message} onChange={set("message")} rows={6} maxLength={2000} required />
+              <Textarea
+                id="c-message"
+                value={form.message}
+                onChange={set("message")}
+                rows={6}
+                maxLength={2000}
+                required
+              />
             </div>
-            <Button type="submit" disabled={sending} className="w-full sm:w-auto">
-              {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+            <Button
+              type="submit"
+              disabled={sending}
+              className="w-full sm:w-auto"
+            >
+              {sending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Send className="h-4 w-4" />
+              )}
               Send message
             </Button>
           </form>

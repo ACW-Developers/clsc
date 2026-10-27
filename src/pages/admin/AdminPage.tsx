@@ -18,7 +18,15 @@ import {
 import { DashboardShell } from "@/components/common/DashboardShell";
 import { ProfileForm } from "@/components/common/ProfileForm";
 import { ReceiptsTable } from "@/components/common/ReceiptsTable";
-import { Bookings, Facilities, Logs, Overview, Services, Settings, Users } from "@/components/admin/AdminViews";
+import {
+  Bookings,
+  Facilities,
+  Logs,
+  Overview,
+  Services,
+  Settings,
+  Users,
+} from "@/components/admin/AdminViews";
 import { useRoles } from "@/hooks/useHospitality";
 import { PhaseRecords } from "@/components/common/PhaseRecords";
 import { AdminSupport } from "@/components/admin/AdminSupport";
@@ -28,15 +36,41 @@ import type { DashView } from "@/components/common/DashboardShell";
 
 const views: (DashView & { superOnly?: boolean })[] = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
-  { id: "bookings", label: "Bookings", icon: CalendarCheck, group: "Hospitality" },
-  { id: "orders", label: "Orders Management", icon: ShoppingBag, group: "Bookshop" },
-  { id: "books", label: "Books", icon: BookOpen, group: "Bookshop", superOnly: true },
+  {
+    id: "bookings",
+    label: "Bookings",
+    icon: CalendarCheck,
+    group: "Hospitality",
+  },
+  {
+    id: "orders",
+    label: "Orders Management",
+    icon: ShoppingBag,
+    group: "Bookshop",
+  },
+  {
+    id: "books",
+    label: "Books",
+    icon: BookOpen,
+    group: "Bookshop",
+    superOnly: true,
+  },
   { id: "inventory", label: "Stock & Sales", icon: Package, group: "Bookshop" },
-  { id: "donations", label: "Donations Management", icon: HeartHandshake, group: "Student Programmes" },
+  {
+    id: "donations",
+    label: "Donations Management",
+    icon: HeartHandshake,
+    group: "Student Programmes",
+  },
   { id: "support", label: "Support", icon: LifeBuoy },
   { id: "receipts", label: "Receipts", icon: Receipt },
   { id: "services", label: "Services", icon: Layers, group: "Hospitality" },
-  { id: "facilities", label: "Facilities", icon: BedDouble, group: "Hospitality" },
+  {
+    id: "facilities",
+    label: "Facilities",
+    icon: BedDouble,
+    group: "Hospitality",
+  },
   { id: "users", label: "Users", icon: UsersIcon },
   { id: "logs", label: "Activity Logs", icon: Activity },
   { id: "profile", label: "Profile", icon: User },
@@ -50,7 +84,12 @@ const AdminPage = () => {
   const view = list.find((v) => v.id === params.get("view"))?.id ?? "overview";
   const go = (v: string) => setParams({ view: v });
   return (
-    <DashboardShell views={list} view={view} go={go} subtitle={isSuperAdmin ? "Super admin" : "Admin"}>
+    <DashboardShell
+      views={list}
+      view={view}
+      go={go}
+      subtitle={isSuperAdmin ? "Super admin" : "Admin"}
+    >
       {view === "overview" && <Overview go={go} />}
       {view === "bookings" && <Bookings />}
       {view === "orders" && <PhaseRecords kind="orders" management />}

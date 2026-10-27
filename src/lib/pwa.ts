@@ -10,20 +10,26 @@ function isRefusedContext(): boolean {
   if (!import.meta.env.PROD) return true;
   if (window.self !== window.top) return true;
   if (new URLSearchParams(window.location.search).has("sw")) {
-    if (new URLSearchParams(window.location.search).get("sw") === "off") return true;
+    if (new URLSearchParams(window.location.search).get("sw") === "off")
+      return true;
   }
   const host = window.location.hostname.toLowerCase();
   const label = host.split(".")[0];
   for (const domain of PREVIEW_HOSTS) {
     if (host === domain || host.endsWith(`.${domain}`)) {
-      if (PREVIEW_LABEL.test(label) || label.startsWith("project--")) return true;
+      if (PREVIEW_LABEL.test(label) || label.startsWith("project--"))
+        return true;
     }
   }
   if (
-    host === "lovableproject.com" || host.endsWith(".lovableproject.com") ||
-    host === "lovableproject-dev.com" || host.endsWith(".lovableproject-dev.com") ||
-    host === "beta.lovable.dev" || host.endsWith(".beta.lovable.dev")
-  ) return true;
+    host === "lovableproject.com" ||
+    host.endsWith(".lovableproject.com") ||
+    host === "lovableproject-dev.com" ||
+    host.endsWith(".lovableproject-dev.com") ||
+    host === "beta.lovable.dev" ||
+    host.endsWith(".beta.lovable.dev")
+  )
+    return true;
   return false;
 }
 

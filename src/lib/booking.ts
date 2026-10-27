@@ -26,7 +26,9 @@ export function nextAvailable(
   from: string,
 ) {
   let d = from;
-  const sorted = [...ranges].sort((a, b) => a.start_date.localeCompare(b.start_date));
+  const sorted = [...ranges].sort((a, b) =>
+    a.start_date.localeCompare(b.start_date),
+  );
   for (const r of sorted)
     if (r.start_date <= d && r.end_date >= d) {
       const n = new Date(r.end_date);
@@ -36,8 +38,17 @@ export function nextAvailable(
   return d;
 }
 
-export type PayLabel = "Fully paid" | "Payment failed" | "Cancelled" | "Awaiting payment" | "Rejected" | "Completed";
-export function bookingLabel(b: { status: string; payment_status: string }): PayLabel {
+export type PayLabel =
+  | "Fully paid"
+  | "Payment failed"
+  | "Cancelled"
+  | "Awaiting payment"
+  | "Rejected"
+  | "Completed";
+export function bookingLabel(b: {
+  status: string;
+  payment_status: string;
+}): PayLabel {
   if (b.status === "cancelled") return "Cancelled";
   if (b.status === "rejected") return "Rejected";
   if (b.status === "completed") return "Completed";
@@ -46,10 +57,13 @@ export function bookingLabel(b: { status: string; payment_status: string }): Pay
   return "Awaiting payment";
 }
 export const labelVariant = (l: PayLabel) =>
-  (l === "Fully paid" || l === "Completed" ? "default" : l === "Awaiting payment" ? "secondary" : "destructive") as
-    | "default"
-    | "secondary"
-    | "destructive";
+  (l === "Fully paid" || l === "Completed"
+    ? "default"
+    : l === "Awaiting payment"
+      ? "secondary"
+      : "destructive") as "default" | "secondary" | "destructive";
 
 export const kes = (n: number | null | undefined) =>
-  n == null ? "Price on request" : `KES ${Number(n).toLocaleString("en-KE", { minimumFractionDigits: 0 })}`;
+  n == null
+    ? "Price on request"
+    : `KES ${Number(n).toLocaleString("en-KE", { minimumFractionDigits: 0 })}`;

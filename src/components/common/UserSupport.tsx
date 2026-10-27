@@ -26,7 +26,10 @@ export function UserSupport() {
   const submit = useAction(
     async (input: { subject: string; message: string }) => {
       const parsed = schema.parse(input);
-      await supportService.submitTicket({ subject: parsed.subject!, message: parsed.message! });
+      await supportService.submitTicket({
+        subject: parsed.subject!,
+        message: parsed.message!,
+      });
     },
     ["tickets", "notifications"],
     "Ticket submitted — we will get back to you soon.",
@@ -40,7 +43,10 @@ export function UserSupport() {
           e.preventDefault();
           const parsed = schema.safeParse(form);
           if (!parsed.success) return;
-          submit.mutate({ subject: parsed.data.subject!, message: parsed.data.message! }, { onSuccess: () => setForm({ subject: "", message: "" }) });
+          submit.mutate(
+            { subject: parsed.data.subject!, message: parsed.data.message! },
+            { onSuccess: () => setForm({ subject: "", message: "" }) },
+          );
         }}
       >
         <h2 className="flex items-center gap-2 text-lg font-semibold">
@@ -48,22 +54,42 @@ export function UserSupport() {
         </h2>
         <div className="space-y-1.5">
           <Label htmlFor="t-subject">Subject</Label>
-          <Input id="t-subject" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} maxLength={150} required />
+          <Input
+            id="t-subject"
+            value={form.subject}
+            onChange={(e) => setForm({ ...form, subject: e.target.value })}
+            maxLength={150}
+            required
+          />
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="t-message">How can we help?</Label>
-          <Textarea id="t-message" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} rows={5} maxLength={2000} required />
+          <Textarea
+            id="t-message"
+            value={form.message}
+            onChange={(e) => setForm({ ...form, message: e.target.value })}
+            rows={5}
+            maxLength={2000}
+            required
+          />
         </div>
         <Button type="submit" disabled={submit.isPending}>
-          {submit.isPending && <Loader2 className="h-4 w-4 animate-spin" />} Submit ticket
+          {submit.isPending && <Loader2 className="h-4 w-4 animate-spin" />}{" "}
+          Submit ticket
         </Button>
       </form>
 
       <section className="space-y-3">
         <h2 className="text-lg font-semibold">My tickets</h2>
-        {tickets.isLoading && <Loader2 className="h-5 w-5 animate-spin text-primary" />}
+        {tickets.isLoading && (
+          <Loader2 className="h-5 w-5 animate-spin text-primary" />
+        )}
         {tickets.error && (
-          <Alert variant="destructive"><AlertDescription>{(tickets.error as Error).message}</AlertDescription></Alert>
+          <Alert variant="destructive">
+            <AlertDescription>
+              {(tickets.error as Error).message}
+            </AlertDescription>
+          </Alert>
         )}
         {tickets.data?.length === 0 && (
           <div className="rounded-2xl border border-dashed p-8 text-center text-muted-foreground">
@@ -74,7 +100,9 @@ export function UserSupport() {
           <div key={t.id} className="rounded-xl border bg-card p-4">
             <div className="flex items-center justify-between gap-2">
               <p className="font-semibold">{t.subject}</p>
-              <Badge variant={variant(t.status)}>{t.status.replace("_", " ")}</Badge>
+              <Badge variant={variant(t.status)}>
+                {t.status.replace("_", " ")}
+              </Badge>
             </div>
             <p className="mt-1 text-sm text-muted-foreground">{t.message}</p>
             {t.admin_reply && (
@@ -82,7 +110,9 @@ export function UserSupport() {
                 <span className="font-medium">CSLC reply:</span> {t.admin_reply}
               </p>
             )}
-            <p className="mt-2 text-[10px] text-muted-foreground">{new Date(t.created_at).toLocaleString()}</p>
+            <p className="mt-2 text-[10px] text-muted-foreground">
+              {new Date(t.created_at).toLocaleString()}
+            </p>
           </div>
         ))}
       </section>

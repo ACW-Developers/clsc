@@ -1,5 +1,15 @@
 import { useMemo, useState, type ReactNode } from "react";
-import { ChevronLeft, ChevronRight, Loader2, Pencil, Plus, Search, Trash2, Upload, X } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Loader2,
+  Pencil,
+  Plus,
+  Search,
+  Trash2,
+  Upload,
+  X,
+} from "lucide-react";
 import { bookingLabel, kes, labelVariant } from "@/lib/booking";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -116,7 +126,9 @@ function Card({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="min-w-0 rounded-lg border bg-card p-4 shadow-card">
       <p className="text-sm text-muted-foreground">{label}</p>
-      <p className="mt-1 break-words text-xl font-bold text-primary sm:text-2xl">{value}</p>
+      <p className="mt-1 break-words text-xl font-bold text-primary sm:text-2xl">
+        {value}
+      </p>
     </div>
   );
 }
@@ -133,8 +145,26 @@ export function Overview({ go }: { go: (v: string) => void }) {
     <div className="space-y-6">
       <div className="grid grid-cols-2 gap-3 xl:grid-cols-5">
         <Card label="Total bookings" value={b.data?.length ?? "–"} />
-        <Card label="Fully paid" value={b.data ? b.data.filter((x) => x.payment_status === "paid").length : "–"} />
-        <Card label="Revenue (simulated)" value={b.data ? kes(b.data.filter((x) => x.payment_status === "paid").reduce((t, x) => t + Number(x.total_amount ?? 0), 0)) : "–"} />
+        <Card
+          label="Fully paid"
+          value={
+            b.data
+              ? b.data.filter((x) => x.payment_status === "paid").length
+              : "–"
+          }
+        />
+        <Card
+          label="Revenue (simulated)"
+          value={
+            b.data
+              ? kes(
+                  b.data
+                    .filter((x) => x.payment_status === "paid")
+                    .reduce((t, x) => t + Number(x.total_amount ?? 0), 0),
+                )
+              : "–"
+          }
+        />
         <Card
           label="Services / Facilities"
           value={`${s.data?.length ?? "–"} / ${f.data?.length ?? "–"}`}
@@ -150,7 +180,9 @@ export function Overview({ go }: { go: (v: string) => void }) {
           Manage services
         </Button>
       </div>
-      <State q={b} empty={false}><OverviewCharts bookings={b.data ?? []} /></State>
+      <State q={b} empty={false}>
+        <OverviewCharts bookings={b.data ?? []} />
+      </State>
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="rounded-2xl border bg-card p-5">
           <h3 className="mb-3 font-semibold">Booking summary</h3>
@@ -234,12 +266,30 @@ export function Bookings() {
             </option>
           ))}
         </select>
-        <select aria-label="Category filter" value={category} onChange={(e) => { setCategory(e.target.value); setPage(1); }} className="h-10 max-w-full rounded-md border bg-background px-3 text-sm"><option value="all">All categories</option>{services.data?.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}</select>
+        <select
+          aria-label="Category filter"
+          value={category}
+          onChange={(e) => {
+            setCategory(e.target.value);
+            setPage(1);
+          }}
+          className="h-10 max-w-full rounded-md border bg-background px-3 text-sm"
+        >
+          <option value="all">All categories</option>
+          {services.data?.map((s) => (
+            <option key={s.id} value={s.id}>
+              {s.name}
+            </option>
+          ))}
+        </select>
       </Toolbar>
       <State q={q} empty={!rows.length}>
         <div className="grid gap-4 xl:grid-cols-2">
           {rows.slice((page - 1) * PAGE, page * PAGE).map((b) => (
-            <div key={b.id} className="min-w-0 rounded-lg border bg-card p-5 shadow-card">
+            <div
+              key={b.id}
+              className="min-w-0 rounded-lg border bg-card p-5 shadow-card"
+            >
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div>
                   <p className="font-semibold">
@@ -248,9 +298,20 @@ export function Bookings() {
                   <p className="text-sm text-muted-foreground">
                     {b.start_date} → {b.end_date} · {b.guests} guest(s)
                   </p>
-                  {b.start_time && <p className="text-xs text-muted-foreground">{b.start_time.slice(0, 5)}{b.end_time ? ` – ${b.end_time.slice(0, 5)}` : ""}</p>}
-                  <p className="mt-1 font-mono text-xs text-muted-foreground">#{b.id.slice(0, 8).toUpperCase()}</p>
-                  {b.notes && <p className="mt-2 whitespace-pre-line break-words text-sm">{b.notes}</p>}
+                  {b.start_time && (
+                    <p className="text-xs text-muted-foreground">
+                      {b.start_time.slice(0, 5)}
+                      {b.end_time ? ` – ${b.end_time.slice(0, 5)}` : ""}
+                    </p>
+                  )}
+                  <p className="mt-1 font-mono text-xs text-muted-foreground">
+                    #{b.id.slice(0, 8).toUpperCase()}
+                  </p>
+                  {b.notes && (
+                    <p className="mt-2 whitespace-pre-line break-words text-sm">
+                      {b.notes}
+                    </p>
+                  )}
                 </div>
                 <Badge variant={statusVariant(b.status)} className="capitalize">
                   {b.status}
@@ -388,18 +449,58 @@ function GalleryField({
       <Label>Photos ({value.length}/12) — first photo is the cover</Label>
       <div className="grid grid-cols-3 gap-2">
         {value.map((u, i) => (
-          <div key={u} className="group relative overflow-hidden rounded-lg border">
-            <img src={u} alt={`Photo ${i + 1}`} className="aspect-[4/3] w-full object-cover" />
+          <div
+            key={u}
+            className="group relative overflow-hidden rounded-lg border"
+          >
+            <img
+              src={u}
+              alt={`Photo ${i + 1}`}
+              className="aspect-[4/3] w-full object-cover"
+            />
             <div className="absolute inset-x-0 bottom-0 flex justify-between bg-card/90 p-1">
-              <Button type="button" size="icon" variant="ghost" className="h-6 w-6" disabled={i === 0} onClick={() => move(i, -1)} aria-label="Move left"><ChevronLeft className="h-3 w-3" /></Button>
-              <Button type="button" size="icon" variant="ghost" className="h-6 w-6" onClick={() => onChange(value.filter((_, j) => j !== i))} aria-label="Remove photo"><X className="h-3 w-3 text-destructive" /></Button>
-              <Button type="button" size="icon" variant="ghost" className="h-6 w-6" disabled={i === value.length - 1} onClick={() => move(i, 1)} aria-label="Move right"><ChevronRight className="h-3 w-3" /></Button>
+              <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                className="h-6 w-6"
+                disabled={i === 0}
+                onClick={() => move(i, -1)}
+                aria-label="Move left"
+              >
+                <ChevronLeft className="h-3 w-3" />
+              </Button>
+              <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                className="h-6 w-6"
+                onClick={() => onChange(value.filter((_, j) => j !== i))}
+                aria-label="Remove photo"
+              >
+                <X className="h-3 w-3 text-destructive" />
+              </Button>
+              <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                className="h-6 w-6"
+                disabled={i === value.length - 1}
+                onClick={() => move(i, 1)}
+                aria-label="Move right"
+              >
+                <ChevronRight className="h-3 w-3" />
+              </Button>
             </div>
           </div>
         ))}
         {value.length < 12 && (
           <label className="flex aspect-[4/3] cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border border-dashed text-xs text-muted-foreground hover:bg-secondary">
-            {busy ? <Loader2 className="h-5 w-5 animate-spin" /> : <Upload className="h-5 w-5" />}
+            {busy ? (
+              <Loader2 className="h-5 w-5 animate-spin" />
+            ) : (
+              <Upload className="h-5 w-5" />
+            )}
             Add photos
             <input
               type="file"
@@ -407,11 +508,16 @@ function GalleryField({
               multiple
               className="hidden"
               onChange={async (e) => {
-                const files = Array.from(e.target.files ?? []).slice(0, 12 - value.length);
+                const files = Array.from(e.target.files ?? []).slice(
+                  0,
+                  12 - value.length,
+                );
                 if (!files.length) return;
                 setBusy(true);
                 try {
-                  const urls = await Promise.all(files.map((f) => svc.uploadImage(f)));
+                  const urls = await Promise.all(
+                    files.map((f) => svc.uploadImage(f)),
+                  );
                   onChange([...value, ...urls]);
                 } catch (err) {
                   toast.error((err as Error).message);
@@ -609,8 +715,15 @@ export function Facilities() {
     ["sub_services"],
     "Facility deleted",
   );
-  const selectedCategory = categoryConfig(parents.data?.find((p) => p.id === edit?.service_id)?.slug ?? "");
-  const details = edit?.details && typeof edit.details === "object" && !Array.isArray(edit.details) ? edit.details : {};
+  const selectedCategory = categoryConfig(
+    parents.data?.find((p) => p.id === edit?.service_id)?.slug ?? "",
+  );
+  const details =
+    edit?.details &&
+    typeof edit.details === "object" &&
+    !Array.isArray(edit.details)
+      ? edit.details
+      : {};
   const pname = (id?: string) =>
     parents.data?.find((p) => p.id === id)?.name ?? "";
   const rows = (q.data ?? []).filter(
@@ -666,7 +779,7 @@ export function Facilities() {
               key={s.id}
               className="flex gap-3 rounded-xl border bg-card p-3"
             >
-              {s.images[0] ?? s.image_url ? (
+              {(s.images[0] ?? s.image_url) ? (
                 <img
                   src={s.images[0] ?? s.image_url ?? undefined}
                   alt=""
@@ -765,7 +878,15 @@ export function Facilities() {
                 <select
                   value={edit.service_id ?? ""}
                   onChange={(e) =>
-                    setEdit({ ...edit, service_id: e.target.value, details: {}, price_unit: categoryConfig(parents.data?.find((p) => p.id === e.target.value)?.slug ?? "").unit })
+                    setEdit({
+                      ...edit,
+                      service_id: e.target.value,
+                      details: {},
+                      price_unit: categoryConfig(
+                        parents.data?.find((p) => p.id === e.target.value)
+                          ?.slug ?? "",
+                      ).unit,
+                    })
                   }
                   className="h-10 w-full rounded-md border bg-background px-3 text-sm"
                 >
@@ -794,7 +915,26 @@ export function Facilities() {
                   }
                 />
               </div>
-              {selectedCategory.information.map((key) => <div className="space-y-1.5" key={key}><Label htmlFor={`detail-${key}`}>{key}</Label><Input id={`detail-${key}`} maxLength={300} value={typeof details[key] === "string" ? details[key] as string : ""} onChange={(e) => setEdit({ ...edit, details: { ...details, [key]: e.target.value } })} /></div>)}
+              {selectedCategory.information.map((key) => (
+                <div className="space-y-1.5" key={key}>
+                  <Label htmlFor={`detail-${key}`}>{key}</Label>
+                  <Input
+                    id={`detail-${key}`}
+                    maxLength={300}
+                    value={
+                      typeof details[key] === "string"
+                        ? (details[key] as string)
+                        : ""
+                    }
+                    onChange={(e) =>
+                      setEdit({
+                        ...edit,
+                        details: { ...details, [key]: e.target.value },
+                      })
+                    }
+                  />
+                </div>
+              ))}
               <div className="space-y-1.5">
                 <Label>Amenities (comma separated)</Label>
                 <Input

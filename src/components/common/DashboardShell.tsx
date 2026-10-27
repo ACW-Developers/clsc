@@ -1,6 +1,14 @@
 import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { Home, LogOut, Menu, Moon, Sun, RefreshCw, type LucideIcon } from "lucide-react";
+import {
+  Home,
+  LogOut,
+  Menu,
+  Moon,
+  Sun,
+  RefreshCw,
+  type LucideIcon,
+} from "lucide-react";
 import { useTheme } from "next-themes";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -9,7 +17,11 @@ import { BrandLogo } from "./BrandLogo";
 import { UserMenu } from "./UserMenu";
 import { NotificationBell } from "./NotificationBell";
 import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
 import { useNotifications } from "@/hooks/useSupport";
 import { paths } from "@/routes/paths";
@@ -54,14 +66,23 @@ export function DashboardShell({
         await Promise.all(keys.map((key) => window.caches.delete(key)));
       }
       // Revalidate the page without deleting the user's session or preferences.
-      await fetch(window.location.href, { cache: "reload", credentials: "same-origin" });
+      await fetch(window.location.href, {
+        cache: "reload",
+        credentials: "same-origin",
+      });
       window.location.reload();
     } catch {
       toast.error("Could not fully clear the cache. Reloading the site.");
       window.location.reload();
     }
   };
-  const bottomViews = views.filter((v) => ["overview", "bookings", "receipts", "facilities", "profile"].includes(v.id)).slice(0, 5);
+  const bottomViews = views
+    .filter((v) =>
+      ["overview", "bookings", "receipts", "facilities", "profile"].includes(
+        v.id,
+      ),
+    )
+    .slice(0, 5);
   const [mobile, setMobile] = useState(false);
   const [collapsed, setCollapsed] = useState(
     () => localStorage.getItem("cslc-sidebar") === "1",
@@ -101,46 +122,100 @@ export function DashboardShell({
             )}
           </Link>
         </div>
-        <nav className="mt-3 grid min-h-0 gap-1 overflow-y-auto" aria-label="Dashboard">
-          {(["General", "Hospitality", "Bookshop", "Student Programmes"] as const).map(group => <div key={group} className="grid gap-1">
-          {!mini && <h2 className="px-3 pb-1 pt-3 text-[10px] font-semibold uppercase text-muted-foreground">{group}</h2>}
-          {views.filter(v => (v.group ?? "General") === group).map(({ id, label, icon: Icon }) => (
-            <Button variant="ghost"
-              key={id}
-              onClick={() => select(id)}
-              title={mini ? label : undefined}
-              aria-label={label}
-              aria-current={view === id ? "page" : undefined}
-              className={cn(
-                item,
-                mini ? "justify-center px-0" : "justify-start",
-                view === id ? "bg-primary text-primary-foreground" : "hover:bg-secondary",
+        <nav
+          className="mt-3 grid min-h-0 gap-1 overflow-y-auto"
+          aria-label="Dashboard"
+        >
+          {(
+            [
+              "General",
+              "Hospitality",
+              "Bookshop",
+              "Student Programmes",
+            ] as const
+          ).map((group) => (
+            <div key={group} className="grid gap-1">
+              {!mini && (
+                <h2 className="px-3 pb-1 pt-3 text-[10px] font-semibold uppercase text-muted-foreground">
+                  {group}
+                </h2>
               )}
-            >
-              <Icon className="h-4 w-4 shrink-0" /> {!mini && label}
-              {badgeFor(id) && <span className="ml-auto h-2 w-2 shrink-0 rounded-full bg-destructive" aria-label="New activity" />}
-            </Button>
+              {views
+                .filter((v) => (v.group ?? "General") === group)
+                .map(({ id, label, icon: Icon }) => (
+                  <Button
+                    variant="ghost"
+                    key={id}
+                    onClick={() => select(id)}
+                    title={mini ? label : undefined}
+                    aria-label={label}
+                    aria-current={view === id ? "page" : undefined}
+                    className={cn(
+                      item,
+                      mini ? "justify-center px-0" : "justify-start",
+                      view === id
+                        ? "bg-primary text-primary-foreground"
+                        : "hover:bg-secondary",
+                    )}
+                  >
+                    <Icon className="h-4 w-4 shrink-0" /> {!mini && label}
+                    {badgeFor(id) && (
+                      <span
+                        className="ml-auto h-2 w-2 shrink-0 rounded-full bg-destructive"
+                        aria-label="New activity"
+                      />
+                    )}
+                  </Button>
+                ))}
+            </div>
           ))}
-          </div>)}
         </nav>
         <div className="mt-auto grid gap-1 border-t pt-3">
-          <Link to={paths.home} title="View site" aria-label="View site" className={cn(item, mini ? "justify-center px-0" : "justify-start", "hover:bg-secondary")}>
+          <Link
+            to={paths.home}
+            title="View site"
+            aria-label="View site"
+            className={cn(
+              item,
+              mini ? "justify-center px-0" : "justify-start",
+              "hover:bg-secondary",
+            )}
+          >
             <Home className="h-4 w-4 shrink-0" /> {!mini && "View site"}
           </Link>
-          <Button variant="ghost" onClick={() => signOut()} title="Sign out" aria-label="Sign out" className={cn(item, mini ? "justify-center px-0" : "justify-start", "text-destructive hover:bg-secondary")}>
+          <Button
+            variant="ghost"
+            onClick={() => signOut()}
+            title="Sign out"
+            aria-label="Sign out"
+            className={cn(
+              item,
+              mini ? "justify-center px-0" : "justify-start",
+              "text-destructive hover:bg-secondary",
+            )}
+          >
             <LogOut className="h-4 w-4 shrink-0" /> {!mini && "Sign out"}
           </Button>
         </div>
       </aside>
       {mobile && (
-        <div className="fixed inset-0 z-30 bg-foreground/40 lg:hidden" onClick={() => setMobile(false)} />
+        <div
+          className="fixed inset-0 z-30 bg-foreground/40 lg:hidden"
+          onClick={() => setMobile(false)}
+        />
       )}
       <div className="min-w-0 flex-1">
         <header className="sticky top-0 z-20 flex h-16 items-center justify-between gap-3 border-b bg-card/95 px-3 backdrop-blur sm:px-6">
           <div className="flex min-w-0 items-center gap-2">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button size="icon" variant="ghost" className="h-11 w-11 shrink-0 lg:hidden [&_svg]:!h-7 [&_svg]:!w-7" onClick={() => setMobile(true)} aria-label="Open menu">
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="h-11 w-11 shrink-0 lg:hidden [&_svg]:!h-7 [&_svg]:!w-7"
+                  onClick={() => setMobile(true)}
+                  aria-label="Open menu"
+                >
                   <Menu className="h-7 w-7" />
                 </Button>
               </TooltipTrigger>
@@ -148,27 +223,64 @@ export function DashboardShell({
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button size="icon" variant="ghost" className="hidden h-11 w-11 lg:inline-flex [&_svg]:!h-7 [&_svg]:!w-7" onClick={toggle} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="hidden h-11 w-11 lg:inline-flex [&_svg]:!h-7 [&_svg]:!w-7"
+                  onClick={toggle}
+                  aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+                >
                   <Menu className="h-7 w-7" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>{collapsed ? "Expand sidebar" : "Collapse sidebar"}</TooltipContent>
+              <TooltipContent>
+                {collapsed ? "Expand sidebar" : "Collapse sidebar"}
+              </TooltipContent>
             </Tooltip>
             <div className="min-w-0">
-              <h1 className="truncate text-base font-bold sm:text-lg">{title}</h1>
-              {subtitle && <p className="truncate text-xs text-muted-foreground">{subtitle}</p>}
+              <h1 className="truncate text-base font-bold sm:text-lg">
+                {title}
+              </h1>
+              {subtitle && (
+                <p className="truncate text-xs text-muted-foreground">
+                  {subtitle}
+                </p>
+              )}
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-1">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button size="icon" variant="ghost" aria-label="Toggle theme" onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}>{resolvedTheme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}</Button>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  aria-label="Toggle theme"
+                  onClick={() =>
+                    setTheme(resolvedTheme === "dark" ? "light" : "dark")
+                  }
+                >
+                  {resolvedTheme === "dark" ? (
+                    <Sun className="h-5 w-5" />
+                  ) : (
+                    <Moon className="h-5 w-5" />
+                  )}
+                </Button>
               </TooltipTrigger>
               <TooltipContent>Toggle theme</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button size="icon" variant="ghost" aria-label="Clear data cache and refresh" disabled={refreshing} onClick={refresh}><RefreshCw className={cn("h-5 w-5", refreshing && "animate-spin")} /></Button>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  aria-label="Clear data cache and refresh"
+                  disabled={refreshing}
+                  onClick={refresh}
+                >
+                  <RefreshCw
+                    className={cn("h-5 w-5", refreshing && "animate-spin")}
+                  />
+                </Button>
               </TooltipTrigger>
               <TooltipContent>Clear cache & refresh</TooltipContent>
             </Tooltip>
@@ -176,9 +288,31 @@ export function DashboardShell({
             <UserMenu />
           </div>
         </header>
-        <main className="px-3 py-4 pb-24 sm:p-6 sm:pb-24 lg:pb-6">{children}</main>
-        <nav aria-label="Mobile dashboard" className="dashboard-bottom fixed inset-x-0 bottom-0 z-20 flex justify-around border-t bg-card lg:hidden">
-          {bottomViews.map(({ id, label, icon: Icon }) => <Button key={id} variant="ghost" aria-label={label} aria-current={view === id ? "page" : undefined} onClick={() => select(id)} className={cn("h-16 min-w-0 flex-1 flex-col gap-1 px-1 text-[10px]", view === id && "text-primary bg-secondary")}><Icon className="h-5 w-5" /><span className="truncate max-w-full">{label === "Booking History" ? "Bookings" : label}</span></Button>)}
+        <main className="px-3 py-4 pb-24 sm:p-6 sm:pb-24 lg:pb-6">
+          {children}
+        </main>
+        <nav
+          aria-label="Mobile dashboard"
+          className="dashboard-bottom fixed inset-x-0 bottom-0 z-20 flex justify-around border-t bg-card lg:hidden"
+        >
+          {bottomViews.map(({ id, label, icon: Icon }) => (
+            <Button
+              key={id}
+              variant="ghost"
+              aria-label={label}
+              aria-current={view === id ? "page" : undefined}
+              onClick={() => select(id)}
+              className={cn(
+                "h-16 min-w-0 flex-1 flex-col gap-1 px-1 text-[10px]",
+                view === id && "text-primary bg-secondary",
+              )}
+            >
+              <Icon className="h-5 w-5" />
+              <span className="truncate max-w-full">
+                {label === "Booking History" ? "Bookings" : label}
+              </span>
+            </Button>
+          ))}
         </nav>
       </div>
     </div>

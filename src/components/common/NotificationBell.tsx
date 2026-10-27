@@ -21,15 +21,26 @@ export function NotificationBell() {
   const notes = useNotifications();
   const all = notes.data ?? [];
   const unread = all.filter((n) => !n.read_at);
-  const markRead = useAction((id: string) => supportService.markRead(id), ["notifications"]);
-  const markAll = useAction((ids: string[]) => supportService.markAllRead(ids), ["notifications"]);
+  const markRead = useAction(
+    (id: string) => supportService.markRead(id),
+    ["notifications"],
+  );
+  const markAll = useAction(
+    (ids: string[]) => supportService.markAllRead(ids),
+    ["notifications"],
+  );
 
   return (
     <Popover>
       <Tooltip>
         <TooltipTrigger asChild>
           <PopoverTrigger asChild>
-            <Button size="icon" variant="ghost" className="relative" aria-label="Notifications">
+            <Button
+              size="icon"
+              variant="ghost"
+              className="relative"
+              aria-label="Notifications"
+            >
               <Bell className="h-5 w-5" />
               {unread.length > 0 && (
                 <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold text-destructive-foreground">
@@ -72,7 +83,11 @@ export function NotificationBell() {
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
                   <p className="text-sm font-medium">{n.title}</p>
-                  {n.body && <p className="mt-0.5 text-xs text-muted-foreground">{n.body}</p>}
+                  {n.body && (
+                    <p className="mt-0.5 text-xs text-muted-foreground">
+                      {n.body}
+                    </p>
+                  )}
                   <p className="mt-1 text-[10px] text-muted-foreground">
                     {new Date(n.created_at).toLocaleString()}
                   </p>

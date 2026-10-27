@@ -1,25 +1,25 @@
-import * as React from 'npm:react@18.3.1'
-import { renderAsync } from 'npm:@react-email/components@0.0.22'
-import { createAuthEmailHandler } from 'npm:@lovable.dev/email-js@0.4.0'
-import { SignupEmail } from '../_shared/email-templates/signup.tsx'
-import { InviteEmail } from '../_shared/email-templates/invite.tsx'
-import { MagicLinkEmail } from '../_shared/email-templates/magic-link.tsx'
-import { RecoveryEmail } from '../_shared/email-templates/recovery.tsx'
-import { EmailChangeEmail } from '../_shared/email-templates/email-change.tsx'
-import { ReauthenticationEmail } from '../_shared/email-templates/reauthentication.tsx'
+import * as React from "npm:react@18.3.1";
+import { renderAsync } from "npm:@react-email/components@0.0.22";
+import { createAuthEmailHandler } from "npm:@lovable.dev/email-js@0.4.0";
+import { SignupEmail } from "../_shared/email-templates/signup.tsx";
+import { InviteEmail } from "../_shared/email-templates/invite.tsx";
+import { MagicLinkEmail } from "../_shared/email-templates/magic-link.tsx";
+import { RecoveryEmail } from "../_shared/email-templates/recovery.tsx";
+import { EmailChangeEmail } from "../_shared/email-templates/email-change.tsx";
+import { ReauthenticationEmail } from "../_shared/email-templates/reauthentication.tsx";
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers':
-    'authorization, x-client-info, apikey, content-type, x-lovable-signature, x-lovable-timestamp, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
-}
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type, x-lovable-signature, x-lovable-timestamp, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+};
 
 // Configuration
-const SITE_NAME = "CSLC"
-const SENDER_DOMAIN = "notify.ufungamano.netlify.app"
-const ROOT_DOMAIN = "ufungamano.netlify.app"
-const FROM_DOMAIN = "ufungamano.netlify.app"
-const SITE_URL = `https://${ROOT_DOMAIN}`
+const SITE_NAME = "CSLC";
+const SENDER_DOMAIN = "notify.ufungamano.netlify.app";
+const ROOT_DOMAIN = "ufungamano.netlify.app";
+const FROM_DOMAIN = "ufungamano.netlify.app";
+const SITE_URL = `https://${ROOT_DOMAIN}`;
 
 // Template mapping for preview mode
 const EMAIL_TEMPLATES: Record<string, React.ComponentType<any>> = {
@@ -29,15 +29,16 @@ const EMAIL_TEMPLATES: Record<string, React.ComponentType<any>> = {
   recovery: RecoveryEmail,
   email_change: EmailChangeEmail,
   reauthentication: ReauthenticationEmail,
-}
+};
 
 // Sample data for preview mode ONLY (not used in actual email sending).
 // URLs are baked in at scaffold time from the project's real data.
 // The sample email uses a fixed placeholder (RFC 6761 .test TLD) so the Go backend
 // can always find-and-replace it with the actual recipient when sending test emails,
 // even if the project's domain has changed since the template was scaffolded.
-const SAMPLE_PROJECT_URL = "https://9b8a21c0-ae89-49dd-9c7e-067f57eea87a.lovableproject.com"
-const SAMPLE_EMAIL = "user@example.test"
+const SAMPLE_PROJECT_URL =
+  "https://9b8a21c0-ae89-49dd-9c7e-067f57eea87a.lovableproject.com";
+const SAMPLE_EMAIL = "user@example.test";
 const SAMPLE_DATA: Record<string, object> = {
   signup: {
     siteName: SITE_NAME,
@@ -66,70 +67,81 @@ const SAMPLE_DATA: Record<string, object> = {
     confirmationUrl: SAMPLE_PROJECT_URL,
   },
   reauthentication: {
-    token: '123456',
+    token: "123456",
   },
-}
+};
 
 // Preview endpoint handler - returns rendered HTML without sending email
 async function handlePreview(req: Request): Promise<Response> {
   const previewCorsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'authorization, content-type',
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "authorization, content-type",
+  };
+
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: previewCorsHeaders });
   }
 
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: previewCorsHeaders })
-  }
-
-  const apiKey = Deno.env.get('LOVABLE_API_KEY')
-  const authHeader = req.headers.get('Authorization')
+  const apiKey = Deno.env.get("LOVABLE_API_KEY");
+  const authHeader = req.headers.get("Authorization");
 
   if (!apiKey || authHeader !== `Bearer ${apiKey}`) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 401,
-      headers: { ...previewCorsHeaders, 'Content-Type': 'application/json' },
-    })
+      headers: { ...previewCorsHeaders, "Content-Type": "application/json" },
+    });
   }
 
-  let type: string
+  let type: string;
   try {
-    const body = await req.json()
-    type = body.type
+    const body = await req.json();
+    type = body.type;
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Invalid JSON in request body' }), {
-      status: 400,
-      headers: { ...previewCorsHeaders, 'Content-Type': 'application/json' },
-    })
+    return new Response(
+      JSON.stringify({ error: "Invalid JSON in request body" }),
+      {
+        status: 400,
+        headers: { ...previewCorsHeaders, "Content-Type": "application/json" },
+      },
+    );
   }
 
-  const EmailTemplate = EMAIL_TEMPLATES[type]
+  const EmailTemplate = EMAIL_TEMPLATES[type];
 
   if (!EmailTemplate) {
-    return new Response(JSON.stringify({ error: `Unknown email type: ${type}` }), {
-      status: 400,
-      headers: { ...previewCorsHeaders, 'Content-Type': 'application/json' },
-    })
+    return new Response(
+      JSON.stringify({ error: `Unknown email type: ${type}` }),
+      {
+        status: 400,
+        headers: { ...previewCorsHeaders, "Content-Type": "application/json" },
+      },
+    );
   }
 
-  const sampleData = SAMPLE_DATA[type] || {}
-  const html = await renderAsync(React.createElement(EmailTemplate, sampleData))
+  const sampleData = SAMPLE_DATA[type] || {};
+  const html = await renderAsync(
+    React.createElement(EmailTemplate, sampleData),
+  );
 
   return new Response(html, {
     status: 200,
-    headers: { ...previewCorsHeaders, 'Content-Type': 'text/html; charset=utf-8' },
-  })
+    headers: {
+      ...previewCorsHeaders,
+      "Content-Type": "text/html; charset=utf-8",
+    },
+  });
 }
 
 // The SDK handler owns verification, dispatch, and retry semantics; this file
 // owns only the email decisions: subjects, templates, and per-type props.
 const handler = createAuthEmailHandler({
-  apiKey: Deno.env.get('LOVABLE_API_KEY')!,
+  apiKey: Deno.env.get("LOVABLE_API_KEY")!,
   from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
   senderDomain: SENDER_DOMAIN,
-  sendUrl: Deno.env.get('LOVABLE_SEND_URL'),
+  sendUrl: Deno.env.get("LOVABLE_SEND_URL"),
   emails: {
     signup: {
-      subject: 'Confirm your email',
+      subject: "Confirm your email",
       render: (data) =>
         React.createElement(SignupEmail, {
           siteName: SITE_NAME,
@@ -148,7 +160,7 @@ const handler = createAuthEmailHandler({
         }),
     },
     magiclink: {
-      subject: 'Your login link',
+      subject: "Your login link",
       render: (data) =>
         React.createElement(MagicLinkEmail, {
           siteName: SITE_NAME,
@@ -156,7 +168,7 @@ const handler = createAuthEmailHandler({
         }),
     },
     recovery: {
-      subject: 'Reset your password',
+      subject: "Reset your password",
       render: (data) =>
         React.createElement(RecoveryEmail, {
           siteName: SITE_NAME,
@@ -164,36 +176,36 @@ const handler = createAuthEmailHandler({
         }),
     },
     email_change: {
-      subject: 'Confirm your new email',
+      subject: "Confirm your new email",
       render: (data) =>
         React.createElement(EmailChangeEmail, {
           siteName: SITE_NAME,
-          oldEmail: data.old_email ?? '',
+          oldEmail: data.old_email ?? "",
           email: data.email,
-          newEmail: data.new_email ?? '',
+          newEmail: data.new_email ?? "",
           confirmationUrl: data.url,
         }),
     },
     reauthentication: {
-      subject: 'Your verification code',
+      subject: "Your verification code",
       render: (data) =>
-        React.createElement(ReauthenticationEmail, { token: data.token ?? '' }),
+        React.createElement(ReauthenticationEmail, { token: data.token ?? "" }),
     },
   },
-})
+});
 
 Deno.serve(async (req) => {
-  const url = new URL(req.url)
+  const url = new URL(req.url);
 
   // Handle CORS preflight for main endpoint
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders })
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: corsHeaders });
   }
 
   // Route to preview handler for /preview path
-  if (url.pathname.endsWith('/preview')) {
-    return handlePreview(req)
+  if (url.pathname.endsWith("/preview")) {
+    return handlePreview(req);
   }
 
-  return handler(req)
-})
+  return handler(req);
+});

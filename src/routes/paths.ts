@@ -30,6 +30,7 @@ export const facilityUrl = (slug: string, id: string) =>
 export const checkoutUrl = (id: string) => `/checkout/${id}`;
 export const receiptUrl = (id: string) => `/receipts/${id}`;
 export const accountView = (v: string) => `/account?view=${v}`;
-export const bookUrl = (id: string, branch?: string) => `/bookshop/books/${id}${branch ? `?branch=${branch}` : ""}`;
+export const bookUrl = (id: string, branch?: string) =>
+  `/bookshop/books/${id}${branch ? `?branch=${branch}` : ""}`;
 export const branchUrl = (branch: string) => `/bookshop/branch/${branch}`;
 export const bookshopReceiptUrl = (id: string) => `/bookshop/receipts/${id}`;

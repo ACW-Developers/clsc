@@ -1,6 +1,6 @@
 /// <reference types="npm:@types/react@18.3.1" />
 
-import * as React from 'npm:react@18.3.1'
+import * as React from "npm:react@18.3.1";
 
 import {
   Body,
@@ -12,12 +12,12 @@ import {
   Link,
   Preview,
   Text,
-} from 'npm:@react-email/components@0.0.22'
+} from "npm:@react-email/components@0.0.22";
 
 interface InviteEmailProps {
-  siteName: string
-  siteUrl: string
-  confirmationUrl: string
+  siteName: string;
+  siteUrl: string;
+  confirmationUrl: string;
 }
 
 export const InviteEmail = ({
@@ -34,7 +34,7 @@ export const InviteEmail = ({
       <Container style={container}>
         <Heading style={h1}>You've been invited</Heading>
         <Text style={text}>
-          You've been invited to join{' '}
+          You've been invited to join{" "}
           <Link href={siteUrl} style={link}>
             <strong>{siteName}</strong>
           </Link>
@@ -51,35 +51,35 @@ export const InviteEmail = ({
       </Container>
     </Body>
   </Html>
-)
+);
 
-export default InviteEmail
+export default InviteEmail;
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = { padding: '20px 25px' }
+const main = { backgroundColor: "#ffffff", fontFamily: "Arial, sans-serif" };
+const container = { padding: "20px 25px" };
 const h1 = {
-  fontSize: '22px',
-  fontWeight: 'bold' as const,
-  color: '#741626',
-  margin: '0 0 20px',
-}
+  fontSize: "22px",
+  fontWeight: "bold" as const,
+  color: "#741626",
+  margin: "0 0 20px",
+};
 const text = {
-  fontSize: '14px',
-  color: '#55575d',
-  lineHeight: '1.5',
-  margin: '0 0 25px',
-}
-const link = { color: 'inherit', textDecoration: 'underline' }
+  fontSize: "14px",
+  color: "#55575d",
+  lineHeight: "1.5",
+  margin: "0 0 25px",
+};
+const link = { color: "inherit", textDecoration: "underline" };
 const button = {
-  backgroundColor: '#741626',
-  color: '#ffffff',
-  fontSize: '14px',
-  border: '1px solid #741626',
-  borderRadius: '8px',
-  padding: '12px 20px',
-  textDecoration: 'none',
-}
-const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
+  backgroundColor: "#741626",
+  color: "#ffffff",
+  fontSize: "14px",
+  border: "1px solid #741626",
+  borderRadius: "8px",
+  padding: "12px 20px",
+  textDecoration: "none",
+};
+const footer = { fontSize: "12px", color: "#999999", margin: "30px 0 0" };
 // Rendered as a text child, which React may HTML-escape: keep this CSS free of >, &, and quotes.
 const darkModeCss = `
   @media (prefers-color-scheme: dark) {
@@ -87,4 +87,4 @@ const darkModeCss = `
   }
   [data-ogsc] .dm-btn { background-color: #ffffff !important; color: #741626 !important; }
   [data-ogsb] .dm-btn { background-color: #ffffff !important; color: #741626 !important; }
-`
+`;

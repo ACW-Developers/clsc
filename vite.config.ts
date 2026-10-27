@@ -23,14 +23,17 @@ export default defineConfig(({ mode }) => ({
         navigateFallbackDenylist: [/^\/~oauth/],
         runtimeCaching: [
           {
-            urlPattern: ({ request }: { request: Request }) => request.mode === "navigate",
+            urlPattern: ({ request }: { request: Request }) =>
+              request.mode === "navigate",
             handler: "NetworkFirst",
             options: { cacheName: "cslc-pages" },
           },
           {
             urlPattern: ({ url, request }: { url: URL; request: Request }) =>
               url.origin === new URL(request.url).origin &&
-              ["style", "script", "font", "image"].includes(request.destination),
+              ["style", "script", "font", "image"].includes(
+                request.destination,
+              ),
             handler: "CacheFirst",
             options: { cacheName: "cslc-assets" },
           },

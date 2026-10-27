@@ -17,27 +17,46 @@ const ServiceListPage = () => {
   const meta = hospitalityServices.find((s) => s.id === slug);
   const service = services.data?.find((s) => s.slug === slug);
   if (!services.isLoading && !service && !meta) return <NotFoundPage />;
-  const list = (subs.data ?? []).filter((f) => f.service_id === service?.id && f.is_published);
+  const list = (subs.data ?? []).filter(
+    (f) => f.service_id === service?.id && f.is_published,
+  );
   const hero = service?.image_url || meta?.image;
 
   return (
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
       <section className="relative h-64 overflow-hidden sm:h-80">
-        {hero && <img src={hero} alt="" className="absolute inset-0 h-full w-full object-cover" />}
+        {hero && (
+          <img
+            src={hero}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        )}
         <div className="category-overlay absolute inset-0" />
         <div className="container relative flex h-full flex-col items-center justify-center text-center text-primary-foreground">
           <nav className="mb-2 text-sm opacity-90" aria-label="Breadcrumb">
-            <Link to={paths.home} className="hover:underline">Home</Link> / Hospitality
+            <Link to={paths.home} className="hover:underline">
+              Home
+            </Link>{" "}
+            / Hospitality
           </nav>
-          <h1 className="text-3xl font-bold sm:text-4xl">{service?.name ?? meta?.title}</h1>
-          <p className="mt-2 max-w-2xl opacity-90">{service?.description || meta?.description}</p>
+          <h1 className="text-3xl font-bold sm:text-4xl">
+            {service?.name ?? meta?.title}
+          </h1>
+          <p className="mt-2 max-w-2xl opacity-90">
+            {service?.description || meta?.description}
+          </p>
         </div>
       </section>
       <main className="container flex-1 py-10">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
-          <h2 className="text-2xl font-bold">Explore {service?.name ?? meta?.title}</h2>
-          <span className="text-sm text-muted-foreground">{list.length} facilities</span>
+          <h2 className="text-2xl font-bold">
+            Explore {service?.name ?? meta?.title}
+          </h2>
+          <span className="text-sm text-muted-foreground">
+            {list.length} facilities
+          </span>
         </div>
         {subs.isLoading || services.isLoading ? (
           <Loader2 className="mx-auto h-6 w-6 animate-spin text-primary" />
@@ -52,24 +71,70 @@ const ServiceListPage = () => {
             {list.map((f) => {
               const img = f.images[0] ?? f.image_url;
               return (
-                <Link key={f.id} to={facilityUrl(slug, f.id)} className="group min-w-0 overflow-hidden rounded-lg border bg-card shadow-card transition hover:-translate-y-0.5">
+                <Link
+                  key={f.id}
+                  to={facilityUrl(slug, f.id)}
+                  className="group min-w-0 overflow-hidden rounded-lg border bg-card shadow-card transition hover:-translate-y-0.5"
+                >
                   <div className="aspect-[4/3] overflow-hidden bg-muted">
-                    {img && <img src={img} alt={f.name} loading="lazy" decoding="async" width={640} height={480} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />}
+                    {img && (
+                      <img
+                        src={img}
+                        alt={f.name}
+                        loading="lazy"
+                        decoding="async"
+                        width={640}
+                        height={480}
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                    )}
                   </div>
                   <div className="space-y-2 p-5">
                     <div className="flex items-start justify-between gap-2">
                       <h2 className="text-lg font-semibold">{f.name}</h2>
-                      <Badge variant={f.is_available ? "secondary" : "destructive"}>{f.is_available ? "Bookable" : "Unavailable"}</Badge>
+                      <Badge
+                        variant={f.is_available ? "secondary" : "destructive"}
+                      >
+                        {f.is_available ? "Bookable" : "Unavailable"}
+                      </Badge>
                     </div>
-                    <p className="line-clamp-2 text-sm text-muted-foreground">{f.description}</p>
-                    {f.details && typeof f.details === "object" && !Array.isArray(f.details) && <p className="text-xs text-muted-foreground">{categoryConfig(slug).information.slice(0, 2).map((key) => { const value = (f.details as Record<string, unknown>)[key]; return typeof value === "string" ? value : ""; }).filter(Boolean).join(" · ")}</p>}
+                    <p className="line-clamp-2 text-sm text-muted-foreground">
+                      {f.description}
+                    </p>
+                    {f.details &&
+                      typeof f.details === "object" &&
+                      !Array.isArray(f.details) && (
+                        <p className="text-xs text-muted-foreground">
+                          {categoryConfig(slug)
+                            .information.slice(0, 2)
+                            .map((key) => {
+                              const value = (
+                                f.details as Record<string, unknown>
+                              )[key];
+                              return typeof value === "string" ? value : "";
+                            })
+                            .filter(Boolean)
+                            .join(" · ")}
+                        </p>
+                      )}
                     <div className="flex items-center justify-between pt-1 text-sm">
                       <span className="font-semibold text-primary">
-                        {kes(f.price)} {f.price != null && <span className="font-normal text-muted-foreground">{f.price_unit}</span>}
+                        {kes(f.price)}{" "}
+                        {f.price != null && (
+                          <span className="font-normal text-muted-foreground">
+                            {f.price_unit}
+                          </span>
+                        )}
                       </span>
-                      {f.capacity && <span className="flex items-center gap-1 text-muted-foreground"><Users className="h-4 w-4" /> {f.capacity}</span>}
+                      {f.capacity && (
+                        <span className="flex items-center gap-1 text-muted-foreground">
+                          <Users className="h-4 w-4" /> {f.capacity}
+                        </span>
+                      )}
                     </div>
-                    <span className="flex items-center gap-1 text-sm font-medium text-primary">View details <ArrowRight className="h-4 w-4" /></span>
+                    <span className="flex items-center gap-1 text-sm font-medium text-primary">
+                      View details <ArrowRight className="h-4 w-4" />
+                    </span>
                   </div>
                 </Link>
               );

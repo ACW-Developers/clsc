@@ -1,7 +1,16 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const mocks = vi.hoisted(() => ({ from: vi.fn(), eq: vi.fn(), update: vi.fn(), select: vi.fn(), order: vi.fn(), single: vi.fn() }));
-vi.mock("@/integrations/supabase/client", () => ({ supabase: { from: mocks.from } }));
+const mocks = vi.hoisted(() => ({
+  from: vi.fn(),
+  eq: vi.fn(),
+  update: vi.fn(),
+  select: vi.fn(),
+  order: vi.fn(),
+  single: vi.fn(),
+}));
+vi.mock("@/integrations/supabase/client", () => ({
+  supabase: { from: mocks.from },
+}));
 import { ordersService } from "./orders";
 import { donationsService } from "../programmes/donations";
 
@@ -28,11 +37,16 @@ describe("Customer and staff record boundaries", () => {
   });
   it("order management changes only fulfilment status and notes, never amount or owner", async () => {
     await ordersService.update("record-1", "processing", "Preparing order");
-    expect(mocks.update).toHaveBeenCalledWith({ status: "processing", admin_notes: "Preparing order" });
+    expect(mocks.update).toHaveBeenCalledWith({
+      status: "processing",
+      admin_notes: "Preparing order",
+    });
     expect(mocks.eq).toHaveBeenCalledWith("id", "record-1");
   });
   it("donation management changes notes only, never payment state", async () => {
     await donationsService.updateNotes("record-1", "Programme allocation");
-    expect(mocks.update).toHaveBeenCalledWith({ admin_notes: "Programme allocation" });
+    expect(mocks.update).toHaveBeenCalledWith({
+      admin_notes: "Programme allocation",
+    });
   });
 });

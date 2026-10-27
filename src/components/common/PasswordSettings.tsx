@@ -27,9 +27,15 @@ export function PasswordSettings() {
       <h2 className="font-semibold">Change password</h2>
       <div className="space-y-1.5">
         <Label htmlFor="npw">New password</Label>
-        <PasswordInput id="npw" value={pw} onChange={(e) => setPw(e.target.value)} />
+        <PasswordInput
+          id="npw"
+          value={pw}
+          onChange={(e) => setPw(e.target.value)}
+        />
       </div>
-      <Button type="submit" disabled={busy}>{busy && <Loader2 className="h-4 w-4 animate-spin" />} Update password</Button>
+      <Button type="submit" disabled={busy}>
+        {busy && <Loader2 className="h-4 w-4 animate-spin" />} Update password
+      </Button>
     </form>
   );
 }

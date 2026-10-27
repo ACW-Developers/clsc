@@ -161,18 +161,29 @@ export const hospitalityService = {
   ) => must(await supabase.from("profiles").update(p).eq("id", id)),
 
   myProfile: async (id: string) =>
-    must(await supabase.from("profiles").select("*").eq("id", id).maybeSingle()),
+    must(
+      await supabase.from("profiles").select("*").eq("id", id).maybeSingle(),
+    ),
   uploadAvatar: async (userId: string, file: File) => {
     if (!file.type.startsWith("image/"))
       throw new Error("Please choose an image file");
     if (file.size > 2 * 1024 * 1024)
       throw new Error("Photo must be 2 MB or smaller");
     const path = `${userId}/${crypto.randomUUID()}.${file.name.split(".").pop() ?? "jpg"}`;
-    const up = await supabase.storage.from("avatars").upload(path, file, { contentType: file.type });
+    const up = await supabase.storage
+      .from("avatars")
+      .upload(path, file, { contentType: file.type });
     if (up.error) throw new Error(up.error.message);
-    const signed = await supabase.storage.from("avatars").createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
+    const signed = await supabase.storage
+      .from("avatars")
+      .createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
     if (signed.error) throw new Error(signed.error.message);
-    must(await supabase.from("profiles").update({ avatar_url: signed.data.signedUrl }).eq("id", userId));
+    must(
+      await supabase
+        .from("profiles")
+        .update({ avatar_url: signed.data.signedUrl })
+        .eq("id", userId),
+    );
     return signed.data.signedUrl;
   },
 
@@ -201,7 +212,9 @@ export const hospitalityService = {
         .order("created_at", { ascending: false }),
     ),
   getReceipt: async (id: string) =>
-    must(await supabase.from("receipts").select("*").eq("id", id).maybeSingle()),
+    must(
+      await supabase.from("receipts").select("*").eq("id", id).maybeSingle(),
+    ),
 
   // Logs & settings
   listLogs: async () =>

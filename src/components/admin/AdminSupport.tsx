@@ -44,12 +44,20 @@ export function AdminSupport() {
   return (
     <Tabs defaultValue="tickets">
       <TabsList>
-        <TabsTrigger value="tickets">User Tickets ({tickets.data?.length ?? 0})</TabsTrigger>
-        <TabsTrigger value="enquiries">Contact Enquiries ({enquiries.data?.length ?? 0})</TabsTrigger>
+        <TabsTrigger value="tickets">
+          User Tickets ({tickets.data?.length ?? 0})
+        </TabsTrigger>
+        <TabsTrigger value="enquiries">
+          Contact Enquiries ({enquiries.data?.length ?? 0})
+        </TabsTrigger>
       </TabsList>
-      {loading && <Loader2 className="mt-6 h-5 w-5 animate-spin text-primary" />}
+      {loading && (
+        <Loader2 className="mt-6 h-5 w-5 animate-spin text-primary" />
+      )}
       {error && (
-        <Alert variant="destructive" className="mt-4"><AlertDescription>{(error as Error).message}</AlertDescription></Alert>
+        <Alert variant="destructive" className="mt-4">
+          <AlertDescription>{(error as Error).message}</AlertDescription>
+        </Alert>
       )}
 
       <TabsContent value="tickets" className="mt-4 grid gap-3">
@@ -63,9 +71,21 @@ export function AdminSupport() {
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="font-semibold">{t.subject}</p>
               <div className="flex items-center gap-2">
-                <Badge variant={variant(t.status)}>{t.status.replace("_", " ")}</Badge>
-                <Select value={t.status} onValueChange={(status) => updTicket.mutate({ id: t.id, status })}>
-                  <SelectTrigger className="h-8 w-32 text-xs" aria-label="Ticket status"><SelectValue /></SelectTrigger>
+                <Badge variant={variant(t.status)}>
+                  {t.status.replace("_", " ")}
+                </Badge>
+                <Select
+                  value={t.status}
+                  onValueChange={(status) =>
+                    updTicket.mutate({ id: t.id, status })
+                  }
+                >
+                  <SelectTrigger
+                    className="h-8 w-32 text-xs"
+                    aria-label="Ticket status"
+                  >
+                    <SelectValue />
+                  </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="open">Open</SelectItem>
                     <SelectItem value="in_progress">In progress</SelectItem>
@@ -75,7 +95,11 @@ export function AdminSupport() {
               </div>
             </div>
             <p className="mt-1 text-sm text-muted-foreground">{t.message}</p>
-            {t.admin_reply && <p className="mt-2 rounded-lg bg-secondary p-3 text-sm"><span className="font-medium">Reply sent:</span> {t.admin_reply}</p>}
+            {t.admin_reply && (
+              <p className="mt-2 rounded-lg bg-secondary p-3 text-sm">
+                <span className="font-medium">Reply sent:</span> {t.admin_reply}
+              </p>
+            )}
             <div className="mt-3 flex flex-col gap-2 sm:flex-row">
               <Textarea
                 placeholder="Write a reply to the customer…"
@@ -89,12 +113,19 @@ export function AdminSupport() {
                 size="sm"
                 className="shrink-0 self-end"
                 disabled={updTicket.isPending || !(reply[t.id] ?? "").trim()}
-                onClick={() => updTicket.mutate({ id: t.id, admin_reply: reply[t.id].trim() }, { onSuccess: () => setReply({ ...reply, [t.id]: "" }) })}
+                onClick={() =>
+                  updTicket.mutate(
+                    { id: t.id, admin_reply: reply[t.id].trim() },
+                    { onSuccess: () => setReply({ ...reply, [t.id]: "" }) },
+                  )
+                }
               >
                 Send reply
               </Button>
             </div>
-            <p className="mt-2 text-[10px] text-muted-foreground">{new Date(t.created_at).toLocaleString()}</p>
+            <p className="mt-2 text-[10px] text-muted-foreground">
+              {new Date(t.created_at).toLocaleString()}
+            </p>
           </div>
         ))}
       </TabsContent>
@@ -110,12 +141,26 @@ export function AdminSupport() {
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
                 <p className="font-semibold">{q.subject}</p>
-                <p className="text-xs text-muted-foreground">{q.name} · {q.email}</p>
+                <p className="text-xs text-muted-foreground">
+                  {q.name} · {q.email}
+                </p>
               </div>
               <div className="flex items-center gap-2">
-                <Badge variant={variant(q.status)}>{q.status.replace("_", " ")}</Badge>
-                <Select value={q.status} onValueChange={(status) => updEnquiry.mutate({ id: q.id, status })}>
-                  <SelectTrigger className="h-8 w-32 text-xs" aria-label="Enquiry status"><SelectValue /></SelectTrigger>
+                <Badge variant={variant(q.status)}>
+                  {q.status.replace("_", " ")}
+                </Badge>
+                <Select
+                  value={q.status}
+                  onValueChange={(status) =>
+                    updEnquiry.mutate({ id: q.id, status })
+                  }
+                >
+                  <SelectTrigger
+                    className="h-8 w-32 text-xs"
+                    aria-label="Enquiry status"
+                  >
+                    <SelectValue />
+                  </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="new">New</SelectItem>
                     <SelectItem value="in_progress">In progress</SelectItem>
@@ -125,7 +170,12 @@ export function AdminSupport() {
               </div>
             </div>
             <p className="mt-1 text-sm text-muted-foreground">{q.message}</p>
-            {q.admin_notes && <p className="mt-2 rounded-lg bg-secondary p-3 text-sm"><span className="font-medium">Internal note:</span> {q.admin_notes}</p>}
+            {q.admin_notes && (
+              <p className="mt-2 rounded-lg bg-secondary p-3 text-sm">
+                <span className="font-medium">Internal note:</span>{" "}
+                {q.admin_notes}
+              </p>
+            )}
             <div className="mt-3 flex flex-col gap-2 sm:flex-row">
               <Textarea
                 placeholder="Internal note (not sent to the visitor)…"
@@ -140,12 +190,19 @@ export function AdminSupport() {
                 variant="outline"
                 className="shrink-0 self-end"
                 disabled={updEnquiry.isPending || !(note[q.id] ?? "").trim()}
-                onClick={() => updEnquiry.mutate({ id: q.id, admin_notes: note[q.id].trim() }, { onSuccess: () => setNote({ ...note, [q.id]: "" }) })}
+                onClick={() =>
+                  updEnquiry.mutate(
+                    { id: q.id, admin_notes: note[q.id].trim() },
+                    { onSuccess: () => setNote({ ...note, [q.id]: "" }) },
+                  )
+                }
               >
                 Save note
               </Button>
             </div>
-            <p className="mt-2 text-[10px] text-muted-foreground">{new Date(q.created_at).toLocaleString()}</p>
+            <p className="mt-2 text-[10px] text-muted-foreground">
+              {new Date(q.created_at).toLocaleString()}
+            </p>
           </div>
         ))}
       </TabsContent>
