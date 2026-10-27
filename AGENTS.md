@@ -19,4 +19,6 @@
 - Facility payments run through the simulate_payment security-definer function, which alone may mark bookings paid and issue receipts — clients can never forge payment state.
 - Category display and form fields share src/config/facilityCategories.ts; facility information is stored in sub_services.details and booking requests in notes — consistent rendering without changing trusted pricing rules.
 - Dashboard charts use the existing Recharts dependency and theme controls use next-themes in AppProviders — reuse dependencies and semantic tokens.
+- Traffic tracking uses a validated rate-limited public RPC with staff-only reads; collect only sanitized page paths and browser-reported device/OS, never query strings, form values, IPs or user identity — keep analytics minimal and privacy-conscious.
+- Shared StatCard and profile/security forms serve dashboard modules; signup consent is validated through the shared registration schema — maintain consistent presentation and submission rules.
 - Facility uploads are resized and compressed before storage; labelled sample media uses asset pointers — reduce transfer size without changing logo storage.
