@@ -1,5 +1,10 @@
 # Requested changes
 
+- [ ] Refine persistent sidebar groups, overview and role analytics, activity table and traffic analytics.
+- [ ] Refine profile/security and registration consent; verify consent validation.
+- [ ] Refine order cards, inventory tables, similar books and floating facility booking panel.
+- [ ] Verify affected desktop/mobile flows and existing regression tests.
+
 - [x] Reset scroll on navigation and apply consistent small-screen page spacing.
 - [x] Add database-backed customer orders/donations and staff management views; reuse bookings/receipts.
 - [x] Remove My Account navigation while preserving contact and profile access.
