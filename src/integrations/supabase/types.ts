@@ -4,765 +4,766 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[];
+  | Json[]
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.18";
-  };
+    PostgrestVersion: "14.18"
+  }
   public: {
     Tables: {
       activity_logs: {
         Row: {
-          action: string;
-          actor_id: string | null;
-          created_at: string;
-          entity: string;
-          entity_id: string | null;
-          id: string;
-          summary: string | null;
-        };
+          action: string
+          actor_id: string | null
+          created_at: string
+          entity: string
+          entity_id: string | null
+          id: string
+          summary: string | null
+        }
         Insert: {
-          action: string;
-          actor_id?: string | null;
-          created_at?: string;
-          entity: string;
-          entity_id?: string | null;
-          id?: string;
-          summary?: string | null;
-        };
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          entity: string
+          entity_id?: string | null
+          id?: string
+          summary?: string | null
+        }
         Update: {
-          action?: string;
-          actor_id?: string | null;
-          created_at?: string;
-          entity?: string;
-          entity_id?: string | null;
-          id?: string;
-          summary?: string | null;
-        };
-        Relationships: [];
-      };
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          entity?: string
+          entity_id?: string | null
+          id?: string
+          summary?: string | null
+        }
+        Relationships: []
+      }
       app_settings: {
         Row: {
-          key: string;
-          updated_at: string;
-          value: Json;
-        };
+          key: string
+          updated_at: string
+          value: Json
+        }
         Insert: {
-          key: string;
-          updated_at?: string;
-          value?: Json;
-        };
+          key: string
+          updated_at?: string
+          value?: Json
+        }
         Update: {
-          key?: string;
-          updated_at?: string;
-          value?: Json;
-        };
-        Relationships: [];
-      };
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
-          admin_notes: string | null;
-          created_at: string;
-          end_date: string;
-          end_time: string | null;
-          guests: number;
-          id: string;
-          notes: string | null;
-          payment_status: string;
-          start_date: string;
-          start_time: string | null;
-          status: Database["public"]["Enums"]["booking_status"];
-          sub_service_id: string;
-          total_amount: number | null;
-          updated_at: string;
-          user_id: string;
-        };
+          admin_notes: string | null
+          created_at: string
+          end_date: string
+          end_time: string | null
+          guests: number
+          id: string
+          notes: string | null
+          payment_status: string
+          start_date: string
+          start_time: string | null
+          status: Database["public"]["Enums"]["booking_status"]
+          sub_service_id: string
+          total_amount: number | null
+          updated_at: string
+          user_id: string
+        }
         Insert: {
-          admin_notes?: string | null;
-          created_at?: string;
-          end_date: string;
-          end_time?: string | null;
-          guests?: number;
-          id?: string;
-          notes?: string | null;
-          payment_status?: string;
-          start_date: string;
-          start_time?: string | null;
-          status?: Database["public"]["Enums"]["booking_status"];
-          sub_service_id: string;
-          total_amount?: number | null;
-          updated_at?: string;
-          user_id?: string;
-        };
+          admin_notes?: string | null
+          created_at?: string
+          end_date: string
+          end_time?: string | null
+          guests?: number
+          id?: string
+          notes?: string | null
+          payment_status?: string
+          start_date: string
+          start_time?: string | null
+          status?: Database["public"]["Enums"]["booking_status"]
+          sub_service_id: string
+          total_amount?: number | null
+          updated_at?: string
+          user_id?: string
+        }
         Update: {
-          admin_notes?: string | null;
-          created_at?: string;
-          end_date?: string;
-          end_time?: string | null;
-          guests?: number;
-          id?: string;
-          notes?: string | null;
-          payment_status?: string;
-          start_date?: string;
-          start_time?: string | null;
-          status?: Database["public"]["Enums"]["booking_status"];
-          sub_service_id?: string;
-          total_amount?: number | null;
-          updated_at?: string;
-          user_id?: string;
-        };
+          admin_notes?: string | null
+          created_at?: string
+          end_date?: string
+          end_time?: string | null
+          guests?: number
+          id?: string
+          notes?: string | null
+          payment_status?: string
+          start_date?: string
+          start_time?: string | null
+          status?: Database["public"]["Enums"]["booking_status"]
+          sub_service_id?: string
+          total_amount?: number | null
+          updated_at?: string
+          user_id?: string
+        }
         Relationships: [
           {
-            foreignKeyName: "bookings_sub_service_id_fkey";
-            columns: ["sub_service_id"];
-            isOneToOne: false;
-            referencedRelation: "sub_services";
-            referencedColumns: ["id"];
+            foreignKeyName: "bookings_sub_service_id_fkey"
+            columns: ["sub_service_id"]
+            isOneToOne: false
+            referencedRelation: "sub_services"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+        ]
+      }
       books: {
         Row: {
-          author: string;
-          category: string;
-          created_at: string;
-          description: string;
-          id: string;
-          image_url: string;
-          is_published: boolean;
-          is_sample: boolean;
-          isbn: string;
-          price: number;
-          rating: number | null;
-          rating_count: number;
-          title: string;
-          updated_at: string;
-        };
+          author: string
+          category: string
+          created_at: string
+          description: string
+          id: string
+          image_url: string
+          is_published: boolean
+          is_sample: boolean
+          isbn: string
+          price: number
+          rating: number | null
+          rating_count: number
+          title: string
+          updated_at: string
+        }
         Insert: {
-          author?: string;
-          category?: string;
-          created_at?: string;
-          description?: string;
-          id?: string;
-          image_url?: string;
-          is_published?: boolean;
-          is_sample?: boolean;
-          isbn?: string;
-          price?: number;
-          rating?: number | null;
-          rating_count?: number;
-          title: string;
-          updated_at?: string;
-        };
+          author?: string
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string
+          is_published?: boolean
+          is_sample?: boolean
+          isbn?: string
+          price?: number
+          rating?: number | null
+          rating_count?: number
+          title: string
+          updated_at?: string
+        }
         Update: {
-          author?: string;
-          category?: string;
-          created_at?: string;
-          description?: string;
-          id?: string;
-          image_url?: string;
-          is_published?: boolean;
-          is_sample?: boolean;
-          isbn?: string;
-          price?: number;
-          rating?: number | null;
-          rating_count?: number;
-          title?: string;
-          updated_at?: string;
-        };
-        Relationships: [];
-      };
+          author?: string
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string
+          is_published?: boolean
+          is_sample?: boolean
+          isbn?: string
+          price?: number
+          rating?: number | null
+          rating_count?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       bookshop_order_items: {
         Row: {
-          book_id: string;
-          id: string;
-          order_id: string;
-          quantity: number;
-          title: string;
-          unit_price: number;
-        };
+          book_id: string
+          id: string
+          order_id: string
+          quantity: number
+          title: string
+          unit_price: number
+        }
         Insert: {
-          book_id: string;
-          id?: string;
-          order_id: string;
-          quantity: number;
-          title: string;
-          unit_price: number;
-        };
+          book_id: string
+          id?: string
+          order_id: string
+          quantity: number
+          title: string
+          unit_price: number
+        }
         Update: {
-          book_id?: string;
-          id?: string;
-          order_id?: string;
-          quantity?: number;
-          title?: string;
-          unit_price?: number;
-        };
+          book_id?: string
+          id?: string
+          order_id?: string
+          quantity?: number
+          title?: string
+          unit_price?: number
+        }
         Relationships: [
           {
-            foreignKeyName: "bookshop_order_items_book_id_fkey";
-            columns: ["book_id"];
-            isOneToOne: false;
-            referencedRelation: "books";
-            referencedColumns: ["id"];
+            foreignKeyName: "bookshop_order_items_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "bookshop_order_items_order_id_fkey";
-            columns: ["order_id"];
-            isOneToOne: false;
-            referencedRelation: "orders";
-            referencedColumns: ["id"];
+            foreignKeyName: "bookshop_order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+        ]
+      }
       bookshop_receipts: {
         Row: {
-          amount: number;
-          branch: string;
-          created_at: string;
-          id: string;
-          method: string;
-          order_id: string;
-          phone: string;
-          receipt_number: string;
-          reference: string;
-          user_id: string;
-        };
+          amount: number
+          branch: string
+          created_at: string
+          id: string
+          method: string
+          order_id: string
+          phone: string
+          receipt_number: string
+          reference: string
+          user_id: string
+        }
         Insert: {
-          amount: number;
-          branch: string;
-          created_at?: string;
-          id?: string;
-          method?: string;
-          order_id: string;
-          phone: string;
-          receipt_number: string;
-          reference: string;
-          user_id: string;
-        };
+          amount: number
+          branch: string
+          created_at?: string
+          id?: string
+          method?: string
+          order_id: string
+          phone: string
+          receipt_number: string
+          reference: string
+          user_id: string
+        }
         Update: {
-          amount?: number;
-          branch?: string;
-          created_at?: string;
-          id?: string;
-          method?: string;
-          order_id?: string;
-          phone?: string;
-          receipt_number?: string;
-          reference?: string;
-          user_id?: string;
-        };
+          amount?: number
+          branch?: string
+          created_at?: string
+          id?: string
+          method?: string
+          order_id?: string
+          phone?: string
+          receipt_number?: string
+          reference?: string
+          user_id?: string
+        }
         Relationships: [
           {
-            foreignKeyName: "bookshop_receipts_order_id_fkey";
-            columns: ["order_id"];
-            isOneToOne: true;
-            referencedRelation: "orders";
-            referencedColumns: ["id"];
+            foreignKeyName: "bookshop_receipts_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: true
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+        ]
+      }
       bookshop_stock: {
         Row: {
-          book_id: string;
-          branch: string;
-          is_available: boolean;
-          low_stock_threshold: number;
-          quantity: number;
-          updated_at: string;
-        };
+          book_id: string
+          branch: string
+          is_available: boolean
+          low_stock_threshold: number
+          quantity: number
+          updated_at: string
+        }
         Insert: {
-          book_id: string;
-          branch: string;
-          is_available?: boolean;
-          low_stock_threshold?: number;
-          quantity?: number;
-          updated_at?: string;
-        };
+          book_id: string
+          branch: string
+          is_available?: boolean
+          low_stock_threshold?: number
+          quantity?: number
+          updated_at?: string
+        }
         Update: {
-          book_id?: string;
-          branch?: string;
-          is_available?: boolean;
-          low_stock_threshold?: number;
-          quantity?: number;
-          updated_at?: string;
-        };
+          book_id?: string
+          branch?: string
+          is_available?: boolean
+          low_stock_threshold?: number
+          quantity?: number
+          updated_at?: string
+        }
         Relationships: [
           {
-            foreignKeyName: "bookshop_stock_book_id_fkey";
-            columns: ["book_id"];
-            isOneToOne: false;
-            referencedRelation: "books";
-            referencedColumns: ["id"];
+            foreignKeyName: "bookshop_stock_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+        ]
+      }
       contact_enquiries: {
         Row: {
-          admin_notes: string | null;
-          created_at: string;
-          email: string;
-          id: string;
-          message: string;
-          name: string;
-          status: string;
-          subject: string;
-          updated_at: string;
-        };
+          admin_notes: string | null
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          status: string
+          subject: string
+          updated_at: string
+        }
         Insert: {
-          admin_notes?: string | null;
-          created_at?: string;
-          email: string;
-          id?: string;
-          message: string;
-          name: string;
-          status?: string;
-          subject: string;
-          updated_at?: string;
-        };
+          admin_notes?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          status?: string
+          subject: string
+          updated_at?: string
+        }
         Update: {
-          admin_notes?: string | null;
-          created_at?: string;
-          email?: string;
-          id?: string;
-          message?: string;
-          name?: string;
-          status?: string;
-          subject?: string;
-          updated_at?: string;
-        };
-        Relationships: [];
-      };
+          admin_notes?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          status?: string
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       donations: {
         Row: {
-          admin_notes: string | null;
-          amount: number;
-          created_at: string;
-          description: string;
-          id: string;
-          reference: string;
-          status: string;
-          user_id: string;
-        };
+          admin_notes: string | null
+          amount: number
+          created_at: string
+          description: string
+          id: string
+          reference: string
+          status: string
+          user_id: string
+        }
         Insert: {
-          admin_notes?: string | null;
-          amount?: number;
-          created_at?: string;
-          description?: string;
-          id?: string;
-          reference: string;
-          status?: string;
-          user_id: string;
-        };
+          admin_notes?: string | null
+          amount?: number
+          created_at?: string
+          description?: string
+          id?: string
+          reference: string
+          status?: string
+          user_id: string
+        }
         Update: {
-          admin_notes?: string | null;
-          amount?: number;
-          created_at?: string;
-          description?: string;
-          id?: string;
-          reference?: string;
-          status?: string;
-          user_id?: string;
-        };
-        Relationships: [];
-      };
+          admin_notes?: string | null
+          amount?: number
+          created_at?: string
+          description?: string
+          id?: string
+          reference?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
-          audience: string;
-          body: string | null;
-          created_at: string;
-          id: string;
-          link: string | null;
-          read_at: string | null;
-          title: string;
-          user_id: string | null;
-        };
+          audience: string
+          body: string | null
+          created_at: string
+          id: string
+          link: string | null
+          read_at: string | null
+          title: string
+          user_id: string | null
+        }
         Insert: {
-          audience?: string;
-          body?: string | null;
-          created_at?: string;
-          id?: string;
-          link?: string | null;
-          read_at?: string | null;
-          title: string;
-          user_id?: string | null;
-        };
+          audience?: string
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read_at?: string | null
+          title: string
+          user_id?: string | null
+        }
         Update: {
-          audience?: string;
-          body?: string | null;
-          created_at?: string;
-          id?: string;
-          link?: string | null;
-          read_at?: string | null;
-          title?: string;
-          user_id?: string | null;
-        };
-        Relationships: [];
-      };
+          audience?: string
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read_at?: string | null
+          title?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
-          admin_notes: string | null;
-          amount: number;
-          branch: string | null;
-          created_at: string;
-          description: string;
-          id: string;
-          payment_status: string;
-          reference: string;
-          request_id: string | null;
-          status: string;
-          user_id: string;
-        };
+          admin_notes: string | null
+          amount: number
+          branch: string | null
+          created_at: string
+          description: string
+          id: string
+          payment_status: string
+          reference: string
+          request_id: string | null
+          status: string
+          user_id: string
+        }
         Insert: {
-          admin_notes?: string | null;
-          amount?: number;
-          branch?: string | null;
-          created_at?: string;
-          description?: string;
-          id?: string;
-          payment_status?: string;
-          reference: string;
-          request_id?: string | null;
-          status?: string;
-          user_id: string;
-        };
+          admin_notes?: string | null
+          amount?: number
+          branch?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          payment_status?: string
+          reference: string
+          request_id?: string | null
+          status?: string
+          user_id: string
+        }
         Update: {
-          admin_notes?: string | null;
-          amount?: number;
-          branch?: string | null;
-          created_at?: string;
-          description?: string;
-          id?: string;
-          payment_status?: string;
-          reference?: string;
-          request_id?: string | null;
-          status?: string;
-          user_id?: string;
-        };
-        Relationships: [];
-      };
+          admin_notes?: string | null
+          amount?: number
+          branch?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          payment_status?: string
+          reference?: string
+          request_id?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
-          avatar_url: string | null;
-          created_at: string;
-          email: string | null;
-          full_name: string | null;
-          id: string;
-          phone: string | null;
-          updated_at: string;
-        };
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+        }
         Insert: {
-          avatar_url?: string | null;
-          created_at?: string;
-          email?: string | null;
-          full_name?: string | null;
-          id: string;
-          phone?: string | null;
-          updated_at?: string;
-        };
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string
+        }
         Update: {
-          avatar_url?: string | null;
-          created_at?: string;
-          email?: string | null;
-          full_name?: string | null;
-          id?: string;
-          phone?: string | null;
-          updated_at?: string;
-        };
-        Relationships: [];
-      };
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       receipts: {
         Row: {
-          amount: number;
-          booking_id: string;
-          created_at: string;
-          id: string;
-          method: string;
-          phone: string | null;
-          receipt_number: string;
-          reference: string;
-          user_id: string;
-        };
+          amount: number
+          booking_id: string
+          created_at: string
+          id: string
+          method: string
+          phone: string | null
+          receipt_number: string
+          reference: string
+          user_id: string
+        }
         Insert: {
-          amount: number;
-          booking_id: string;
-          created_at?: string;
-          id?: string;
-          method?: string;
-          phone?: string | null;
-          receipt_number: string;
-          reference: string;
-          user_id: string;
-        };
+          amount: number
+          booking_id: string
+          created_at?: string
+          id?: string
+          method?: string
+          phone?: string | null
+          receipt_number: string
+          reference: string
+          user_id: string
+        }
         Update: {
-          amount?: number;
-          booking_id?: string;
-          created_at?: string;
-          id?: string;
-          method?: string;
-          phone?: string | null;
-          receipt_number?: string;
-          reference?: string;
-          user_id?: string;
-        };
+          amount?: number
+          booking_id?: string
+          created_at?: string
+          id?: string
+          method?: string
+          phone?: string | null
+          receipt_number?: string
+          reference?: string
+          user_id?: string
+        }
         Relationships: [
           {
-            foreignKeyName: "receipts_booking_id_fkey";
-            columns: ["booking_id"];
-            isOneToOne: true;
-            referencedRelation: "bookings";
-            referencedColumns: ["id"];
+            foreignKeyName: "receipts_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: true
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+        ]
+      }
       services: {
         Row: {
-          category: string;
-          created_at: string;
-          description: string | null;
-          id: string;
-          image_url: string | null;
-          is_published: boolean;
-          name: string;
-          slug: string;
-          sort_order: number;
-          updated_at: string;
-        };
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_published: boolean
+          name: string
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
         Insert: {
-          category?: string;
-          created_at?: string;
-          description?: string | null;
-          id?: string;
-          image_url?: string | null;
-          is_published?: boolean;
-          name: string;
-          slug: string;
-          sort_order?: number;
-          updated_at?: string;
-        };
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          name: string
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
         Update: {
-          category?: string;
-          created_at?: string;
-          description?: string | null;
-          id?: string;
-          image_url?: string | null;
-          is_published?: boolean;
-          name?: string;
-          slug?: string;
-          sort_order?: number;
-          updated_at?: string;
-        };
-        Relationships: [];
-      };
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          name?: string
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       sub_services: {
         Row: {
-          amenities: string[];
-          capacity: number | null;
-          created_at: string;
-          description: string | null;
-          details: Json;
-          id: string;
-          image_url: string | null;
-          images: string[];
-          is_available: boolean;
-          is_published: boolean;
-          min_notice_days: number;
-          name: string;
-          price: number | null;
-          price_unit: string;
-          service_id: string;
-          updated_at: string;
-        };
+          amenities: string[]
+          capacity: number | null
+          created_at: string
+          description: string | null
+          details: Json
+          id: string
+          image_url: string | null
+          images: string[]
+          is_available: boolean
+          is_published: boolean
+          min_notice_days: number
+          name: string
+          price: number | null
+          price_unit: string
+          service_id: string
+          updated_at: string
+        }
         Insert: {
-          amenities?: string[];
-          capacity?: number | null;
-          created_at?: string;
-          description?: string | null;
-          details?: Json;
-          id?: string;
-          image_url?: string | null;
-          images?: string[];
-          is_available?: boolean;
-          is_published?: boolean;
-          min_notice_days?: number;
-          name: string;
-          price?: number | null;
-          price_unit?: string;
-          service_id: string;
-          updated_at?: string;
-        };
+          amenities?: string[]
+          capacity?: number | null
+          created_at?: string
+          description?: string | null
+          details?: Json
+          id?: string
+          image_url?: string | null
+          images?: string[]
+          is_available?: boolean
+          is_published?: boolean
+          min_notice_days?: number
+          name: string
+          price?: number | null
+          price_unit?: string
+          service_id: string
+          updated_at?: string
+        }
         Update: {
-          amenities?: string[];
-          capacity?: number | null;
-          created_at?: string;
-          description?: string | null;
-          details?: Json;
-          id?: string;
-          image_url?: string | null;
-          images?: string[];
-          is_available?: boolean;
-          is_published?: boolean;
-          min_notice_days?: number;
-          name?: string;
-          price?: number | null;
-          price_unit?: string;
-          service_id?: string;
-          updated_at?: string;
-        };
+          amenities?: string[]
+          capacity?: number | null
+          created_at?: string
+          description?: string | null
+          details?: Json
+          id?: string
+          image_url?: string | null
+          images?: string[]
+          is_available?: boolean
+          is_published?: boolean
+          min_notice_days?: number
+          name?: string
+          price?: number | null
+          price_unit?: string
+          service_id?: string
+          updated_at?: string
+        }
         Relationships: [
           {
-            foreignKeyName: "sub_services_service_id_fkey";
-            columns: ["service_id"];
-            isOneToOne: false;
-            referencedRelation: "services";
-            referencedColumns: ["id"];
+            foreignKeyName: "sub_services_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+        ]
+      }
       support_tickets: {
         Row: {
-          admin_reply: string | null;
-          created_at: string;
-          id: string;
-          message: string;
-          status: string;
-          subject: string;
-          updated_at: string;
-          user_id: string;
-        };
+          admin_reply: string | null
+          created_at: string
+          id: string
+          message: string
+          status: string
+          subject: string
+          updated_at: string
+          user_id: string
+        }
         Insert: {
-          admin_reply?: string | null;
-          created_at?: string;
-          id?: string;
-          message: string;
-          status?: string;
-          subject: string;
-          updated_at?: string;
-          user_id?: string;
-        };
+          admin_reply?: string | null
+          created_at?: string
+          id?: string
+          message: string
+          status?: string
+          subject: string
+          updated_at?: string
+          user_id?: string
+        }
         Update: {
-          admin_reply?: string | null;
-          created_at?: string;
-          id?: string;
-          message?: string;
-          status?: string;
-          subject?: string;
-          updated_at?: string;
-          user_id?: string;
-        };
-        Relationships: [];
-      };
+          admin_reply?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+          status?: string
+          subject?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
-          created_at: string;
-          id: string;
-          role: Database["public"]["Enums"]["app_role"];
-          user_id: string;
-        };
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
         Insert: {
-          created_at?: string;
-          id?: string;
-          role: Database["public"]["Enums"]["app_role"];
-          user_id: string;
-        };
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
         Update: {
-          created_at?: string;
-          id?: string;
-          role?: Database["public"]["Enums"]["app_role"];
-          user_id?: string;
-        };
-        Relationships: [];
-      };
-    };
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+    }
     Views: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     Functions: {
       bookshop_checkout: {
         Args: {
-          _branch: string;
-          _items: Json;
-          _phone: string;
-          _request_id: string;
-          _success: boolean;
-        };
-        Returns: string;
-      };
+          _branch: string
+          _items: Json
+          _phone: string
+          _request_id: string
+          _success: boolean
+        }
+        Returns: string
+      }
       bootstrap_super_admin: {
-        Args: { _full_name: string; _user_id: string };
-        Returns: boolean;
-      };
+        Args: { _full_name: string; _user_id: string }
+        Returns: boolean
+      }
       facility_booked_ranges: {
-        Args: { _sub_service_id: string };
+        Args: { _sub_service_id: string }
         Returns: {
-          end_date: string;
-          start_date: string;
-        }[];
-      };
+          end_date: string
+          start_date: string
+        }[]
+      }
       has_role: {
         Args: {
-          _role: Database["public"]["Enums"]["app_role"];
-          _user_id: string;
-        };
-        Returns: boolean;
-      };
-      is_staff: { Args: { _user_id: string }; Returns: boolean };
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_staff: { Args: { _user_id: string }; Returns: boolean }
       notify: {
         Args: {
-          _audience: string;
-          _body: string;
-          _link: string;
-          _title: string;
-          _user_id: string;
-        };
-        Returns: undefined;
-      };
+          _audience: string
+          _body: string
+          _link: string
+          _title: string
+          _user_id: string
+        }
+        Returns: undefined
+      }
       save_bookshop_book: {
-        Args: { _book: Json; _stock: Json };
-        Returns: string;
-      };
+        Args: { _book: Json; _stock: Json }
+        Returns: string
+      }
       simulate_payment: {
-        Args: { _booking_id: string; _phone: string; _success: boolean };
-        Returns: string;
-      };
-      super_admin_exists: { Args: never; Returns: boolean };
-    };
+        Args: { _booking_id: string; _phone: string; _success: boolean }
+        Returns: string
+      }
+      super_admin_exists: { Args: never; Returns: boolean }
+    }
     Enums: {
-      app_role: "super_admin" | "admin" | "customer";
+      app_role: "super_admin" | "admin" | "customer"
       booking_status:
-        "pending" | "confirmed" | "rejected" | "cancelled" | "completed";
-    };
+        | "pending"
+        | "confirmed"
+        | "rejected"
+        | "cancelled"
+        | "completed"
+    }
     CompositeTypes: {
-      [_ in never]: never;
-    };
-  };
-};
+      [_ in never]: never
+    }
+  }
+}
 
-type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">;
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<
-  keyof Database,
-  "public"
->];
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends (DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
   ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
       DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R;
+      Row: infer R
     }
     ? R
     : never
@@ -770,92 +771,95 @@ export type Tables<
         DefaultSchema["Views"])
     ? (DefaultSchema["Tables"] &
         DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-        Row: infer R;
+        Row: infer R
       }
       ? R
       : never
-    : never;
+    : never
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    keyof DefaultSchema["Tables"] | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends (DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I;
+      Insert: infer I
     }
     ? I
     : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
     ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Insert: infer I;
+        Insert: infer I
       }
       ? I
       : never
-    : never;
+    : never
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    keyof DefaultSchema["Tables"] | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends (DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U;
+      Update: infer U
     }
     ? U
     : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
     ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Update: infer U;
+        Update: infer U
       }
       ? U
       : never
-    : never;
+    : never
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    keyof DefaultSchema["Enums"] | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema["Enums"]
+    | { schema: keyof DatabaseWithoutInternals },
   EnumName extends (DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
     ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-    : never;
+    : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
     ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never;
+    : never
 
 export const Constants = {
   public: {
@@ -870,4 +874,4 @@ export const Constants = {
       ],
     },
   },
-} as const;
+} as const
