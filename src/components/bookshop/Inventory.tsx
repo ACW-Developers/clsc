@@ -11,6 +11,8 @@ import {
 import { Package, TrendingUp, AlertTriangle, ShoppingBag } from "lucide-react";
 import { useCatalog } from "@/hooks/bookshop/useCatalog";
 import { useOrders } from "@/hooks/bookshop/useOrders";
+import { Badge } from "@/components/ui/badge";
+import { StatCard } from "@/components/common/StatCard";
 import { Button } from "@/components/ui/button";
 import { branches, branchName } from "@/services/bookshop/catalog";
 import { kes } from "@/lib/booking";
@@ -85,11 +87,7 @@ export function Inventory() {
                 icon: AlertTriangle,
               },
             ].map((s) => (
-              <article key={s.label} className="rounded-lg border bg-card p-4">
-                <s.icon className="mb-3 h-5 w-5 text-primary" />
-                <p className="text-xs text-muted-foreground">{s.label}</p>
-                <p className="mt-2 break-words text-xl font-bold">{s.value}</p>
-              </article>
+              <StatCard key={s.label} label={s.label} value={s.value} icon={s.icon} />
             ))}
           </div>
           <div className="grid gap-6 xl:grid-cols-2">
@@ -160,53 +158,22 @@ export function Inventory() {
                 No low-stock alerts for this branch.
               </p>
             ) : (
-              <div className="divide-y border-y">
-                {low.map((s) => (
-                  <div
-                    key={`${s.book_id}-${s.branch}`}
-                    className="flex flex-wrap justify-between gap-2 py-3"
-                  >
-                    <div>
-                      <p className="font-medium">{s.title}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {branchName(s.branch)}
-                      </p>
-                    </div>
-                    <p
-                      className={
-                        s.quantity === 0 ? "text-destructive" : "text-primary"
-                      }
-                    >
-                      {s.quantity} left · Alert at {s.low_stock_threshold}
-                    </p>
-                  </div>
-                ))}
+              <div className="grid gap-3 sm:grid-cols-2">
+                {low.map((s) => <article key={`${s.book_id}-${s.branch}`} className="rounded-lg border border-accent/40 bg-card p-4">
+                  <div className="mb-3 flex items-start justify-between gap-2"><AlertTriangle className="h-5 w-5 text-accent" /><Badge variant={s.quantity === 0 ? "destructive" : "secondary"}>{s.quantity === 0 ? "Out of stock" : "Low stock"}</Badge></div>
+                  <h3 className="font-semibold">{s.title}</h3><p className="mt-1 text-xs text-muted-foreground">{branchName(s.branch)}</p>
+                  <div className="mt-4 flex justify-between border-t pt-3 text-sm"><strong>{s.quantity} copies left</strong><span className="text-muted-foreground">Threshold: {s.low_stock_threshold}</span></div>
+                </article>)}
               </div>
             )}
           </section>
           <section>
             <h2 className="mb-4 font-semibold">Branch inventory</h2>
-            <div className="divide-y border-y">
-              {stocks.length ? (
-                stocks.map((s) => (
-                  <div
-                    key={`${s.book_id}-${s.branch}`}
-                    className="flex flex-wrap justify-between gap-3 py-3 text-sm"
-                  >
-                    <span>
-                      {s.title} · {branchName(s.branch)}
-                    </span>
-                    <span>
-                      {s.quantity} copies ·{" "}
-                      {s.is_available ? "Available" : "Unavailable"}
-                    </span>
-                  </div>
-                ))
-              ) : (
-                <p className="py-8 text-muted-foreground">
-                  No branch inventory has been added.
-                </p>
-              )}
+            <div className="overflow-x-auto rounded-lg border bg-card">
+              <table className="w-full min-w-[600px] text-sm">
+                <thead className="bg-muted text-left text-xs uppercase text-muted-foreground"><tr><th className="p-4">Book</th><th className="p-4">Branch</th><th className="p-4 text-right">Stock</th><th className="p-4 text-right">Alert level</th><th className="p-4">Status</th></tr></thead>
+                <tbody>{stocks.map((s) => <tr key={`${s.book_id}-${s.branch}`} className="border-t transition-colors hover:bg-muted/50"><td className="p-4 font-medium">{s.title}</td><td className="p-4 text-muted-foreground">{branchName(s.branch)}</td><td className="p-4 text-right font-semibold tabular-nums">{s.quantity}</td><td className="p-4 text-right tabular-nums">{s.low_stock_threshold}</td><td className="p-4"><Badge variant={!s.quantity ? "destructive" : s.quantity <= s.low_stock_threshold ? "secondary" : "outline"}>{!s.is_available ? "Unavailable" : !s.quantity ? "Out of stock" : s.quantity <= s.low_stock_threshold ? "Low stock" : "Available"}</Badge></td></tr>)}</tbody>
+              </table>{!stocks.length && <p className="p-8 text-muted-foreground">No branch inventory has been added.</p>}
             </div>
           </section>
         </>

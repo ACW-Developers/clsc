@@ -1,0 +1,14 @@
+import { Users, ShieldCheck, UserRound } from "lucide-react";
+import { StatCard } from "@/components/common/StatCard";
+import { useAllRoles, useProfiles } from "@/hooks/useHospitality";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
+export function UserAnalytics() {
+  const profiles = useProfiles(), roles = useAllRoles();
+  const staff = new Set((roles.data ?? []).filter((r) => r.role === "admin" || r.role === "super_admin").map((r) => r.user_id));
+  const rows = profiles.data ?? [];
+  const months = Array.from({ length: 6 }, (_, i) => { const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - 5 + i); const key = d.toISOString().slice(0, 7); const users = rows.filter((p) => p.created_at.startsWith(key)); return { month: d.toLocaleDateString("en", { month: "short" }), regular: users.filter((p) => !staff.has(p.id)).length, admins: users.filter((p) => staff.has(p.id)).length }; });
+  return <section className="mb-6 space-y-5" aria-label="User analytics">
+    <div className="grid grid-cols-2 gap-3 xl:grid-cols-4"><StatCard label="Registered users" value={profiles.data ? rows.length : "–"} icon={Users} /><StatCard label="Regular users" value={roles.data && profiles.data ? rows.filter((p) => !staff.has(p.id)).length : "–"} icon={UserRound} /><StatCard label="Administrators" value={roles.data ? new Set(roles.data.filter((r) => r.role === "admin").map((r) => r.user_id)).size : "–"} icon={ShieldCheck} /><StatCard label="Super administrators" value={roles.data ? roles.data.filter((r) => r.role === "super_admin").length : "–"} icon={ShieldCheck} /></div>
+    {(profiles.error || roles.error) ? <p className="text-destructive">User analytics could not be loaded.</p> : <section className="border-y py-5"><h2 className="font-semibold">Registrations by current role</h2><p className="mb-4 text-xs text-muted-foreground">Last six months · staff counts exclude regular users to avoid double counting</p><div className="h-52 min-w-0"><ResponsiveContainer width="100%" height="100%"><BarChart data={months}><CartesianGrid stroke="hsl(var(--border))" vertical={false} /><XAxis dataKey="month" fontSize={12} /><YAxis allowDecimals={false} width={30} /><Tooltip contentStyle={{ background: "hsl(var(--card))", borderColor: "hsl(var(--border))", color: "hsl(var(--foreground))" }} /><Bar dataKey="regular" name="Regular users" fill="hsl(var(--primary))" isAnimationActive={false} radius={[3,3,0,0]} /><Bar dataKey="admins" name="Administrators (including super)" fill="hsl(var(--accent))" isAnimationActive={false} radius={[3,3,0,0]} /></BarChart></ResponsiveContainer></div></section>}
+  </section>;
+}

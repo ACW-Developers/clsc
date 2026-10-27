@@ -39,6 +39,7 @@ import { kes } from "@/lib/booking";
 import { Link } from "react-router-dom";
 import { useBookshopReceipts } from "@/hooks/bookshop/useCatalog";
 import { bookshopReceiptUrl } from "@/routes/paths";
+import { StatCard } from "./StatCard";
 import { branchName } from "@/services/bookshop/catalog";
 
 type RecordRow = {
@@ -97,6 +98,12 @@ export function PhaseRecords({
         management ? `${kind} management records` : `My ${kind} records`
       }
     >
+      {kind === "orders" && <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
+        <StatCard label="Total orders" value={query.data?.length ?? "–"} icon={ShoppingBag} />
+        <StatCard label="Processing" value={query.data?.filter((r) => r.status === "processing").length ?? "–"} />
+        <StatCard label="Fulfilled" value={query.data?.filter((r) => r.status === "fulfilled").length ?? "–"} />
+        <StatCard label="Paid sales (simulated)" value={orders.data ? kes(orders.data.filter((r) => r.payment_status === "paid").reduce((n, r) => n + Number(r.amount), 0)) : "–"} />
+      </div>}
       <div className="flex flex-wrap items-center gap-3">
         <div className="relative min-w-0 flex-1 basis-48">
           <Search
@@ -164,19 +171,19 @@ export function PhaseRecords({
         </div>
       ) : (
         <>
-          <div className="divide-y border-y">
+          <div className="grid gap-4 xl:grid-cols-2">
             {rows.slice(current * 10, current * 10 + 10).map((row) => (
               <div
                 key={row.id}
-                className="flex min-w-0 flex-wrap items-center justify-between gap-3 py-4"
+                className="flex min-w-0 flex-col justify-between gap-4 rounded-lg border bg-card p-5 shadow-card"
               >
-                <div className="min-w-0 flex-1 basis-48">
+                <div className="min-w-0 flex-1">
                   <p className="break-all font-semibold">{row.reference}</p>
                   <p className="break-words text-sm text-muted-foreground">
                     {row.description}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {new Date(row.created_at).toLocaleDateString()}
+                    {new Date(row.created_at).toLocaleDateString("en-KE", { day: "numeric", month: "short", year: "numeric" })}
                   </p>
                   {management && (
                     <p className="break-all text-xs text-muted-foreground">
@@ -184,9 +191,9 @@ export function PhaseRecords({
                     </p>
                   )}
                 </div>
-                <div className="flex flex-wrap items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3 border-t pt-4">
                   <span className="font-semibold">{kes(row.amount)}</span>
-                  <Badge variant="secondary" className="capitalize">
+                  <Badge variant={row.status === "fulfilled" || row.status === "processing" ? "default" : row.status === "cancelled" ? "destructive" : "secondary"} className="capitalize">
                     {row.status}
                   </Badge>
                   {kind === "orders" &&

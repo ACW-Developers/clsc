@@ -14,6 +14,7 @@ import {
   Users as UsersIcon,
   BookOpen,
   Package,
+  ChartNoAxesCombined,
 } from "lucide-react";
 import { DashboardShell } from "@/components/common/DashboardShell";
 import { ProfileForm } from "@/components/common/ProfileForm";
@@ -33,6 +34,7 @@ import { AdminSupport } from "@/components/admin/AdminSupport";
 import { BookManagement } from "@/components/bookshop/BookManagement";
 import { Inventory } from "@/components/bookshop/Inventory";
 import type { DashView } from "@/components/common/DashboardShell";
+import { TrafficAnalytics } from "@/components/admin/TrafficAnalytics";
 
 const views: (DashView & { superOnly?: boolean })[] = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
@@ -72,6 +74,7 @@ const views: (DashView & { superOnly?: boolean })[] = [
     group: "Hospitality",
   },
   { id: "users", label: "Users", icon: UsersIcon },
+  { id: "traffic", label: "Traffic Analytics", icon: ChartNoAxesCombined },
   { id: "logs", label: "Activity Logs", icon: Activity },
   { id: "profile", label: "Profile", icon: User },
   { id: "settings", label: "Settings", icon: Cog, superOnly: true },
@@ -101,6 +104,7 @@ const AdminPage = () => {
       {view === "services" && <Services />}
       {view === "facilities" && <Facilities />}
       {view === "users" && <Users />}
+      {view === "traffic" && <TrafficAnalytics />}
       {view === "logs" && <Logs />}
       {view === "profile" && <ProfileForm />}
       {view === "settings" && <Settings />}
