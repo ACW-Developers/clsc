@@ -54,6 +54,9 @@ import { useDonations } from "@/hooks/programmes/useDonations";
 import { useCatalog } from "@/hooks/bookshop/useCatalog";
 import { ShoppingBag, Users as UsersIcon, BookOpen, BedDouble, CalendarCheck, HeartHandshake, TrendingUp } from "lucide-react";
 import { TrafficAnalytics } from "./TrafficAnalytics";
+import { Activity } from "lucide-react";
+import { ResponsiveContainer, BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts";
+import { chartColors, chartTooltipStyle, dailyActivity } from "./analyticsPresentation";
 
 const PAGE = 10;
 
@@ -1082,37 +1085,56 @@ export function Logs() {
   const actor = (id: string | null) => id ? profiles.data?.find((p) => p.id === id)?.full_name || profiles.data?.find((p) => p.id === id)?.email || "Unknown user" : "System";
   const [term, setTerm] = useState("");
   const [page, setPage] = useState(1);
+  const [action, setAction] = useState("all");
+  const [period, setPeriod] = useState("all");
+  const since = new Date();
+  since.setHours(0, 0, 0, 0);
+  since.setDate(since.getDate() - Number(period) + 1);
+  const actions = [...new Set((q.data ?? []).map((log) => log.action))].sort();
+  const activity = dailyActivity(q.data ?? [], 7);
   const rows = (q.data ?? []).filter((l) =>
+    (action === "all" || l.action === action) &&
+    (period === "all" || new Date(l.created_at) >= since) &&
     `${actor(l.actor_id)} ${l.action} ${l.entity} ${l.summary ?? ""}`
       .toLowerCase()
       .includes(term.toLowerCase()),
   );
   return (
-    <div>
-      <p className="mb-4 text-xs text-muted-foreground">Most recent 500 events · timestamps shown in your local timezone</p>
+    <div className="space-y-5">
+      <div className="border-b pb-3"><span className="border-b-2 border-primary pb-3 text-sm font-medium text-primary">All activity</span></div>
+      <State q={q} empty={false}>
+        <section className="rounded-lg border bg-card p-4 sm:p-5">
+          <h3 className="mb-5 flex items-center gap-2 font-semibold"><Activity className="h-5 w-5 text-primary" />Activity (Last 7 Days)</h3>
+          <div className="h-52" role="img" aria-label={activity.map((day) => `${day.day}: ${day.count} events`).join("; ")}><ResponsiveContainer width="100%" height="100%"><BarChart data={activity} margin={{ right: 16 }}><CartesianGrid stroke="hsl(var(--border))" strokeDasharray="3 3" /><XAxis dataKey="day" fontSize={11} minTickGap={15} stroke="hsl(var(--muted-foreground))" /><YAxis allowDecimals={false} width={30} fontSize={11} /><Tooltip contentStyle={chartTooltipStyle} /><Bar name="Events" dataKey="count" fill={chartColors[0]} radius={[3, 3, 0, 0]} isAnimationActive={false} /></BarChart></ResponsiveContainer></div>
+        </section>
+      </State>
       <Toolbar
         term={term}
         setTerm={(t) => {
           setTerm(t);
           setPage(1);
         }}
-      />
+      >
+        <select aria-label="Filter logs by action" value={action} onChange={(e) => { setAction(e.target.value); setPage(1); }} className="h-10 rounded-md border bg-card px-3 text-sm"><option value="all">All actions</option>{actions.map((item) => <option key={item} value={item}>{item.replace(/_/g, " ")}</option>)}</select>
+        <select aria-label="Filter logs by date" value={period} onChange={(e) => { setPeriod(e.target.value); setPage(1); }} className="h-10 rounded-md border bg-card px-3 text-sm"><option value="all">All time</option><option value="7">Last 7 days</option><option value="30">Last 30 days</option><option value="90">Last 90 days</option></select>
+      </Toolbar>
+      <p className="text-xs text-muted-foreground">{rows.length} matching events · most recent 500 recorded changes · local timestamps. Anonymous visits and clicks are reported separately in Settings.</p>
       <State q={q} empty={!rows.length}>
-        <div className="overflow-x-auto rounded-xl border bg-card">
+        <div className="overflow-x-auto rounded-lg border bg-card">
           <table className="w-full min-w-[680px] text-sm">
             <thead className="bg-muted text-left">
               <tr>
-                <th className="p-4">User</th>
                 <th className="p-4">Action</th>
-                <th className="p-4">Record / details</th>
+                <th className="p-4">User</th>
+                <th className="p-4">Details</th>
                 <th className="p-4">Timestamp</th>
               </tr>
             </thead>
             <tbody>
               {rows.slice((page - 1) * PAGE, page * PAGE).map((l) => (
                 <tr key={l.id} className="border-t transition-colors hover:bg-muted/50">
+                  <td className="p-4"><span className="flex items-center gap-2 capitalize"><Activity className="h-4 w-4 shrink-0 text-primary" />{l.action.replace(/_/g, " ")}</span></td>
                   <td className="p-4 font-medium">{actor(l.actor_id)}</td>
-                  <td className="p-4"><Badge variant="secondary" className="capitalize">{l.action}</Badge></td>
                   <td className="p-4"><p className="capitalize">{l.entity.replace(/_/g, " ")}</p><p className="mt-1 text-xs text-muted-foreground">{l.summary}</p></td>
                   <td className="whitespace-nowrap p-4"><p>{new Date(l.created_at).toLocaleDateString("en-KE", { day: "numeric", month: "short", year: "numeric" })}</p><p className="mt-1 text-xs text-muted-foreground">{new Date(l.created_at).toLocaleTimeString("en-KE", { hour: "2-digit", minute: "2-digit" })}</p></td>
                 </tr>
