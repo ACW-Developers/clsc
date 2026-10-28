@@ -1,5 +1,9 @@
 # Requested changes
 
+- [ ] Match reference traffic charts and place traffic above admin settings.
+- [ ] Arrange overview statistics and paired charts; remove booking summary and recent activity.
+- [ ] Add activity trend chart, action/date filters and reference-style log table; verify signed-in views.
+
 - [x] Refine persistent sidebar groups, overview and role analytics, activity table and traffic analytics.
 - [x] Refine profile/security and registration consent; verify consent validation.
 - [x] Refine order cards, inventory tables, similar books and floating facility booking panel.
