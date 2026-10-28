@@ -141,14 +141,14 @@ function Card({ label, value }: { label: string; value: ReactNode }) {
 }
 
 export function Overview({ go }: { go: (v: string) => void }) {
-  const b = useBookings(), s = useServices(), f = useSubServices(), p = useProfiles(), l = useLogs();
+  const b = useBookings(), s = useServices(), f = useSubServices(), p = useProfiles();
   const orders = useOrders(true), donations = useDonations(true), books = useCatalog();
   const count = (st: string) => b.data?.filter((x) => x.status === st).length ?? 0;
   const hospitalitySales = (b.data ?? []).filter((x) => x.payment_status === "paid").reduce((n, x) => n + Number(x.total_amount ?? 0), 0);
   const bookSales = (orders.data ?? []).filter((x) => x.payment_status === "paid").reduce((n, x) => n + Number(x.amount), 0);
   return (
     <div className="space-y-6">
-      <div><h2 className="text-2xl font-bold">CSLC at a glance</h2><p className="mt-1 text-sm text-muted-foreground">Hospitality, bookshop and student programme records</p></div>
+      <div className="flex flex-wrap items-start justify-between gap-3"><div><h2 className="text-2xl font-bold">CSLC at a glance</h2><p className="mt-1 text-sm text-muted-foreground">Hospitality, bookshop and student programme records</p></div><p className="text-xs text-muted-foreground">{new Date().toLocaleDateString("en-KE", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}</p></div>
       {[b, orders, donations, books, p].some((q) => q.error) && <Alert variant="destructive"><AlertDescription>Some records could not be loaded. Refresh to try again.</AlertDescription></Alert>}
       <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
         <StatCard label="Bookings" value={b.data?.length ?? "–"} icon={CalendarCheck} detail={`${count("pending")} awaiting review / payment`} />
@@ -160,6 +160,9 @@ export function Overview({ go }: { go: (v: string) => void }) {
         <StatCard label="Donations received" value={donations.data ? kes(donations.data.filter((d) => d.status === "received").reduce((n, d) => n + Number(d.amount), 0)) : "–"} icon={HeartHandshake} detail={`${donations.data?.length ?? "–"} donation records`} />
         <StatCard label="Student programmes" value="Coming Soon"  />
       </div>
+      <State q={b} empty={false}>
+        <OverviewCharts bookings={b.data ?? []} orders={orders.data ?? []} donations={donations.data ?? []} />
+      </State>
       <div className="flex flex-wrap gap-2">
         <Button onClick={() => go("bookings")}>Review bookings</Button>
         <Button variant="outline" onClick={() => go("facilities")}>
@@ -169,37 +172,7 @@ export function Overview({ go }: { go: (v: string) => void }) {
           Manage services
         </Button>
       </div>
-      <State q={b} empty={false}>
-        <OverviewCharts bookings={b.data ?? []} orders={orders.data ?? []} donations={donations.data ?? []} />
-      </State>
-      <div className="grid gap-6 lg:grid-cols-2">
-        <section className="min-w-0 border-y py-5">
-          <h3 className="mb-3 font-semibold">Booking summary</h3>
-          {BOOKING_STATUSES.map((st) => (
-            <div
-              key={st}
-              className="flex justify-between border-b py-2 text-sm last:border-0"
-            >
-              <span className="capitalize">{st}</span>
-              <span className="font-semibold">{count(st)}</span>
-            </div>
-          ))}
-        </section>
-        <section className="min-w-0 border-y py-5">
-          <h3 className="mb-3 font-semibold">Recent activity</h3>
-          <State q={l} empty={!l.data?.length}>
-            {l.data?.slice(0, 6).map((x) => (
-              <p key={x.id} className="border-b py-2 text-sm last:border-0">
-                <span className="font-medium capitalize">{x.action}</span>{" "}
-                {x.entity}{" "}
-                <span className="text-xs text-muted-foreground">
-                  · {new Date(x.created_at).toLocaleString()}
-                </span>
-              </p>
-            ))}
-          </State>
-        </section>
-      </div>
+
     </div>
   );
 }
@@ -1220,6 +1193,7 @@ export function Settings() {
   return (
     <State q={q} empty={false}>
       <div className="space-y-8">
+      <TrafficAnalytics />
       <div><h2 className="text-xl font-semibold">Admin Settings</h2><p className="mt-1 text-sm text-muted-foreground">Contact information and CSLC branding</p></div>
       <div className="grid gap-6 lg:grid-cols-2">
         <form
@@ -1266,7 +1240,6 @@ export function Settings() {
           ))}
         </div>
       </div>
-      <TrafficAnalytics />
       </div>
     </State>
   );
