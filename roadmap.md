@@ -1,8 +1,8 @@
 # Requested changes
 
-- [ ] Match reference traffic charts and place traffic above admin settings.
-- [ ] Arrange overview statistics and paired charts; remove booking summary and recent activity.
-- [ ] Add activity trend chart, action/date filters and reference-style log table; verify signed-in views.
+- [x] Match reference traffic charts and place traffic above admin settings; unavailable dimensions remain explicit.
+- [x] Arrange overview statistics and paired charts; remove booking summary and recent activity.
+- [x] Add activity trend chart, action/date filters and reference-style log table; verify signed-in desktop/mobile views and 18 tests.
 
 - [x] Refine persistent sidebar groups, overview and role analytics, activity table and traffic analytics.
 - [x] Refine profile/security and registration consent; verify consent validation.

@@ -11,7 +11,8 @@ export function TrafficAnalytics() {
   const start = new Date(); start.setHours(0, 0, 0, 0); start.setDate(start.getDate() - period + 1);
   const events = (q.data ?? []).filter((event) => new Date(event.created_at) >= start);
   const visits = events.filter((event) => event.event_type === "visit");
-  const days = dailyActivity(visits, period).map((day, index) => ({ ...day, clicks: dailyActivity(events.filter((event) => event.event_type === "click"), period)[index].count }));
+  const dailyClicks = dailyActivity(events.filter((event) => event.event_type === "click"), period);
+  const days = dailyActivity(visits, period).map((day, index) => ({ ...day, clicks: dailyClicks[index]?.count ?? 0 }));
   const breakdown = (field: "device" | "os" | "path") => [...new Set(visits.map((event) => event[field]))].map((name) => ({ name, count: visits.filter((event) => event[field] === name).length })).sort((a, b) => b.count - a.count);
   const devices = breakdown("device"), systems = breakdown("os"), pages = breakdown("path").slice(0, 6);
   const panel = "min-w-0 rounded-lg border bg-card p-4";
