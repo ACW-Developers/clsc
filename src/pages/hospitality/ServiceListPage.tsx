@@ -53,68 +53,70 @@ const ServiceListPage = () => {
       <SiteHeader />
 
       {/* Premium service hero */}
-      <section className="relative isolate min-h-[300px] overflow-hidden bg-slate-950 sm:min-h-[370px] lg:min-h-[420px]">
-        {hero && (
-          <img
-            src={hero}
-            alt=""
-            fetchPriority="high"
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-        )}
+      
+<section className="relative isolate min-h-[300px] overflow-hidden bg-slate-950 sm:min-h-[370px] lg:min-h-[420px]">
+  {hero && (
+    <img
+      src={hero}
+      alt=""
+      fetchPriority="high"
+      className="absolute inset-0 h-full w-full object-cover"
+    />
+  )}
 
-        <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/60 to-black/50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/10" />
+  <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/65 to-black/65" />
+  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10" />
 
-        <div className="container relative z-10 flex min-h-[300px] flex-col justify-center py-12 text-white sm:min-h-[370px] lg:min-h-[420px]">
-          <nav
-            className="mb-6 flex flex-wrap items-center gap-2 text-sm text-white/75"
-            aria-label="Breadcrumb"
-          >
-            <Link to={paths.home} className="transition hover:text-white">
-              Home
-            </Link>
-            <span>/</span>
-            <span>Hospitality</span>
-            <span>/</span>
-            <span className="font-medium text-white">{title}</span>
-          </nav>
+  <div className="container relative z-10 flex min-h-[300px] flex-col items-center justify-center py-12 text-center text-white sm:min-h-[370px] lg:min-h-[420px]">
+    <nav
+      className="mb-6 flex flex-wrap items-center justify-center gap-2 text-sm text-white/75"
+      aria-label="Breadcrumb"
+    >
+      <Link to={paths.home} className="transition hover:text-white">
+        Home
+      </Link>
+      <span>/</span>
+      <span>Hospitality</span>
+      <span>/</span>
+      <span className="font-medium text-white">{title}</span>
+    </nav>
 
-          <div className="max-w-3xl">
-            <div className="mb-4 inline-flex items-center gap-1 rounded-md border border-white/10 bg-white/0 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] backdrop-blur-sm">
-              CSLC Hospitality
-            </div>
+    <div className="flex w-full max-w-3xl flex-col items-center">
+      <div className="mb-4 inline-flex items-center gap-1 rounded-md border border-white/5 bg-white/5 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] backdrop-blur-sm">
+        CSLC Hospitality
+      </div>
 
-            <h1 className="max-w-2xl text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
-              {title}
-            </h1>
+      <h1 className="max-w-2xl text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+        {title}
+      </h1>
 
-            {description && (
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-white/80 sm:text-base">
-                {description}
-              </p>
-            )}
+      {description && (
+        <p className="mt-4 max-w-2xl text-sm leading-7 text-white/85 sm:text-base">
+          {description}
+        </p>
+      )}
 
-            <div className="mt-7 flex flex-wrap items-center gap-3">
-              <Button
-                asChild
-                size="lg"
-                className="rounded-lg font-semibold shadow-lg"
-              >
-                <a href="#facilities">
-                  Explore facilities
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
-              </Button>
+      <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+        <Button
+          asChild
+          size="lg"
+          className="rounded-lg font-semibold shadow-lg"
+        >
+          <a href="#facilities">
+            Explore facilities
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </a>
+        </Button>
 
-              <div className="hidden sm:flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm backdrop-blur-sm">
-                <CheckCircle2 className="h-4 w-4 text-orange-300" />
-                Comfortable, convenient spaces
-              </div>
-            </div>
-          </div>
+        <div className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm backdrop-blur-sm">
+          <CheckCircle2 className="h-4 w-4 shrink-0 text-orange-300" />
+          Comfortable, convenient spaces
         </div>
-      </section>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       <main className="container min-w-0 flex-1 py-10 sm:py-14">
         {/* Introductory section */}
