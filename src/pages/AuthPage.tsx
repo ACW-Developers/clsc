@@ -198,7 +198,8 @@ const AuthPage = () => {
               {mode === "signin" && (
                 <Button
                   type="button"
-                  variant="link" size="sm"
+                  variant="link"
+                  size="sm"
                   onClick={() => setMode("forgot")}
                   className="text-xs text-primary hover:underline"
                 >
@@ -220,11 +221,30 @@ const AuthPage = () => {
           </div>
         )}
 
-        {mode === "signup" && <div className="space-y-2 border-t pt-4">
-          <div className="flex items-start gap-3"><Checkbox id="signup-consent" checked={consent} onCheckedChange={(value) => setConsent(value === true)} aria-invalid={!!errors.consent} />
-            <Label htmlFor="signup-consent" className="text-xs font-normal leading-relaxed">I consent to CSLC processing my account and contact details to manage my bookings, orders, and support requests.</Label></div>
-          {errors.consent && <p role="alert" className="text-xs text-destructive">{errors.consent}</p>}
-        </div>}
+        {mode === "signup" && (
+          <div className="space-y-2 border-t pt-4">
+            <div className="flex items-start gap-3">
+              <Checkbox
+                id="signup-consent"
+                checked={consent}
+                onCheckedChange={(value) => setConsent(value === true)}
+                aria-invalid={!!errors.consent}
+              />
+              <Label
+                htmlFor="signup-consent"
+                className="text-xs font-normal leading-relaxed"
+              >
+                I consent to CSLC processing my account and contact details to
+                manage my bookings, orders, and support requests.
+              </Label>
+            </div>
+            {errors.consent && (
+              <p role="alert" className="text-xs text-destructive">
+                {errors.consent}
+              </p>
+            )}
+          </div>
+        )}
         {error && (
           <Alert variant="destructive">
             <AlertDescription>{error}</AlertDescription>

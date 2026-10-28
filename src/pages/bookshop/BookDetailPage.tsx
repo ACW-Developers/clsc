@@ -24,8 +24,17 @@ export default function BookDetailPage() {
           ? "yaya"
           : cart.branch;
   const stock = book ? availableStock(book, branch) : 0;
-  const similar = book ? (q.data ?? []).filter((b) => b.is_published && b.id !== book.id).sort((a, b) =>
-    Number(b.category === book.category) - Number(a.category === book.category) || Number(b.author === book.author) - Number(a.author === book.author)).slice(0, 4) : [];
+  const similar = book
+    ? (q.data ?? [])
+        .filter((b) => b.is_published && b.id !== book.id)
+        .sort(
+          (a, b) =>
+            Number(b.category === book.category) -
+              Number(a.category === book.category) ||
+            Number(b.author === book.author) - Number(a.author === book.author),
+        )
+        .slice(0, 4)
+    : [];
   return (
     <ShopFrame>
       <main className="container py-8 sm:py-12">
@@ -114,7 +123,18 @@ export default function BookDetailPage() {
             </div>
           </div>
         )}
-        {similar.length > 0 && <section className="mt-12 border-t pt-8"><h2 className="mb-6 font-serif text-2xl font-bold">Similar Books</h2><div className="grid grid-cols-2 gap-3 lg:grid-cols-4">{similar.map((b) => <BookCard key={b.id} book={b} branch={branch} />)}</div></section>}
+        {similar.length > 0 && (
+          <section className="mt-12 border-t pt-8">
+            <h2 className="mb-6 font-serif text-2xl font-bold">
+              Similar Books
+            </h2>
+            <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+              {similar.map((b) => (
+                <BookCard key={b.id} book={b} branch={branch} />
+              ))}
+            </div>
+          </section>
+        )}
       </main>
     </ShopFrame>
   );

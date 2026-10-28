@@ -98,12 +98,39 @@ export function PhaseRecords({
         management ? `${kind} management records` : `My ${kind} records`
       }
     >
-      {kind === "orders" && <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
-        <StatCard label="Total orders" value={query.data?.length ?? "–"} icon={ShoppingBag} />
-        <StatCard label="Processing" value={query.data?.filter((r) => r.status === "processing").length ?? "–"} />
-        <StatCard label="Fulfilled" value={query.data?.filter((r) => r.status === "fulfilled").length ?? "–"} />
-        <StatCard label="Paid sales (simulated)" value={orders.data ? kes(orders.data.filter((r) => r.payment_status === "paid").reduce((n, r) => n + Number(r.amount), 0)) : "–"} />
-      </div>}
+      {kind === "orders" && (
+        <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
+          <StatCard
+            label="Total orders"
+            value={query.data?.length ?? "–"}
+            icon={ShoppingBag}
+          />
+          <StatCard
+            label="Processing"
+            value={
+              query.data?.filter((r) => r.status === "processing").length ?? "–"
+            }
+          />
+          <StatCard
+            label="Fulfilled"
+            value={
+              query.data?.filter((r) => r.status === "fulfilled").length ?? "–"
+            }
+          />
+          <StatCard
+            label="Paid sales (simulated)"
+            value={
+              orders.data
+                ? kes(
+                    orders.data
+                      .filter((r) => r.payment_status === "paid")
+                      .reduce((n, r) => n + Number(r.amount), 0),
+                  )
+                : "–"
+            }
+          />
+        </div>
+      )}
       <div className="flex flex-wrap items-center gap-3">
         <div className="relative min-w-0 flex-1 basis-48">
           <Search
@@ -183,7 +210,11 @@ export function PhaseRecords({
                     {row.description}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {new Date(row.created_at).toLocaleDateString("en-KE", { day: "numeric", month: "short", year: "numeric" })}
+                    {new Date(row.created_at).toLocaleDateString("en-KE", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
                   </p>
                   {management && (
                     <p className="break-all text-xs text-muted-foreground">
@@ -193,7 +224,16 @@ export function PhaseRecords({
                 </div>
                 <div className="flex flex-wrap items-center gap-3 border-t pt-4">
                   <span className="font-semibold">{kes(row.amount)}</span>
-                  <Badge variant={row.status === "fulfilled" || row.status === "processing" ? "default" : row.status === "cancelled" ? "destructive" : "secondary"} className="capitalize">
+                  <Badge
+                    variant={
+                      row.status === "fulfilled" || row.status === "processing"
+                        ? "default"
+                        : row.status === "cancelled"
+                          ? "destructive"
+                          : "secondary"
+                    }
+                    className="capitalize"
+                  >
                     {row.status}
                   </Badge>
                   {kind === "orders" &&

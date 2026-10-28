@@ -52,11 +52,31 @@ import { UserAnalytics } from "./UserAnalytics";
 import { useOrders } from "@/hooks/bookshop/useOrders";
 import { useDonations } from "@/hooks/programmes/useDonations";
 import { useCatalog } from "@/hooks/bookshop/useCatalog";
-import { ShoppingBag, Users as UsersIcon, BookOpen, BedDouble, CalendarCheck, HeartHandshake, TrendingUp } from "lucide-react";
+import {
+  ShoppingBag,
+  Users as UsersIcon,
+  BookOpen,
+  BedDouble,
+  CalendarCheck,
+  HeartHandshake,
+  TrendingUp,
+} from "lucide-react";
 import { TrafficAnalytics } from "./TrafficAnalytics";
 import { Activity } from "lucide-react";
-import { ResponsiveContainer, BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts";
-import { chartColors, chartTooltipStyle, dailyActivity } from "./analyticsPresentation";
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+} from "recharts";
+import {
+  chartColors,
+  chartTooltipStyle,
+  dailyActivity,
+} from "./analyticsPresentation";
 
 const PAGE = 10;
 
@@ -144,28 +164,84 @@ function Card({ label, value }: { label: string; value: ReactNode }) {
 }
 
 export function Overview({ go }: { go: (v: string) => void }) {
-  const b = useBookings(), s = useServices(), f = useSubServices(), p = useProfiles();
-  const orders = useOrders(true), donations = useDonations(true), books = useCatalog();
-  const count = (st: string) => b.data?.filter((x) => x.status === st).length ?? 0;
-  const hospitalitySales = (b.data ?? []).filter((x) => x.payment_status === "paid").reduce((n, x) => n + Number(x.total_amount ?? 0), 0);
-  const bookSales = (orders.data ?? []).filter((x) => x.payment_status === "paid").reduce((n, x) => n + Number(x.amount), 0);
+  const b = useBookings(),
+    s = useServices(),
+    f = useSubServices(),
+    p = useProfiles();
+  const orders = useOrders(true),
+    donations = useDonations(true),
+    books = useCatalog();
+  const count = (st: string) =>
+    b.data?.filter((x) => x.status === st).length ?? 0;
+  const hospitalitySales = (b.data ?? [])
+    .filter((x) => x.payment_status === "paid")
+    .reduce((n, x) => n + Number(x.total_amount ?? 0), 0);
+  const bookSales = (orders.data ?? [])
+    .filter((x) => x.payment_status === "paid")
+    .reduce((n, x) => n + Number(x.amount), 0);
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-start justify-between gap-3"><div><h2 className="text-2xl font-bold">CSLC at a glance</h2><p className="mt-1 text-sm text-muted-foreground">Hospitality, bookshop and student programme records</p></div><p className="text-xs text-muted-foreground">{new Date().toLocaleDateString("en-KE", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}</p></div>
-      {[b, orders, donations, books, p].some((q) => q.error) && <Alert variant="destructive"><AlertDescription>Some records could not be loaded. Refresh to try again.</AlertDescription></Alert>}
-      <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
-        <StatCard label="Bookings" value={b.data?.length ?? "–"} icon={CalendarCheck} detail={`${count("pending")} awaiting review / payment`} />
-        <StatCard label="Bookshop orders" value={orders.data?.length ?? "–"} icon={ShoppingBag} />
-        <StatCard label="Combined sales" value={b.data && orders.data ? kes(hospitalitySales + bookSales) : "–"} icon={TrendingUp} detail="hospitality + bookshop Sales" />
-        <StatCard label="Registered users" value={p.data?.length ?? "–"} icon={UsersIcon} />
-        <StatCard label="Facilities" value={f.data?.length ?? "–"} icon={BedDouble} detail={`${s.data?.length ?? "–"} hospitality categories`} />
-        <StatCard label="Book titles" value={books.data?.length ?? "–"} icon={BookOpen} />
-        <StatCard label="Donations received" value={donations.data ? kes(donations.data.filter((d) => d.status === "received").reduce((n, d) => n + Number(d.amount), 0)) : "–"} icon={HeartHandshake} detail={`${donations.data?.length ?? "–"} donation records`} />
-        <StatCard label="Student programmes" value="Coming Soon"  />
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h2 className="text-2xl font-bold">CSLC at a glance</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Hospitality, bookshop and student programme records
+          </p>
+        </div>
+        <p className="text-xs text-muted-foreground">
+          {new Date().toLocaleDateString("en-KE", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })}
+        </p>
       </div>
-      <State q={b} empty={false}>
-        <OverviewCharts bookings={b.data ?? []} orders={orders.data ?? []} donations={donations.data ?? []} />
-      </State>
+      {[b, orders, donations, books, p].some((q) => q.error) && (
+        <Alert variant="destructive">
+          <AlertDescription>
+            Some records could not be loaded. Refresh to try again.
+          </AlertDescription>
+        </Alert>
+      )}
+      <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
+        <StatCard label="Bookings" value={b.data?.length ?? "–"} />
+        <StatCard
+          label="Bookshop orders"
+          value={orders.data?.length ?? "–"}
+          icon={ShoppingBag}
+        />
+        <StatCard
+          label="Combined sales"
+          value={
+            b.data && orders.data ? kes(hospitalitySales + bookSales) : "–"
+          }
+        />
+        <StatCard
+          label="Registered users"
+          value={p.data?.length ?? "–"}
+          icon={UsersIcon}
+        />
+        <StatCard label="Facilities" value={f.data?.length ?? "–"} />
+        <StatCard
+          label="Book titles"
+          value={books.data?.length ?? "–"}
+          icon={BookOpen}
+        />
+        <StatCard
+          label="Donations received"
+          value={
+            donations.data
+              ? kes(
+                  donations.data
+                    .filter((d) => d.status === "received")
+                    .reduce((n, d) => n + Number(d.amount), 0),
+                )
+              : "–"
+          }
+        />
+        <StatCard label="Student programmes" value="Coming Soon" />
+      </div>
       <div className="flex flex-wrap gap-2">
         <Button onClick={() => go("bookings")}>Review bookings</Button>
         <Button variant="outline" onClick={() => go("facilities")}>
@@ -175,7 +251,13 @@ export function Overview({ go }: { go: (v: string) => void }) {
           Manage services
         </Button>
       </div>
-
+      <State q={b} empty={false}>
+        <OverviewCharts
+          bookings={b.data ?? []}
+          orders={orders.data ?? []}
+          donations={donations.data ?? []}
+        />
+      </State>
     </div>
   );
 }
@@ -1012,8 +1094,15 @@ export function Users() {
     roles.data?.filter((r) => r.user_id === id).map((r) => r.role) ?? [];
   const rows = (q.data ?? []).filter((p) => {
     const r = rolesOf(p.id);
-    const matchesRole = roleFilter === "all" || (roleFilter === "regular" ? !r.includes("admin") && !r.includes("super_admin") : r.includes(roleFilter as "admin" | "super_admin"));
-    return matchesRole && `${p.full_name} ${p.email}`.toLowerCase().includes(term.toLowerCase());
+    const matchesRole =
+      roleFilter === "all" ||
+      (roleFilter === "regular"
+        ? !r.includes("admin") && !r.includes("super_admin")
+        : r.includes(roleFilter as "admin" | "super_admin"));
+    return (
+      matchesRole &&
+      `${p.full_name} ${p.email}`.toLowerCase().includes(term.toLowerCase())
+    );
   });
   return (
     <div>
@@ -1025,8 +1114,19 @@ export function Users() {
           setPage(1);
         }}
       >
-        <select aria-label="Filter users by role" value={roleFilter} onChange={(e) => { setRoleFilter(e.target.value); setPage(1); }} className="h-10 rounded-md border bg-background px-3 text-sm">
-          <option value="all">All roles</option><option value="regular">Regular users</option><option value="admin">Administrators</option><option value="super_admin">Super administrators</option>
+        <select
+          aria-label="Filter users by role"
+          value={roleFilter}
+          onChange={(e) => {
+            setRoleFilter(e.target.value);
+            setPage(1);
+          }}
+          className="h-10 rounded-md border bg-background px-3 text-sm"
+        >
+          <option value="all">All roles</option>
+          <option value="regular">Regular users</option>
+          <option value="admin">Administrators</option>
+          <option value="super_admin">Super administrators</option>
         </select>
       </Toolbar>
       <State q={q} empty={!rows.length}>
@@ -1082,7 +1182,12 @@ export function Users() {
 export function Logs() {
   const q = useLogs();
   const profiles = useProfiles();
-  const actor = (id: string | null) => id ? profiles.data?.find((p) => p.id === id)?.full_name || profiles.data?.find((p) => p.id === id)?.email || "Unknown user" : "System";
+  const actor = (id: string | null) =>
+    id
+      ? profiles.data?.find((p) => p.id === id)?.full_name ||
+        profiles.data?.find((p) => p.id === id)?.email ||
+        "Unknown user"
+      : "System";
   const [term, setTerm] = useState("");
   const [page, setPage] = useState(1);
   const [action, setAction] = useState("all");
@@ -1092,20 +1197,58 @@ export function Logs() {
   since.setDate(since.getDate() - Number(period) + 1);
   const actions = [...new Set((q.data ?? []).map((log) => log.action))].sort();
   const activity = dailyActivity(q.data ?? [], 7);
-  const rows = (q.data ?? []).filter((l) =>
-    (action === "all" || l.action === action) &&
-    (period === "all" || new Date(l.created_at) >= since) &&
-    `${actor(l.actor_id)} ${l.action} ${l.entity} ${l.summary ?? ""}`
-      .toLowerCase()
-      .includes(term.toLowerCase()),
+  const rows = (q.data ?? []).filter(
+    (l) =>
+      (action === "all" || l.action === action) &&
+      (period === "all" || new Date(l.created_at) >= since) &&
+      `${actor(l.actor_id)} ${l.action} ${l.entity} ${l.summary ?? ""}`
+        .toLowerCase()
+        .includes(term.toLowerCase()),
   );
   return (
     <div className="space-y-5">
-      <div className="border-b pb-3"><span className="border-b-2 border-primary pb-3 text-sm font-medium text-primary">All activity</span></div>
+      <div className="border-b pb-3">
+        <span className="border-b-2 border-primary pb-3 text-sm font-medium text-primary">
+          All activity
+        </span>
+      </div>
       <State q={q} empty={false}>
         <section className="rounded-lg border bg-card p-4 sm:p-5">
-          <h3 className="mb-5 flex items-center gap-2 font-semibold"><Activity className="h-5 w-5 text-primary" />Activity (Last 7 Days)</h3>
-          <div className="h-52" role="img" aria-label={activity.map((day) => `${day.day}: ${day.count} events`).join("; ")}><ResponsiveContainer width="100%" height="100%"><BarChart data={activity} margin={{ right: 16 }}><CartesianGrid stroke="hsl(var(--border))" strokeDasharray="3 3" /><XAxis dataKey="day" fontSize={11} minTickGap={15} stroke="hsl(var(--muted-foreground))" /><YAxis allowDecimals={false} width={30} fontSize={11} /><Tooltip contentStyle={chartTooltipStyle} /><Bar name="Events" dataKey="count" fill={chartColors[0]} radius={[3, 3, 0, 0]} isAnimationActive={false} /></BarChart></ResponsiveContainer></div>
+          <h3 className="mb-5 flex items-center gap-2 font-semibold">
+            <Activity className="h-5 w-5 text-primary" />
+            Activity (Last 7 Days)
+          </h3>
+          <div
+            className="h-52"
+            role="img"
+            aria-label={activity
+              .map((day) => `${day.day}: ${day.count} events`)
+              .join("; ")}
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={activity} margin={{ right: 16 }}>
+                <CartesianGrid
+                  stroke="hsl(var(--border))"
+                  strokeDasharray="3 3"
+                />
+                <XAxis
+                  dataKey="day"
+                  fontSize={11}
+                  minTickGap={15}
+                  stroke="hsl(var(--muted-foreground))"
+                />
+                <YAxis allowDecimals={false} width={30} fontSize={11} />
+                <Tooltip contentStyle={chartTooltipStyle} />
+                <Bar
+                  name="Events"
+                  dataKey="count"
+                  fill={chartColors[0]}
+                  radius={[3, 3, 0, 0]}
+                  isAnimationActive={false}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </section>
       </State>
       <Toolbar
@@ -1115,10 +1258,42 @@ export function Logs() {
           setPage(1);
         }}
       >
-        <select aria-label="Filter logs by action" value={action} onChange={(e) => { setAction(e.target.value); setPage(1); }} className="h-10 rounded-md border bg-card px-3 text-sm"><option value="all">All actions</option>{actions.map((item) => <option key={item} value={item}>{item.replace(/_/g, " ")}</option>)}</select>
-        <select aria-label="Filter logs by date" value={period} onChange={(e) => { setPeriod(e.target.value); setPage(1); }} className="h-10 rounded-md border bg-card px-3 text-sm"><option value="all">All time</option><option value="7">Last 7 days</option><option value="30">Last 30 days</option><option value="90">Last 90 days</option></select>
+        <select
+          aria-label="Filter logs by action"
+          value={action}
+          onChange={(e) => {
+            setAction(e.target.value);
+            setPage(1);
+          }}
+          className="h-10 rounded-md border bg-card px-3 text-sm"
+        >
+          <option value="all">All actions</option>
+          {actions.map((item) => (
+            <option key={item} value={item}>
+              {item.replace(/_/g, " ")}
+            </option>
+          ))}
+        </select>
+        <select
+          aria-label="Filter logs by date"
+          value={period}
+          onChange={(e) => {
+            setPeriod(e.target.value);
+            setPage(1);
+          }}
+          className="h-10 rounded-md border bg-card px-3 text-sm"
+        >
+          <option value="all">All time</option>
+          <option value="7">Last 7 days</option>
+          <option value="30">Last 30 days</option>
+          <option value="90">Last 90 days</option>
+        </select>
       </Toolbar>
-      <p className="text-xs text-muted-foreground">{rows.length} matching events · most recent 500 recorded changes · local timestamps. Anonymous visits and clicks are reported separately in Settings.</p>
+      <p className="text-xs text-muted-foreground">
+        {rows.length} matching events · most recent 500 recorded changes · local
+        timestamps. Anonymous visits and clicks are reported separately in
+        Settings.
+      </p>
       <State q={q} empty={!rows.length}>
         <div className="overflow-x-auto rounded-lg border bg-card">
           <table className="w-full min-w-[680px] text-sm">
@@ -1132,11 +1307,38 @@ export function Logs() {
             </thead>
             <tbody>
               {rows.slice((page - 1) * PAGE, page * PAGE).map((l) => (
-                <tr key={l.id} className="border-t transition-colors hover:bg-muted/50">
-                  <td className="p-4"><span className="flex items-center gap-2 capitalize"><Activity className="h-4 w-4 shrink-0 text-primary" />{l.action.replace(/_/g, " ")}</span></td>
+                <tr
+                  key={l.id}
+                  className="border-t transition-colors hover:bg-muted/50"
+                >
+                  <td className="p-4">
+                    <span className="flex items-center gap-2 capitalize">
+                      <Activity className="h-4 w-4 shrink-0 text-primary" />
+                      {l.action.replace(/_/g, " ")}
+                    </span>
+                  </td>
                   <td className="p-4 font-medium">{actor(l.actor_id)}</td>
-                  <td className="p-4"><p className="capitalize">{l.entity.replace(/_/g, " ")}</p><p className="mt-1 text-xs text-muted-foreground">{l.summary}</p></td>
-                  <td className="whitespace-nowrap p-4"><p>{new Date(l.created_at).toLocaleDateString("en-KE", { day: "numeric", month: "short", year: "numeric" })}</p><p className="mt-1 text-xs text-muted-foreground">{new Date(l.created_at).toLocaleTimeString("en-KE", { hour: "2-digit", minute: "2-digit" })}</p></td>
+                  <td className="p-4">
+                    <p className="capitalize">{l.entity.replace(/_/g, " ")}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {l.summary}
+                    </p>
+                  </td>
+                  <td className="whitespace-nowrap p-4">
+                    <p>
+                      {new Date(l.created_at).toLocaleDateString("en-KE", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {new Date(l.created_at).toLocaleTimeString("en-KE", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -1215,53 +1417,58 @@ export function Settings() {
   return (
     <State q={q} empty={false}>
       <div className="space-y-8">
-      <TrafficAnalytics />
-      <div><h2 className="text-xl font-semibold">Admin Settings</h2><p className="mt-1 text-sm text-muted-foreground">Contact information and CSLC branding</p></div>
-      <div className="grid gap-6 lg:grid-cols-2">
-        <form
-          className="space-y-4 rounded-lg border bg-card p-5 shadow-card"
-          onSubmit={(e) => {
-            e.preventDefault();
-            save.mutate({
-              k: "contact",
-              v: {
-                phone: (c.phone ?? "").slice(0, 40),
-                email: (c.email ?? "").slice(0, 255),
-                address: (c.address ?? "").slice(0, 200),
-              },
-            });
-          }}
-        >
-          <h3 className="font-semibold">Contact details</h3>
-          {(["phone", "email", "address"] as const).map((k) => (
-            <div key={k} className="space-y-1.5">
-              <Label className="capitalize">{k}</Label>
-              <Input
-                value={c[k] ?? ""}
-                onChange={(e) => setContact({ ...c, [k]: e.target.value })}
-              />
-            </div>
-          ))}
-          <Button type="submit" disabled={save.isPending}>
-            Save contact details
-          </Button>
-        </form>
-        <div className="space-y-4 rounded-lg border bg-card p-5 shadow-card">
-          <h3 className="font-semibold">Branding images</h3>
-          <p className="text-xs text-muted-foreground">
-            Images are stored as files; only their links are saved.
+        <TrafficAnalytics />
+        <div>
+          <h2 className="text-xl font-semibold">Admin Settings</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Contact information and CSLC branding
           </p>
-          {(["logo", "banner"] as const).map((k) => (
-            <ImageField
-              key={k}
-              value={branding[k] ?? ""}
-              onChange={(u) =>
-                save.mutate({ k: "branding", v: { ...branding, [k]: u } })
-              }
-            />
-          ))}
         </div>
-      </div>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <form
+            className="space-y-4 rounded-lg border bg-card p-5 shadow-card"
+            onSubmit={(e) => {
+              e.preventDefault();
+              save.mutate({
+                k: "contact",
+                v: {
+                  phone: (c.phone ?? "").slice(0, 40),
+                  email: (c.email ?? "").slice(0, 255),
+                  address: (c.address ?? "").slice(0, 200),
+                },
+              });
+            }}
+          >
+            <h3 className="font-semibold">Contact details</h3>
+            {(["phone", "email", "address"] as const).map((k) => (
+              <div key={k} className="space-y-1.5">
+                <Label className="capitalize">{k}</Label>
+                <Input
+                  value={c[k] ?? ""}
+                  onChange={(e) => setContact({ ...c, [k]: e.target.value })}
+                />
+              </div>
+            ))}
+            <Button type="submit" disabled={save.isPending}>
+              Save contact details
+            </Button>
+          </form>
+          <div className="space-y-4 rounded-lg border bg-card p-5 shadow-card">
+            <h3 className="font-semibold">Branding images</h3>
+            <p className="text-xs text-muted-foreground">
+              Images are stored as files; only their links are saved.
+            </p>
+            {(["logo", "banner"] as const).map((k) => (
+              <ImageField
+                key={k}
+                value={branding[k] ?? ""}
+                onChange={(u) =>
+                  save.mutate({ k: "branding", v: { ...branding, [k]: u } })
+                }
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </State>
   );
