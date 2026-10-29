@@ -15,6 +15,8 @@ import {
   BookOpen,
   Package,
   ChartNoAxesCombined,
+  CalendarDays,
+  FileText,
 } from "lucide-react";
 import { DashboardShell } from "@/components/common/DashboardShell";
 import { ProfileForm } from "@/components/common/ProfileForm";
@@ -34,6 +36,7 @@ import { AdminSupport } from "@/components/admin/AdminSupport";
 import { BookManagement } from "@/components/bookshop/BookManagement";
 import { Inventory } from "@/components/bookshop/Inventory";
 import type { DashView } from "@/components/common/DashboardShell";
+import { DonationsInsights, EventsAdmin, MaterialsAdmin } from "@/components/programmes/ProgrammeAdmin";
 import { TrafficAnalytics } from "@/components/admin/TrafficAnalytics";
 
 const views: (DashView & { superOnly?: boolean })[] = [
@@ -58,6 +61,8 @@ const views: (DashView & { superOnly?: boolean })[] = [
     superOnly: true,
   },
   { id: "inventory", label: "Stock & Sales", icon: Package, group: "Bookshop" },
+  { id: "events", label: "Events", icon: CalendarDays, group: "Student Programmes" },
+  { id: "materials", label: "Materials", icon: FileText, group: "Student Programmes" },
   {
     id: "donations",
     label: "Donations",
@@ -97,7 +102,9 @@ const AdminPage = () => {
       {view === "orders" && <PhaseRecords kind="orders" management />}
       {view === "books" && <BookManagement />}
       {view === "inventory" && <Inventory />}
-      {view === "donations" && <PhaseRecords kind="donations" management />}
+      {view === "events" && <EventsAdmin />}
+      {view === "materials" && <MaterialsAdmin />}
+      {view === "donations" && <DonationsInsights />}
       {view === "support" && <AdminSupport />}
       {view === "receipts" && <ReceiptsTable />}
       {view === "services" && <Services />}

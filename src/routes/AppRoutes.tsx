@@ -17,6 +17,13 @@ import BookDetailPage from "@/pages/bookshop/BookDetailPage";
 import CartPage from "@/pages/bookshop/CartPage";
 import BookshopCheckoutPage from "@/pages/bookshop/BookshopCheckoutPage";
 import BookshopReceiptPage from "@/pages/bookshop/BookshopReceiptPage";
+import {
+  DonatePage,
+  DonationReceiptPage,
+  EventsPage,
+  MaterialsPage,
+  TicketPage,
+} from "@/pages/programmes/ProgrammePages";
 import NotFoundPage from "@/pages/NotFoundPage";
 import { RequireAuth } from "@/components/common/RouteGuards";
 import { paths } from "./paths";
@@ -84,6 +91,19 @@ export function AppRoutes() {
             </RequireAuth>
           }
         />
+        <Route path={paths.events} element={<EventsPage />} />
+        <Route path={paths.eventDetail} element={<EventsPage />} />
+        <Route
+          path={paths.ticket}
+          element={
+            <RequireAuth>
+              <TicketPage />
+            </RequireAuth>
+          }
+        />
+        <Route path={paths.materials} element={<MaterialsPage />} />
+        <Route path={paths.donate} element={<DonatePage />} />
+        <Route path={paths.donationReceipt} element={<DonationReceiptPage />} />
         <Route path={paths.comingSoon} element={<ComingSoonPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

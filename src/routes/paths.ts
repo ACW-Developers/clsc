@@ -19,6 +19,12 @@ export const paths = {
   cart: "/bookshop/cart",
   bookshopCheckout: "/bookshop/checkout",
   bookshopReceipt: "/bookshop/receipts/:id",
+  events: "/events",
+  eventDetail: "/events/:id",
+  ticket: "/events/tickets/:id",
+  materials: "/materials",
+  donate: "/donate",
+  donationReceipt: "/donate/receipts/:id",
 } as const;
 
 export const comingSoon = (slug: string) => `/coming-soon/${slug}`;
@@ -34,3 +40,6 @@ export const bookUrl = (id: string, branch?: string) =>
   `/bookshop/books/${id}${branch ? `?branch=${branch}` : ""}`;
 export const branchUrl = (branch: string) => `/bookshop/branch/${branch}`;
 export const bookshopReceiptUrl = (id: string) => `/bookshop/receipts/${id}`;
+export const eventUrl = (id: string) => `/events/${id}`;
+export const ticketUrl = (id: string) => `/events/tickets/${id}`;
+export const donationReceiptUrl = (id: string) => `/donate/receipts/${id}`;
