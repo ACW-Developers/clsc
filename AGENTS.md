@@ -23,3 +23,5 @@
 - Traffic tracking uses a validated rate-limited public RPC with staff-only reads; collect only sanitized page paths and browser-reported device/OS, never query strings, form values, IPs or user identity — keep analytics minimal and privacy-conscious.
 - Shared StatCard and profile/security forms serve dashboard modules; signup consent is validated through the shared registration schema — maintain consistent presentation and submission rules.
 - Facility uploads are resized and compressed before storage; labelled sample media uses asset pointers — reduce transfer size without changing logo storage.
+- Student programmes (events, materials, donations) live in `services/programmes`, `hooks/programmes`, `components/programmes` and `pages/programmes`; ticket and donation payments run only through security-definer RPCs that set prices, capacity and receipt numbers — clients never write payment records.
+- All receipts and tickets render through `components/common/PosReceipt` — one universal receipt format across modules.
