@@ -38,13 +38,16 @@ import { donationsService } from "@/services/programmes/donations";
 import { kes } from "@/lib/booking";
 import { Link } from "react-router-dom";
 import { useBookshopReceipts } from "@/hooks/bookshop/useCatalog";
-import { bookshopReceiptUrl } from "@/routes/paths";
+import { bookshopReceiptUrl, donationReceiptUrl } from "@/routes/paths";
 import { StatCard } from "./StatCard";
 import { branchName } from "@/services/bookshop/catalog";
 
 type RecordRow = {
   id: string;
-  user_id: string;
+  user_id: string | null;
+  receipt_number?: string | null;
+  donor_name?: string | null;
+  donor_email?: string | null;
   reference: string;
   description: string;
   amount: number;
@@ -85,7 +88,7 @@ export function PhaseRecords({
   const rows = (query.data ?? []).filter(
     (row) =>
       (filter === "all" || row.status === filter) &&
-      `${row.reference} ${row.description} ${management ? row.user_id : ""}`
+      `${row.reference} ${row.description} ${row.donor_name ?? ""} ${management ? (row.donor_email ?? row.user_id ?? "") : ""}`
         .toLowerCase()
         .includes(search.toLowerCase()),
   );
@@ -246,6 +249,11 @@ export function PhaseRecords({
                           </Link>
                         </Button>
                       ))}
+                  {kind === "donations" && row.receipt_number && (
+                    <Button asChild variant="outline" size="sm">
+                      <Link to={donationReceiptUrl(row.id)}>Receipt</Link>
+                    </Button>
+                  )}
                   <Button
                     variant="outline"
                     size="sm"
