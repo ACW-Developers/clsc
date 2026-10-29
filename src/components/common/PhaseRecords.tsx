@@ -88,7 +88,7 @@ export function PhaseRecords({
   const rows = (query.data ?? []).filter(
     (row) =>
       (filter === "all" || row.status === filter) &&
-      `${row.reference} ${row.description} ${row.donor_name ?? ""} ${management ? (row.donor_email ?? row.user_id ?? "") : ""}`
+      `${row.reference} ${row.description} ${(row as RecordRow).donor_name ?? ""} ${management ? ((row as RecordRow).donor_email ?? row.user_id ?? "") : ""}`
         .toLowerCase()
         .includes(search.toLowerCase()),
   );
@@ -249,7 +249,7 @@ export function PhaseRecords({
                           </Link>
                         </Button>
                       ))}
-                  {kind === "donations" && row.receipt_number && (
+                  {kind === "donations" && (row as RecordRow).receipt_number && (
                     <Button asChild variant="outline" size="sm">
                       <Link to={donationReceiptUrl(row.id)}>Receipt</Link>
                     </Button>
