@@ -26,18 +26,28 @@ export function EventsPage() {
   });
   if (!id)
     return (
-      <ProgrammeFrame title="Events" intro="Upcoming CSLC student programme events. Buy tickets online with simulated M-Pesa.">
+      <ProgrammeFrame
+        title="Events"
+        intro="Upcoming CSLC student programme events. "
+      >
         <EventsGrid />
       </ProgrammeFrame>
     );
   return (
-    <ProgrammeFrame title={q.data?.title ?? "Event"} intro={q.data ? `${eventDate(q.data.event_date)} · ${eventTime(q.data)}` : ""}>
+    <ProgrammeFrame
+      title={q.data?.title ?? "Event"}
+      intro={
+        q.data ? `${eventDate(q.data.event_date)} · ${eventTime(q.data)}` : ""
+      }
+    >
       {q.isLoading ? (
         <Loader2 className="mx-auto h-6 w-6 animate-spin text-primary" />
       ) : !q.data ? (
         <div className="text-center">
           <p className="mb-4">Event not found.</p>
-          <Button asChild><Link to={paths.events}>All events</Link></Button>
+          <Button asChild>
+            <Link to={paths.events}>All events</Link>
+          </Button>
         </div>
       ) : (
         <EventDetail e={q.data} />
@@ -47,7 +57,10 @@ export function EventsPage() {
 }
 
 export const MaterialsPage = () => (
-  <ProgrammeFrame title="Programme Materials" intro="Documents, images, links and resources organised by category and topic.">
+  <ProgrammeFrame
+    title="Programme Materials"
+    intro="Organised programme materials by category and topic."
+  >
     <MaterialsBrowser />
   </ProgrammeFrame>
 );
@@ -60,7 +73,10 @@ export const DonatePage = () => (
 
 export function TicketPage() {
   const { id = "" } = useParams();
-  const q = useQuery({ queryKey: ["tickets", "one", id], queryFn: () => svc.getTicket(id) });
+  const q = useQuery({
+    queryKey: ["tickets", "one", id],
+    queryFn: () => svc.getTicket(id),
+  });
   const t = q.data;
   return (
     <PosReceipt
@@ -91,7 +107,10 @@ export function TicketPage() {
 
 export function DonationReceiptPage() {
   const { id = "" } = useParams();
-  const q = useQuery({ queryKey: ["donationReceipt", id], queryFn: () => svc.donationReceipt(id) });
+  const q = useQuery({
+    queryKey: ["donationReceipt", id],
+    queryFn: () => svc.donationReceipt(id),
+  });
   const r = q.data;
   return (
     <PosReceipt

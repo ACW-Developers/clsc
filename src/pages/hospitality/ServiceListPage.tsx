@@ -82,10 +82,6 @@ const ServiceListPage = () => {
           </nav>
 
           <div className="flex w-full max-w-3xl flex-col items-center">
-            <div className="mb-4 inline-flex items-center gap-1 rounded-md border border-white/5 bg-white/5 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] backdrop-blur-sm">
-              CSLC Hospitality
-            </div>
-
             <h1 className="max-w-2xl text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
               {title}
             </h1>
@@ -95,24 +91,6 @@ const ServiceListPage = () => {
                 {description}
               </p>
             )}
-
-            <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
-              <Button
-                asChild
-                size="lg"
-                className="rounded-lg font-semibold shadow-lg"
-              >
-                <a href="#facilities">
-                  Explore facilities
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
-              </Button>
-
-              <div className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm backdrop-blur-sm">
-                <CheckCircle2 className="h-4 w-4 shrink-0 text-orange-300" />
-                Comfortable, convenient spaces
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -269,18 +247,6 @@ const ServiceListPage = () => {
                         )}
 
                         <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/10" />
-
-                        <Badge
-                          variant={f.is_available ? "secondary" : "destructive"}
-                          className="absolute left-4 top-4 border-0 shadow-sm"
-                        >
-                          <span
-                            className={`mr-1.5 h-1.5 w-1.5 rounded-full ${
-                              f.is_available ? "bg-emerald-500" : "bg-white"
-                            }`}
-                          />
-                          {f.is_available ? "Available to book" : "Unavailable"}
-                        </Badge>
 
                         {f.images && f.images.length > 1 && (
                           <span className="absolute bottom-4 left-4 rounded-full border border-white/20 bg-black/50 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">

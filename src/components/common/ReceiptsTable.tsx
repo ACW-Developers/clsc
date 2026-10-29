@@ -14,7 +14,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useReceipts } from "@/hooks/useHospitality";
-import { bookshopReceiptUrl, donationReceiptUrl, receiptUrl, ticketUrl } from "@/routes/paths";
+import {
+  bookshopReceiptUrl,
+  donationReceiptUrl,
+  receiptUrl,
+  ticketUrl,
+} from "@/routes/paths";
 import { useDonations } from "@/hooks/programmes/useDonations";
 import { useTickets } from "@/hooks/programmes/useProgrammes";
 import { useBookshopReceipts } from "@/hooks/bookshop/useCatalog";

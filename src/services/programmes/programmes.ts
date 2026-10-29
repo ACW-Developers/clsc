@@ -4,10 +4,19 @@ import { compressImage } from "@/lib/image";
 
 export type EventRow = Tables<"events">;
 export type TicketRow = Tables<"event_tickets"> & {
-  events?: Pick<EventRow, "title" | "venue" | "event_date" | "start_time" | "end_time"> | null;
+  events?: Pick<
+    EventRow,
+    "title" | "venue" | "event_date" | "start_time" | "end_time"
+  > | null;
 };
 export type MaterialRow = Tables<"materials">;
-export const materialKinds = ["document", "image", "link", "video", "audio"] as const;
+export const materialKinds = [
+  "document",
+  "image",
+  "link",
+  "video",
+  "audio",
+] as const;
 
 function must<T>(r: { data: T; error: { message: string } | null }): T {
   if (r.error) throw new Error(r.error.message);
@@ -63,7 +72,10 @@ export const programmesService = {
     ) as TicketRow | null,
 
   listMaterials: async (all = false): Promise<MaterialRow[]> => {
-    let q = supabase.from("materials").select("*").order("created_at", { ascending: false });
+    let q = supabase
+      .from("materials")
+      .select("*")
+      .order("created_at", { ascending: false });
     if (!all) q = q.eq("is_published", true);
     return must(await q);
   },
@@ -78,14 +90,18 @@ export const programmesService = {
     must(
       await supabase
         .from("material_views")
-        .select("id, viewed_at, materials(id, title, category, topic, kind, url)")
+        .select(
+          "id, viewed_at, materials(id, title, category, topic, kind, url)",
+        )
         .eq("user_id", userId)
         .order("viewed_at", { ascending: false })
         .limit(50),
     ),
   uploadFile: async (file: File) => {
-    if (file.size > 20 * 1024 * 1024) throw new Error("Files must be 20 MB or smaller");
-    if (/^image\/(jpeg|png|webp)$/.test(file.type)) file = await compressImage(file);
+    if (file.size > 20 * 1024 * 1024)
+      throw new Error("Files must be 20 MB or smaller");
+    if (/^image\/(jpeg|png|webp)$/.test(file.type))
+      file = await compressImage(file);
     const ext = file.name.split(".").pop() ?? "bin";
     const path = `${crypto.randomUUID()}.${ext}`;
     const up = await supabase.storage
@@ -118,7 +134,8 @@ export const programmesService = {
       }),
     ),
   donationReceipt: async (id: string) =>
-    (must(await supabase.rpc("donation_receipt", { _id: id })) ?? [])[0] ?? null,
+    (must(await supabase.rpc("donation_receipt", { _id: id })) ?? [])[0] ??
+    null,
 };
 
 export const eventTime = (e: Pick<EventRow, "start_time" | "end_time">) =>

@@ -30,8 +30,7 @@ interface Props {
 export function PosReceipt(p: Props) {
   const download = () => {
     const copy = document.getElementById("receipt")?.cloneNode(true) as
-      | HTMLElement
-      | undefined;
+      HTMLElement | undefined;
     copy?.querySelectorAll("img").forEach((img) => {
       img.src = new URL(img.src, window.location.origin).href;
     });
@@ -49,7 +48,9 @@ export function PosReceipt(p: Props) {
           <Loader2 className="mx-auto h-6 w-6 animate-spin text-primary" />
         ) : p.error || !p.number ? (
           <Alert variant="destructive">
-            <AlertDescription>{p.error ?? "Receipt not found."}</AlertDescription>
+            <AlertDescription>
+              {p.error ?? "Receipt not found."}
+            </AlertDescription>
           </Alert>
         ) : (
           <>

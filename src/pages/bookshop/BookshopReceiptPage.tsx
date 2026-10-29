@@ -33,7 +33,11 @@ export default function BookshopReceiptPage() {
         ["Simulation reference", r?.reference],
       ]}
       amount={r?.amount}
-      thanks={r ? `Collect at ${branchName(r.branch)}. Thank you for choosing CSLC Bookshop.` : undefined}
+      thanks={
+        r
+          ? `Collect at ${branchName(r.branch)}. Thank you for choosing CSLC Bookshop.`
+          : undefined
+      }
       backTo={accountView("receipts")}
       backLabel="Back to receipts"
     >

@@ -249,11 +249,12 @@ export function PhaseRecords({
                           </Link>
                         </Button>
                       ))}
-                  {kind === "donations" && (row as RecordRow).receipt_number && (
-                    <Button asChild variant="outline" size="sm">
-                      <Link to={donationReceiptUrl(row.id)}>Receipt</Link>
-                    </Button>
-                  )}
+                  {kind === "donations" &&
+                    (row as RecordRow).receipt_number && (
+                      <Button asChild variant="outline" size="sm">
+                        <Link to={donationReceiptUrl(row.id)}>Receipt</Link>
+                      </Button>
+                    )}
                   <Button
                     variant="outline"
                     size="sm"

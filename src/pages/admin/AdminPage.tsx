@@ -36,7 +36,11 @@ import { AdminSupport } from "@/components/admin/AdminSupport";
 import { BookManagement } from "@/components/bookshop/BookManagement";
 import { Inventory } from "@/components/bookshop/Inventory";
 import type { DashView } from "@/components/common/DashboardShell";
-import { DonationsInsights, EventsAdmin, MaterialsAdmin } from "@/components/programmes/ProgrammeAdmin";
+import {
+  DonationsInsights,
+  EventsAdmin,
+  MaterialsAdmin,
+} from "@/components/programmes/ProgrammeAdmin";
 import { TrafficAnalytics } from "@/components/admin/TrafficAnalytics";
 
 const views: (DashView & { superOnly?: boolean })[] = [
@@ -61,8 +65,18 @@ const views: (DashView & { superOnly?: boolean })[] = [
     superOnly: true,
   },
   { id: "inventory", label: "Stock & Sales", icon: Package, group: "Bookshop" },
-  { id: "events", label: "Events", icon: CalendarDays, group: "Student Programmes" },
-  { id: "materials", label: "Materials", icon: FileText, group: "Student Programmes" },
+  {
+    id: "events",
+    label: "Events",
+    icon: CalendarDays,
+    group: "Student Programmes",
+  },
+  {
+    id: "materials",
+    label: "Materials",
+    icon: FileText,
+    group: "Student Programmes",
+  },
   {
     id: "donations",
     label: "Donations",

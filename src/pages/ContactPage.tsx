@@ -23,7 +23,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supportService } from "@/services/support";
 import { site } from "@/config/site";
-import hero from "@/assets/svc-grounds.jpg";
+import hero from "@/assets/cont.jpg";
 
 const schema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
