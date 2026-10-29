@@ -180,7 +180,7 @@ export function EventDetail({ e }: { e: EventRow }) {
         {past ? (
           <p className="text-sm text-muted-foreground">This event has already taken place.</p>
         ) : !user ? (
-          <Button asChild className="w-full"><Link to={`${paths.auth}?redirect=${encodeURIComponent(eventUrl(e.id))}`}>Sign in to buy tickets</Link></Button>
+          <Button asChild className="w-full"><Link to={`${paths.auth}?next=${encodeURIComponent(eventUrl(e.id))}`}>Sign in to buy tickets</Link></Button>
         ) : left === 0 ? (
           <p className="text-sm font-semibold text-destructive">Sold out</p>
         ) : (
