@@ -162,7 +162,7 @@ export function ReceiptsTable() {
               </p>
 
               <p className="mt-1 text-xs text-muted-foreground">
-                {stat.detail}
+                {"detail" in stat ? String(stat.detail) : ""}
               </p>
             </div>
           );

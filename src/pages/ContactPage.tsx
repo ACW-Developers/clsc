@@ -64,7 +64,7 @@ const ContactPage = () => {
     setSending(true);
 
     try {
-      await supportService.submitEnquiry(parsed.data);
+      await supportService.submitEnquiry(parsed.data as typeof form);
 
       toast.success(
         "Thank you for reaching out. The CSLC team will be in touch soon.",
