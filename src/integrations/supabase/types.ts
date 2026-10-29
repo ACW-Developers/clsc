@@ -341,30 +341,217 @@ export type Database = {
           amount: number
           created_at: string
           description: string
+          donor_email: string | null
+          donor_name: string | null
+          donor_phone: string | null
           id: string
+          method: string
+          receipt_number: string | null
           reference: string
           status: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           admin_notes?: string | null
           amount?: number
           created_at?: string
           description?: string
+          donor_email?: string | null
+          donor_name?: string | null
+          donor_phone?: string | null
           id?: string
+          method?: string
+          receipt_number?: string | null
           reference: string
           status?: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           admin_notes?: string | null
           amount?: number
           created_at?: string
           description?: string
+          donor_email?: string | null
+          donor_name?: string | null
+          donor_phone?: string | null
           id?: string
+          method?: string
+          receipt_number?: string | null
           reference?: string
           status?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      event_tickets: {
+        Row: {
+          amount: number
+          attendee_name: string
+          created_at: string
+          event_id: string
+          id: string
+          method: string
+          phone: string
+          quantity: number
+          reference: string
+          ticket_number: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          attendee_name: string
+          created_at?: string
+          event_id: string
+          id?: string
+          method?: string
+          phone: string
+          quantity: number
+          reference: string
+          ticket_number: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          attendee_name?: string
+          created_at?: string
+          event_id?: string
+          id?: string
+          method?: string
+          phone?: string
+          quantity?: number
+          reference?: string
+          ticket_number?: string
           user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_tickets_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          capacity: number | null
+          contact: string | null
+          created_at: string
+          description: string
+          end_time: string | null
+          event_date: string
+          id: string
+          is_published: boolean
+          organizer: string
+          poster_url: string | null
+          start_time: string | null
+          ticket_price: number
+          title: string
+          updated_at: string
+          venue: string
+        }
+        Insert: {
+          capacity?: number | null
+          contact?: string | null
+          created_at?: string
+          description?: string
+          end_time?: string | null
+          event_date: string
+          id?: string
+          is_published?: boolean
+          organizer?: string
+          poster_url?: string | null
+          start_time?: string | null
+          ticket_price?: number
+          title: string
+          updated_at?: string
+          venue?: string
+        }
+        Update: {
+          capacity?: number | null
+          contact?: string | null
+          created_at?: string
+          description?: string
+          end_time?: string | null
+          event_date?: string
+          id?: string
+          is_published?: boolean
+          organizer?: string
+          poster_url?: string | null
+          start_time?: string | null
+          ticket_price?: number
+          title?: string
+          updated_at?: string
+          venue?: string
+        }
+        Relationships: []
+      }
+      material_views: {
+        Row: {
+          id: string
+          material_id: string
+          user_id: string
+          viewed_at: string
+        }
+        Insert: {
+          id?: string
+          material_id: string
+          user_id?: string
+          viewed_at?: string
+        }
+        Update: {
+          id?: string
+          material_id?: string
+          user_id?: string
+          viewed_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "material_views_material_id_fkey"
+            columns: ["material_id"]
+            isOneToOne: false
+            referencedRelation: "materials"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      materials: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          id: string
+          is_published: boolean
+          kind: string
+          title: string
+          topic: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          is_published?: boolean
+          kind?: string
+          title: string
+          topic?: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          is_published?: boolean
+          kind?: string
+          title?: string
+          topic?: string
+          updated_at?: string
+          url?: string
         }
         Relationships: []
       }
@@ -724,6 +911,30 @@ export type Database = {
         Args: { _full_name: string; _user_id: string }
         Returns: boolean
       }
+      buy_event_ticket: {
+        Args: {
+          _attendee: string
+          _event_id: string
+          _phone: string
+          _quantity: number
+          _success: boolean
+        }
+        Returns: string
+      }
+      donation_receipt: {
+        Args: { _id: string }
+        Returns: {
+          amount: number
+          created_at: string
+          description: string
+          donor_name: string
+          method: string
+          phone: string
+          receipt_number: string
+          reference: string
+        }[]
+      }
+      event_seats_sold: { Args: { _event_id: string }; Returns: number }
       facility_booked_ranges: {
         Args: { _sub_service_id: string }
         Returns: {
@@ -751,6 +962,17 @@ export type Database = {
       }
       save_bookshop_book: {
         Args: { _book: Json; _stock: Json }
+        Returns: string
+      }
+      simulate_donation: {
+        Args: {
+          _amount: number
+          _email: string
+          _message: string
+          _name: string
+          _phone: string
+          _success: boolean
+        }
         Returns: string
       }
       simulate_payment: {
