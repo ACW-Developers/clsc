@@ -26,7 +26,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAction, useMyBookings, useReceipts } from "@/hooks/useHospitality";
 import { hospitalityService as svc } from "@/services/hospitality";
 import { checkoutUrl, paths } from "@/routes/paths";
-import { BookOpen } from "lucide-react";
+import { BookOpen, FileText, Ticket } from "lucide-react";
+import { EventsGrid, MaterialsBrowser, MyTickets } from "@/components/programmes/ProgrammeViews";
 import { bookingLabel, kes, labelVariant } from "@/lib/booking";
 
 const views: DashView[] = [
@@ -34,6 +35,8 @@ const views: DashView[] = [
   { id: "shop", label: "Browse Books", icon: BookOpen, group: "Bookshop" },
   { id: "orders", label: "My Orders", icon: ShoppingBag, group: "Bookshop" },
   { id: "bookings", label: "My Bookings", icon: History, group: "Hospitality" },
+  { id: "events", label: "Events & Tickets", icon: Ticket, group: "Student Programmes" },
+  { id: "materials", label: "Materials", icon: FileText, group: "Student Programmes" },
   {
     id: "donations",
     label: "My Donations",
@@ -192,7 +195,19 @@ const AccountPage = () => {
           </Button>
         </section>
       )}
-      {view === "donations" && <PhaseRecords kind="donations" />}
+      {view === "events" && (
+        <div className="space-y-8">
+          <section><h2 className="mb-3 text-lg font-semibold">My tickets</h2><MyTickets /></section>
+          <section><h2 className="mb-3 text-lg font-semibold">Upcoming events</h2><EventsGrid /></section>
+        </div>
+      )}
+      {view === "materials" && <MaterialsBrowser />}
+      {view === "donations" && (
+        <div className="space-y-4">
+          <Button asChild><Link to={paths.donate}>Make a donation</Link></Button>
+          <PhaseRecords kind="donations" />
+        </div>
+      )}
       {view === "bookings" && <BookingList />}
       {view === "receipts" && <ReceiptsTable />}
       {view === "support" && <UserSupport />}

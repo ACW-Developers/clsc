@@ -1,12 +1,10 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Printer } from "lucide-react";
-import { BrandLogo } from "@/components/common/BrandLogo";
-import { ShopFrame } from "@/components/bookshop/ShopFrame";
-import { Button } from "@/components/ui/button";
+import { PosReceipt } from "@/components/common/PosReceipt";
 import { catalogService, branchName } from "@/services/bookshop/catalog";
 import { kes } from "@/lib/booking";
 import { accountView } from "@/routes/paths";
+
 export default function BookshopReceiptPage() {
   const { id = "" } = useParams();
   const q = useQuery({
@@ -21,86 +19,41 @@ export default function BookshopReceiptPage() {
   });
   const r = q.data;
   return (
-    <ShopFrame>
-      <main className="container max-w-xl py-10">
-        <div className="receipt-actions mb-5 flex justify-between print:hidden">
-          <Button asChild variant="outline">
-            <Link to={accountView("receipts")}>My receipts</Link>
-          </Button>
-          <Button onClick={() => window.print()}>
-            <Printer className="h-4 w-4" />
-            Print / save PDF
-          </Button>
+    <PosReceipt
+      loading={q.isLoading}
+      error={q.error?.message}
+      title="CSLC BOOKSHOP RECEIPT"
+      subtitle={r ? `${branchName(r.branch)} Branch` : undefined}
+      number={r?.receipt_number}
+      date={r?.created_at}
+      rows={[
+        ["Branch", r ? branchName(r.branch) : ""],
+        ["Payment method", r?.method],
+        ["Phone", r?.phone],
+        ["Simulation reference", r?.reference],
+      ]}
+      amount={r?.amount}
+      thanks={r ? `Collect at ${branchName(r.branch)}. Thank you for choosing CSLC Bookshop.` : undefined}
+      backTo={accountView("receipts")}
+      backLabel="Back to receipts"
+    >
+      <section className="mt-4 border-t border-dashed pt-3 text-xs">
+        <div className="flex justify-between font-bold">
+          <span>ITEM / QTY</span>
+          <span>AMOUNT</span>
         </div>
-        {q.isLoading ? (
-          <p>Loading receipt…</p>
-        ) : q.error ? (
-          <p className="text-destructive">{q.error.message}</p>
-        ) : !r ? (
-          <p>Receipt not found.</p>
-        ) : (
-          <article className="pos-receipt border bg-card p-6 shadow-card">
-            <BrandLogo className="mx-auto h-14" />
-            <div className="mt-4 text-center">
-              <h1 className="text-lg font-bold">CSLC BOOKSHOP</h1>
-              <p className="text-sm">{branchName(r.branch)} Branch</p>
-              <p className="mt-2 text-xs">
-                SIMULATED M-PESA — TEST ONLY
-                <br />
-                No money charged
-              </p>
+        {(items.data ?? []).map((i) => (
+          <div key={i.id} className="py-2">
+            <p className="font-semibold">{i.title}</p>
+            <div className="flex justify-between">
+              <span>
+                {i.quantity} × {kes(i.unit_price)}
+              </span>
+              <span>{kes(i.unit_price * i.quantity)}</span>
             </div>
-            <dl className="my-5 grid grid-cols-[70px_1fr] gap-2 border-y border-dashed py-4 text-xs">
-              <dt>Receipt</dt>
-              <dd className="text-right">{r.receipt_number}</dd>
-              <dt>Date</dt>
-              <dd className="text-right">
-                {new Date(r.created_at).toLocaleString("en-KE")}
-              </dd>
-              <dt>Reference</dt>
-              <dd className="text-right">{r.reference}</dd>
-              <dt>Phone</dt>
-              <dd className="text-right">{r.phone}</dd>
-              <dt>Branch</dt>
-              <dd className="text-right">{branchName(r.branch)}</dd>
-            </dl>
-            <div className="flex justify-between border-b border-dashed pb-2 text-xs font-bold">
-              <span>ITEM / QTY</span>
-              <span>AMOUNT</span>
-            </div>
-            {items.isLoading ? (
-              <p className="py-4">Loading items…</p>
-            ) : items.error ? (
-              <p className="text-destructive">{items.error.message}</p>
-            ) : (
-              (items.data ?? []).map((i) => (
-                <div key={i.id} className="py-3 text-xs">
-                  <p className="font-semibold">{i.title}</p>
-                  <div className="mt-1 flex justify-between">
-                    <span>
-                      {i.quantity} × {kes(i.unit_price)}
-                    </span>
-                    <span>{kes(i.unit_price * i.quantity)}</span>
-                  </div>
-                </div>
-              ))
-            )}
-            <div className="flex justify-between border-y border-dashed py-4 font-bold">
-              <span>TOTAL</span>
-              <span>{kes(r.amount)}</span>
-            </div>
-            <p className="mt-5 text-center text-xs">
-              PAID (SIMULATED)
-              <br />
-              Collection at {branchName(r.branch)}
-              <br />
-              <br />
-              Thank you for choosing CSLC Bookshop.
-            </p>
-          </article>
-        )}
-      </main>
-      <style>{`@media print { header, footer, body nav, .receipt-actions, .bookshop-nav { display: none !important; } body, main { background: none; padding: 0 !important; } .pos-receipt { border: 0; color: inherit; } }`}</style>
-    </ShopFrame>
+          </div>
+        ))}
+      </section>
+    </PosReceipt>
   );
 }

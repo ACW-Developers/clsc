@@ -71,6 +71,13 @@
       "when": 1793103394740,
       "tag": "0009_traffic_events_tracking",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1793305982205,
+      "tag": "0010_student_programmes_events_materials_donations",
+      "breakpoints": true
     }
   ]
 }

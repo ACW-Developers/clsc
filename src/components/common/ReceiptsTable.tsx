@@ -14,7 +14,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useReceipts } from "@/hooks/useHospitality";
-import { bookshopReceiptUrl, receiptUrl } from "@/routes/paths";
+import { bookshopReceiptUrl, donationReceiptUrl, receiptUrl, ticketUrl } from "@/routes/paths";
+import { useDonations } from "@/hooks/programmes/useDonations";
+import { useTickets } from "@/hooks/programmes/useProgrammes";
 import { useBookshopReceipts } from "@/hooks/bookshop/useCatalog";
 import { branchName } from "@/services/bookshop/catalog";
 import { kes } from "@/lib/booking";
@@ -23,6 +25,8 @@ import { kes } from "@/lib/booking";
 export function ReceiptsTable() {
   const q = useReceipts();
   const books = useBookshopReceipts();
+  const donations = useDonations();
+  const tickets = useTickets();
   const [term, setTerm] = useState("");
 
   const rows = useMemo(
@@ -40,6 +44,23 @@ export function ReceiptsTable() {
           category: "Bookshop",
           url: bookshopReceiptUrl(r.id),
         })),
+        ...(tickets.data ?? []).map((r) => ({
+          ...r,
+          receipt_number: r.ticket_number,
+          business: "CSLC Student Programmes · Event ticket",
+          category: "Events",
+          url: ticketUrl(r.id),
+        })),
+        ...(donations.data ?? [])
+          .filter((r) => r.receipt_number)
+          .map((r) => ({
+            ...r,
+            receipt_number: r.receipt_number as string,
+            phone: r.donor_phone,
+            business: "CSLC Student Programmes · Donation",
+            category: "Donations",
+            url: donationReceiptUrl(r.id),
+          })),
       ]
         .sort((a, b) => b.created_at.localeCompare(a.created_at))
         .filter((r) =>
@@ -47,7 +68,7 @@ export function ReceiptsTable() {
             .toLowerCase()
             .includes(term.trim().toLowerCase()),
         ),
-    [q.data, books.data, term],
+    [q.data, books.data, tickets.data, donations.data, term],
   );
 
   if (q.isLoading || books.isLoading) {
@@ -141,7 +162,7 @@ export function ReceiptsTable() {
               </p>
 
               <p className="mt-1 text-xs text-muted-foreground">
-                {stat.detail}
+                {"detail" in stat ? String(stat.detail) : ""}
               </p>
             </div>
           );

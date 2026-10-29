@@ -1,5 +1,7 @@
 # Requested changes
 
+- [x] Student Programmes: events with simulated ticket purchase, programme materials with reading history, donations with universal receipts and admin charts.
+
 - [x] Match reference traffic charts and place traffic above admin settings; unavailable dimensions remain explicit.
 - [x] Arrange overview statistics and paired charts; remove booking summary and recent activity.
 - [x] Add activity trend chart, action/date filters and reference-style log table; verify signed-in desktop/mobile views and 18 tests.

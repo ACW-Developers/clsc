@@ -59,9 +59,9 @@ export const mainNav: NavGroup[] = [
   {
     label: "Student Programmes",
     items: [
-      soon("Events Calendar", "events"),
-      soon("Programme Materials", "materials"),
-      soon("Donate Now", "donate"),
+      { label: "Events Calendar", to: paths.events },
+      { label: "Programme Materials", to: paths.materials },
+      { label: "Donate Now", to: paths.donate },
     ],
   },
   {
