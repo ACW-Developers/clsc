@@ -26,7 +26,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAction, useMyBookings, useReceipts } from "@/hooks/useHospitality";
 import { hospitalityService as svc } from "@/services/hospitality";
 import { checkoutUrl, paths } from "@/routes/paths";
-import { BookOpen, FileText, Ticket } from "lucide-react";
+import { BookOpen, FileText, Ticket, Sun, BookMarked, Sparkles } from "lucide-react";
+import { ResourcesBrowser, StudentContributions } from "@/components/programmes/ResourceViews";
 import {
   EventsGrid,
   MaterialsBrowser,
@@ -49,6 +50,24 @@ const views: DashView[] = [
     id: "materials",
     label: "Materials",
     icon: FileText,
+    group: "Student Programmes",
+  },
+  {
+    id: "devotionals",
+    label: "Devotionals",
+    icon: Sun,
+    group: "Student Programmes",
+  },
+  {
+    id: "biblestudy",
+    label: "Bible Study",
+    icon: BookMarked,
+    group: "Student Programmes",
+  },
+  {
+    id: "contributions",
+    label: "My Contributions",
+    icon: Sparkles,
     group: "Student Programmes",
   },
   {
@@ -222,6 +241,9 @@ const AccountPage = () => {
         </div>
       )}
       {view === "materials" && <MaterialsBrowser />}
+      {view === "devotionals" && <ResourcesBrowser kind="devotional" />}
+      {view === "biblestudy" && <ResourcesBrowser kind="bible_study" />}
+      {view === "contributions" && <StudentContributions />}
       {view === "donations" && (
         <div className="space-y-4">
           <Button asChild>

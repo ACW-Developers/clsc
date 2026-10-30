@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ResourcesBrowser, StudentContributions } from "@/components/programmes/ResourceViews";
 import { PosReceipt } from "@/components/common/PosReceipt";
 import {
   DonateForm,
@@ -62,6 +63,22 @@ export const MaterialsPage = () => (
     intro="Organised programme materials by category and topic."
   >
     <MaterialsBrowser />
+  </ProgrammeFrame>
+);
+
+export const DevotionalsPage = () => (
+  <ProgrammeFrame title="Daily Devotionals" intro="Scripture, reflection and prayer for every day.">
+    <ResourcesBrowser kind="devotional" />
+  </ProgrammeFrame>
+);
+export const BibleStudyPage = () => (
+  <ProgrammeFrame title="Bible Study" intro="Study guides, reading plans and teaching resources.">
+    <ResourcesBrowser kind="bible_study" />
+  </ProgrammeFrame>
+);
+export const ContributionsPage = () => (
+  <ProgrammeFrame title="Student Contributions" intro="Share original devotionals, reflections and study materials.">
+    <StudentContributions />
   </ProgrammeFrame>
 );
 

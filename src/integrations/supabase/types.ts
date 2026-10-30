@@ -335,6 +335,54 @@ export type Database = {
         }
         Relationships: []
       }
+      contributions: {
+        Row: {
+          admin_notes: string | null
+          attachment_url: string | null
+          author_name: string
+          body: string
+          created_at: string
+          id: string
+          kind: string
+          resource_id: string | null
+          scripture: string
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          attachment_url?: string | null
+          author_name: string
+          body: string
+          created_at?: string
+          id?: string
+          kind: string
+          resource_id?: string | null
+          scripture?: string
+          status?: string
+          title: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          attachment_url?: string | null
+          author_name?: string
+          body?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          resource_id?: string | null
+          scripture?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       donations: {
         Row: {
           admin_notes: string | null
@@ -703,6 +751,63 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      resources: {
+        Row: {
+          attachment_url: string | null
+          author_name: string | null
+          body: string
+          category: string
+          contribution_id: string | null
+          created_at: string
+          description: string
+          id: string
+          image_url: string | null
+          is_published: boolean
+          kind: string
+          prayer: string
+          publish_date: string
+          scripture: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          attachment_url?: string | null
+          author_name?: string | null
+          body?: string
+          category?: string
+          contribution_id?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          kind: string
+          prayer?: string
+          publish_date?: string
+          scripture?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          attachment_url?: string | null
+          author_name?: string | null
+          body?: string
+          category?: string
+          contribution_id?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          kind?: string
+          prayer?: string
+          publish_date?: string
+          scripture?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       services: {
         Row: {

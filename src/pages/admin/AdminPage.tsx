@@ -17,7 +17,11 @@ import {
   ChartNoAxesCombined,
   CalendarDays,
   FileText,
+  Sun,
+  BookMarked,
+  Sparkles,
 } from "lucide-react";
+import { ContributionsModeration, ResourcesAdmin } from "@/components/programmes/ResourceViews";
 import { DashboardShell } from "@/components/common/DashboardShell";
 import { ProfileForm } from "@/components/common/ProfileForm";
 import { ReceiptsTable } from "@/components/common/ReceiptsTable";
@@ -78,6 +82,24 @@ const views: (DashView & { superOnly?: boolean })[] = [
     group: "Student Programmes",
   },
   {
+    id: "devotionals",
+    label: "Devotionals",
+    icon: Sun,
+    group: "Student Programmes",
+  },
+  {
+    id: "biblestudy",
+    label: "Bible Study",
+    icon: BookMarked,
+    group: "Student Programmes",
+  },
+  {
+    id: "contributions",
+    label: "Contributions",
+    icon: Sparkles,
+    group: "Student Programmes",
+  },
+  {
     id: "donations",
     label: "Donations",
     icon: HeartHandshake,
@@ -118,6 +140,9 @@ const AdminPage = () => {
       {view === "inventory" && <Inventory />}
       {view === "events" && <EventsAdmin />}
       {view === "materials" && <MaterialsAdmin />}
+      {view === "devotionals" && <ResourcesAdmin kind="devotional" />}
+      {view === "biblestudy" && <ResourcesAdmin kind="bible_study" />}
+      {view === "contributions" && <ContributionsModeration />}
       {view === "donations" && <DonationsInsights />}
       {view === "support" && <AdminSupport />}
       {view === "receipts" && <ReceiptsTable />}

@@ -23,6 +23,9 @@ export const paths = {
   eventDetail: "/events/:id",
   ticket: "/events/tickets/:id",
   materials: "/materials",
+  devotionals: "/devotionals",
+  bibleStudy: "/bible-study",
+  contributions: "/contributions",
   donate: "/donate",
   donationReceipt: "/donate/receipts/:id",
 } as const;

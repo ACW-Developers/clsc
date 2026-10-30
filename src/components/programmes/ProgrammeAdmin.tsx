@@ -61,12 +61,14 @@ import { kes } from "@/lib/booking";
 import { chartTooltipStyle } from "@/components/admin/analyticsPresentation";
 import { toast } from "sonner";
 
-function Upload1({
+export function Upload1({
   onDone,
   accept,
+  prefix = "",
 }: {
   onDone: (url: string) => void;
   accept: string;
+  prefix?: string;
 }) {
   const [busy, setBusy] = useState(false);
   return (
@@ -86,7 +88,7 @@ function Upload1({
           if (!f) return;
           setBusy(true);
           try {
-            onDone(await svc.uploadFile(f));
+            onDone(await svc.uploadFile(f, prefix));
             toast.success("File uploaded");
           } catch (x) {
             toast.error((x as Error).message);

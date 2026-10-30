@@ -67,9 +67,9 @@ export const mainNav: NavGroup[] = [
   {
     label: "Resources",
     items: [
-      soon("Daily Devotional", "devotional"),
-      soon("Bible Study Resources", "bible-study"),
-      soon("Submit Content", "submit-content"),
+      { label: "Daily Devotional", to: paths.devotionals },
+      { label: "Bible Study Resources", to: paths.bibleStudy },
+      { label: "Student Contributions", to: paths.contributions },
     ],
   },
   { label: "Contact", to: paths.contact },

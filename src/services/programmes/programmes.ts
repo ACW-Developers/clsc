@@ -97,13 +97,13 @@ export const programmesService = {
         .order("viewed_at", { ascending: false })
         .limit(50),
     ),
-  uploadFile: async (file: File) => {
+  uploadFile: async (file: File, prefix = "") => {
     if (file.size > 20 * 1024 * 1024)
       throw new Error("Files must be 20 MB or smaller");
     if (/^image\/(jpeg|png|webp)$/.test(file.type))
       file = await compressImage(file);
     const ext = file.name.split(".").pop() ?? "bin";
-    const path = `${crypto.randomUUID()}.${ext}`;
+    const path = `${prefix}${crypto.randomUUID()}.${ext}`;
     const up = await supabase.storage
       .from("programme-files")
       .upload(path, file, { contentType: file.type });
