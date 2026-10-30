@@ -61,7 +61,7 @@ import { kes } from "@/lib/booking";
 import { chartTooltipStyle } from "@/components/admin/analyticsPresentation";
 import { toast } from "sonner";
 
-function Upload1({
+export function Upload1({
   onDone,
   accept,
 }: {
