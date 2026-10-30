@@ -78,6 +78,13 @@
       "when": 1793305982205,
       "tag": "0010_student_programmes_events_materials_donations",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1793392678879,
+      "tag": "0011_devotionals_bible_study_contributions",
+      "breakpoints": true
     }
   ]
 }
