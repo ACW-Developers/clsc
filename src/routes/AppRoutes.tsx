@@ -22,6 +22,9 @@ import {
   DonationReceiptPage,
   EventsPage,
   MaterialsPage,
+  DevotionalsPage,
+  BibleStudyPage,
+  ContributionsPage,
   TicketPage,
 } from "@/pages/programmes/ProgrammePages";
 import NotFoundPage from "@/pages/NotFoundPage";
@@ -102,6 +105,9 @@ export function AppRoutes() {
           }
         />
         <Route path={paths.materials} element={<MaterialsPage />} />
+        <Route path={paths.devotionals} element={<DevotionalsPage />} />
+        <Route path={paths.bibleStudy} element={<BibleStudyPage />} />
+        <Route path={paths.contributions} element={<ContributionsPage />} />
         <Route path={paths.donate} element={<DonatePage />} />
         <Route path={paths.donationReceipt} element={<DonationReceiptPage />} />
         <Route path={paths.comingSoon} element={<ComingSoonPage />} />

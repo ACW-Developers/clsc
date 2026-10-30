@@ -51,6 +51,8 @@ import { StatCard } from "@/components/common/StatCard";
 import { UserAnalytics } from "./UserAnalytics";
 import { useOrders } from "@/hooks/bookshop/useOrders";
 import { useDonations } from "@/hooks/programmes/useDonations";
+import { useContributions, useResources } from "@/hooks/programmes/useResources";
+import { Sun, BookMarked, Sparkles, Clock as ClockIcon } from "lucide-react";
 import { useCatalog } from "@/hooks/bookshop/useCatalog";
 import {
   ShoppingBag,
@@ -171,6 +173,9 @@ export function Overview({ go }: { go: (v: string) => void }) {
   const orders = useOrders(true),
     donations = useDonations(true),
     books = useCatalog();
+  const dev = useResources("devotional", true),
+    study = useResources("bible_study", true),
+    contrib = useContributions(true);
   const count = (st: string) =>
     b.data?.filter((x) => x.status === st).length ?? 0;
   const hospitalitySales = (b.data ?? [])
@@ -240,7 +245,27 @@ export function Overview({ go }: { go: (v: string) => void }) {
               : "–"
           }
         />
-        <StatCard label="Student programmes" value="Coming Soon" />
+        <StatCard
+          label="Devotionals published"
+          value={dev.data?.filter((r) => r.is_published).length ?? "–"}
+          icon={Sun}
+        />
+        <StatCard
+          label="Bible study resources"
+          value={study.data?.filter((r) => r.is_published).length ?? "–"}
+          icon={BookMarked}
+        />
+        <StatCard
+          label="Pending submissions"
+          value={contrib.data?.filter((c) => c.status === "pending").length ?? "–"}
+          icon={Clock}
+          detail="Awaiting moderation"
+        />
+        <StatCard
+          label="Approved contributions"
+          value={contrib.data?.filter((c) => c.status === "approved").length ?? "–"}
+          icon={Sparkles}
+        />
       </div>
       <div className="flex flex-wrap gap-2">
         <Button onClick={() => go("bookings")}>Review bookings</Button>
