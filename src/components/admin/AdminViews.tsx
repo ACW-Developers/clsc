@@ -258,7 +258,7 @@ export function Overview({ go }: { go: (v: string) => void }) {
         <StatCard
           label="Pending submissions"
           value={contrib.data?.filter((c) => c.status === "pending").length ?? "–"}
-          icon={Clock}
+          icon={ClockIcon}
           detail="Awaiting moderation"
         />
         <StatCard
