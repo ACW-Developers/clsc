@@ -20,6 +20,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', "system-ui", "sans-serif"],
+        display: ["Georgia", '"Times New Roman"', "serif"],
         script: ['"Great Vibes"', "cursive"],
       },
       boxShadow: { card: "var(--shadow-card)" },

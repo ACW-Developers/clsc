@@ -32,7 +32,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-hero-dark" />
       <div className="container relative pb-36 pt-24 text-primary-foreground md:pb-44 md:pt-32">
         <div className="max-w-xl">
-          <h1 className="mt-5 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+          <h1 className="mt-5 font-sans text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
             Welcome to CSLC
           </h1>
           <p className="font-script text-5xl leading-tight text-accent sm:text-6xl">
