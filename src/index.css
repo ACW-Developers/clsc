@@ -155,7 +155,7 @@ input[type="time"] {
   max-width: 100%;
 }
 .pos-receipt {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  @apply font-sans;
 }
 .pos-receipt dd {
   overflow-wrap: anywhere;

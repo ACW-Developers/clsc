@@ -19,9 +19,11 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', "system-ui", "sans-serif"],
-        display: ["Georgia", '"Times New Roman"', "serif"],
-        script: ['"Great Vibes"', "cursive"],
+        sans: ['"Quicksand"', "system-ui", "sans-serif"],
+        display: ['"Quicksand"', "system-ui", "sans-serif"],
+        serif: ['"Quicksand"', "system-ui", "sans-serif"],
+        mono: ['"Quicksand"', "system-ui", "sans-serif"],
+        script: ['"Quicksand"', "system-ui", "sans-serif"],
       },
       boxShadow: { card: "var(--shadow-card)" },
       backgroundImage: {
