@@ -12,6 +12,7 @@
 - Bookshop cart stores only branch, book IDs and quantities locally; checkout derives prices and ownership on the server — browser state must never authorize payment or set prices.
 - RootLayout owns navigation scroll reset for path/query changes, preserving deliberate section anchors — consistent navigation across all pages and dashboard views.
 - Use semantic design tokens from `src/index.css`; no hardcoded color utilities — theming consistency.
+- Load the site-wide font locally in AppProviders and map all Tailwind font families to it — consistent typography across headings, legacy utilities and receipts without external font requests.
 - Keep hospitality administration behind one role-guarded `/admin` page with query-driven views, reusing the existing service and React Query layers so staff permissions stay centralized.
 - First super-admin setup is two-step (register approved mailbox, then claim after email confirmation) in the setup-admin function — server enforces approval and one-time use.
 - Keep first-admin eligibility in the setup function's shared policy module with focused tests — registration and claiming must enforce the same approval.

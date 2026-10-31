@@ -1,5 +1,9 @@
 # Requested changes
 
+- [x] Apply Quicksand across all pages, headings and receipts.
+- [x] Add programme/resource presentation content and upcoming events with posters, without testing labels.
+- [x] Add three books with background-free covers and stock at both branches; verify pages and assets.
+
 - [x] Student Programmes: events with simulated ticket purchase, programme materials with reading history, donations with universal receipts and admin charts.
 
 - [x] Match reference traffic charts and place traffic above admin settings; unavailable dimensions remain explicit.
