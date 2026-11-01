@@ -23,12 +23,11 @@ export const mainNav: NavGroup[] = [
   {
     label: "About CSLC",
     items: [
-      soon(
-        "Our Mission & History",
-        "mission",
-        "Who we are and where we come from",
-      ),
-      soon("Leadership Team", "leadership", "Meet the people behind CSLC"),
+      { label: "About CSLC", to: paths.about, description: "Who we are and what we do" },
+      { label: "Our Mission", to: `${paths.about}#mission` },
+      { label: "Our History", to: `${paths.about}#history` },
+      { label: "Leadership & Team", to: `${paths.about}#team` },
+      { label: "Research & Publications", to: `${paths.about}#research` },
     ],
   },
   {

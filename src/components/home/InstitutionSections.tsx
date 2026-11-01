@@ -47,7 +47,7 @@ export function InstitutionHero() {
       <img src={hero} alt="Ufungamano House, home of CSLC" fetchPriority="high" width={1600} height={912} className="absolute inset-0 -z-20 h-full w-full object-cover" />
       <div className="absolute inset-0 -z-10 bg-hero-dark" />
       <div className="container pb-16 pt-20 md:pb-24 md:pt-28">
-        <div className="max-w-2xl animate-fade-in">
+        <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
           <Eyebrow light>Ufungamano House, Nairobi</Eyebrow>
           <h1 className="mt-4 font-sans text-4xl font-bold leading-tight tracking-tight sm:text-6xl">
             Christian Student <span className="text-accent">Leadership Centre</span>
