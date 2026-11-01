@@ -14,6 +14,7 @@ import {
   Store,
   Phone,
   Mail,
+  School,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -53,8 +54,8 @@ export function InstitutionHero() {
             Christian Student <span className="text-accent">Leadership Centre</span>
           </h1>
           <p className="mt-5 max-w-xl text-sm opacity-90 sm:text-base">
-            One institution, three interconnected departments — a Christian bookshop, hospitality
-            services and student programmes — serving students, churches and the wider community.
+            One institution, three interconnected departments - a Christian bookshop, hospitality
+            services and student programmes - serving students, churches and the wider community.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg" className="rounded-full px-7">
@@ -86,13 +87,13 @@ export function InstitutionHero() {
 const departments = [
   { title: "Bookshop & E-commerce", text: "Christian books, Bibles and resources from our Yaya Centre and Kisumu branches — browse and shop online.", image: reading, to: paths.bookshop, cta: "Shop Books", icon: ShoppingBag },
   { title: "Hospitality Services", text: "Accommodation, conference halls, dining, grounds, outside catering and hostels at Ufungamano House.", image: hospitalityServices[1].image, to: "#hospitality", cta: "View Services", icon: Hotel },
-  { title: "Student Programmes", text: "Events, programme materials, devotionals and Bible study resources that equip student leaders.", image: grad, to: paths.events, cta: "See Programmes", icon: Sparkles },
+  { title: "Student Programmes", text: "Events, programme materials, devotionals and Bible study resources that equip student leaders.", image: grad, to: paths.events, cta: "See Programmes", icon: School },
 ];
 
 export function Departments() {
   return (
     <section id="departments" className="container scroll-mt-20 py-16">
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+      <div className="mb-8 flex flex-wrap items-end justify-between gap-4 ">
         <div>
           <Eyebrow>Our departments</Eyebrow>
           <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">Three Departments, One Mission</h2>

@@ -7,7 +7,7 @@ import { Eyebrow } from "@/components/home/InstitutionSections";
 import { site } from "@/config/site";
 import { paths } from "@/routes/paths";
 import hero from "@/assets/banner.jpg";
-import grounds from "@/assets/svc-grounds.jpg";
+import grounds from "@/assets/ufungamano.jpg";
 
 /** Editable placeholders: replace with verified CSLC content when provided. */
 const team = [
@@ -38,11 +38,45 @@ const AboutPage = () => (
       </section>
 
       <section className="container grid items-center gap-10 py-16 lg:grid-cols-2">
-        <img src={grounds} alt="CSLC grounds at Ufungamano House" loading="lazy" className="h-80 w-full rounded-2xl object-cover shadow-card" />
+        <img src={grounds} alt="CSLC grounds at Ufungamano House" loading="lazy" className="h-84 w-full rounded-2xl object-cover shadow-card" />
         <div>
           <Eyebrow>Institutional overview</Eyebrow>
-          <h2 className="mt-2 text-3xl font-bold">One institution, three departments</h2>
-          <p className="mt-3 text-muted-foreground">CSLC operates a Christian bookshop with branches at Yaya Centre and Kisumu, hospitality services at Ufungamano House, and student programmes with spiritual resources.</p>
+          <h2 className="mt-2 text-3xl font-bold">Our institution history</h2>
+          <div className="mt-3 space-y-4 text-muted-foreground leading-relaxed">
+            <p>
+              The Christian Student Leadership Centre, Ufungamano House, is a ministry to the Nairobi University community. 
+              Its main objective is to facilitate the development of leadership and other skills to the students and the academic communit
+            </p>
+            <p>
+              In 1965, the University Chaplaincy was given a British Christian Aid Fund
+              to buy the Centre, which was quite small at that time.
+            </p>
+
+            <p>
+              By 1966, a joint Protestant/Anglican/Catholic Board on the Churches
+              Chaplaincy and the Catholic Chaplaincy to the University decided to
+              reconstruct and enlarge the house so that it could be used as an
+              ecumenical Student Centre.
+            </p>
+
+            <p>
+              Thus, the NCCK (National Council of Churches of Kenya) and KEC
+              (Kenya Episcopal Conference) jointly negotiated and raised funds from
+              both local and overseas donors towards the building of Ufungamano House.
+              The founding fathers of the Centre had the vision to embark on an
+              endeavour that gave birth to Ufungamano House.
+            </p>
+
+            <p>
+              The name Ufungamano House encompasses the true function of the Centre,
+              which seeks to unify the Protestant and Catholic faiths in the spirit
+              of ecumenical Christian service to the University community.
+            </p>
+
+            <p>
+              It has come a long way from its humble beginnings.
+            </p>
+          </div>
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
             {[{ i: Store, t: "Bookshop", to: paths.bookshop }, { i: Hotel, t: "Hospitality", to: paths.book }, { i: BookMarked, t: "Programmes", to: paths.events }].map(({ i: Icon, t, to }) => (
               <Link key={t} to={to} className="flex items-center gap-2 rounded-xl border bg-card p-3 text-sm font-semibold transition hover:border-primary hover:text-primary"><Icon className="h-4 w-4 text-primary" />{t}</Link>
@@ -56,12 +90,12 @@ const AboutPage = () => (
           <div id="mission" className="scroll-mt-24 rounded-2xl bg-card p-6 shadow-card">
             <Eyebrow>Our mission</Eyebrow>
             <h2 className="mb-4 mt-2 text-2xl font-bold">Our Mission</h2>
-            <Placeholder>Mission statement to be provided by CSLC.</Placeholder>
+            <Placeholder>To provide university students with a place and forum for holistic Christian formation and transformational leadership training</Placeholder>
           </div>
           <div id="history" className="scroll-mt-24 rounded-2xl bg-card p-6 shadow-card">
             <Eyebrow>Our history</Eyebrow>
             <h2 className="mb-4 mt-2 text-2xl font-bold">Our History</h2>
-            <Placeholder>Institutional history to be provided by CSLC.</Placeholder>
+            <Placeholder>A Christian Centre of excellence empowering university students holistically in order to transform society.</Placeholder>
           </div>
         </div>
       </section>
