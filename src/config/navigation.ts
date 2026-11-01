@@ -11,11 +11,6 @@ export interface NavGroup {
   items?: NavLink[];
 }
 
-const soon = (label: string, slug: string, description?: string): NavLink => ({
-  label,
-  to: comingSoon(slug),
-  description,
-});
 
 /** Universal CSLC navigation. Hospitality is live; other modules show Coming Soon pages. */
 export const mainNav: NavGroup[] = [
