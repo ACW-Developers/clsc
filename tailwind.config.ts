@@ -23,7 +23,7 @@ export default {
         display: ['"Quicksand"', "system-ui", "sans-serif"],
         serif: ['"Quicksand"', "system-ui", "sans-serif"],
         mono: ['"Quicksand"', "system-ui", "sans-serif"],
-        script: ['"Quicksand"', "system-ui", "sans-serif"],
+        script: ['"Great Vibes"', "cursive"],
       },
       boxShadow: { card: "var(--shadow-card)" },
       backgroundImage: {

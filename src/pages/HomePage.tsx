@@ -1,23 +1,27 @@
 import { SiteHeader } from "@/components/common/SiteHeader";
 import { SiteFooter } from "@/components/common/SiteFooter";
+import { WhyChoose } from "@/components/hospitality/HomeSections";
 import {
-  ContactBand,
-  FeatureStrip,
-  Hero,
-  QuickServicesCard,
-  ServicesGrid,
-  WhyChoose,
-} from "@/components/hospitality/HomeSections";
+  BookshopBand,
+  Departments,
+  EnquiryBand,
+  HospitalityBand,
+  InstitutionHero,
+  IntroSplit,
+  ProgrammesSection,
+} from "@/components/home/InstitutionSections";
 
 const HomePage = () => (
   <div className="relative overflow-x-hidden">
     <SiteHeader />
-    <Hero />
-    <QuickServicesCard />
-    <FeatureStrip />
-    <ServicesGrid />
+    <InstitutionHero />
+    <Departments />
+    <IntroSplit />
+    <BookshopBand />
+    <HospitalityBand />
+    <ProgrammesSection />
     <WhyChoose />
-    <ContactBand />
+    <EnquiryBand />
     <SiteFooter />
   </div>
 );

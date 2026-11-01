@@ -2,6 +2,7 @@
 export const paths = {
   home: "/",
   contact: "/contact",
+  about: "/about",
   auth: "/auth",
   resetPassword: "/reset-password",
   admin: "/admin",
