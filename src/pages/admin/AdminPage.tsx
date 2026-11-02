@@ -14,6 +14,7 @@ import {
   Users as UsersIcon,
   BookOpen,
   Package,
+  UserRound,
   ChartNoAxesCombined,
   CalendarDays,
   FileText,
@@ -46,6 +47,7 @@ import {
   MaterialsAdmin,
 } from "@/components/programmes/ProgrammeAdmin";
 import { TrafficAnalytics } from "@/components/admin/TrafficAnalytics";
+import { LeadershipAdmin } from "@/components/admin/LeadershipAdmin";
 
 const views: (DashView & { superOnly?: boolean })[] = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
@@ -115,6 +117,12 @@ const views: (DashView & { superOnly?: boolean })[] = [
     group: "Hospitality",
   },
   { id: "users", label: "Users", icon: UsersIcon },
+  {
+    id: "leadership",
+    label: "Leadership",
+    icon: UserRound,
+    superOnly: true,
+  },
   { id: "logs", label: "Activity Logs", icon: Activity },
   { id: "profile", label: "Profile", icon: User },
   { id: "settings", label: "Settings", icon: Cog, superOnly: true },
@@ -149,6 +157,7 @@ const AdminPage = () => {
       {view === "services" && <Services />}
       {view === "facilities" && <Facilities />}
       {view === "users" && <Users />}
+      {view === "leadership" && <LeadershipAdmin />}
       {view === "traffic" && <TrafficAnalytics />}
       {view === "logs" && <Logs />}
       {view === "profile" && <ProfileForm />}
