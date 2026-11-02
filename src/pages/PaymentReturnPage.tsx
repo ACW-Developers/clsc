@@ -5,16 +5,19 @@ import { Loader2 } from "lucide-react";
 import { SiteHeader } from "@/components/common/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { paymentsService } from "@/services/payments";
+import { useCart } from "@/hooks/bookshop/useCart";
 import { paths, receiptUrl, bookshopReceiptUrl, ticketUrl, donationReceiptUrl } from "@/routes/paths";
 export default function PaymentReturnPage() {
   const [params] = useSearchParams();
   const reference = params.get("reference") ?? params.get("trxref") ?? sessionStorage.getItem("cslc-payment-reference") ?? "";
   const nav = useNavigate(), client = useQueryClient();
+  const cart = useCart();
   const q = useQuery({ queryKey: ["paymentVerification", reference], queryFn: () => paymentsService.verify(reference), enabled: !!reference, retry: false, staleTime: Infinity });
   useEffect(() => {
     const payment = q.data;
     if (payment?.status !== "completed" || !payment.id) return;
     sessionStorage.removeItem("cslc-payment-reference");
+    if (payment.kind === "bookshop") cart.clear();
     void client.invalidateQueries();
     const url = { booking: receiptUrl, bookshop: bookshopReceiptUrl, event: ticketUrl, donation: donationReceiptUrl }[payment.kind];
     nav(url(payment.id), { replace: true });
