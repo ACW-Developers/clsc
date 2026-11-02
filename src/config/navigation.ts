@@ -37,6 +37,11 @@ export const mainNav: NavGroup[] = [
   {
     label: "Hospitality",
     items: [
+      {
+        label: "Browse Services",
+        to: paths.hospitality,
+        description: "Explore all hospitality services and facilities",
+      },
       { label: "Accommodation", to: serviceUrl("accommodation") },
       { label: "Conference Facilities", to: serviceUrl("conference") },
       { label: "Restaurant", to: serviceUrl("restaurant") },

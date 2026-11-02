@@ -10,6 +10,7 @@ export const paths = {
   account: "/account",
   book: "/account?book=1",
   comingSoon: "/coming-soon/:slug",
+  hospitality: "/hospitality",
   serviceList: "/hospitality/:slug",
   facility: "/hospitality/:slug/:id",
   checkout: "/checkout/:id",

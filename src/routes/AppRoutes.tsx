@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { RootLayout } from "@/layouts/RootLayout";
 import HomePage from "@/pages/HomePage";
+import HospitalityHome from "@/pages/HospitalityHome";
 import ContactPage from "@/pages/ContactPage";
 import AboutPage from "@/pages/AboutPage";
 import AuthPage from "@/pages/AuthPage";
@@ -37,6 +38,7 @@ export function AppRoutes() {
     <Routes>
       <Route element={<RootLayout />}>
         <Route path={paths.home} element={<HomePage />} />
+        <Route path={paths.hospitality} element={<HospitalityHome />} />
         <Route path={paths.contact} element={<ContactPage />} />
         <Route path={paths.about} element={<AboutPage />} />
         <Route path={paths.auth} element={<AuthPage />} />
