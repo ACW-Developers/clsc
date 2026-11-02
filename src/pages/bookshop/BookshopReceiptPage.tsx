@@ -30,7 +30,7 @@ export default function BookshopReceiptPage() {
         ["Branch", r ? branchName(r.branch) : ""],
         ["Payment method", r?.method],
         ["Phone", r?.phone],
-        ["Simulation reference", r?.reference],
+        ["Payment reference", r?.reference],
       ]}
       amount={r?.amount}
       thanks={

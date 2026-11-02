@@ -112,7 +112,7 @@ export function TicketPage() {
         ["Admits", `${t?.quantity ?? ""} person(s)`],
         ["Payment method", t?.method],
         ["Phone", t?.phone],
-        ["Simulation reference", t?.reference],
+        ["Payment reference", t?.reference],
       ]}
       amount={t?.amount}
       thanks="Present this ticket number at the entrance."
@@ -142,7 +142,7 @@ export function DonationReceiptPage() {
         ["Purpose", r?.description],
         ["Payment method", r?.method],
         ["Phone", r?.phone],
-        ["Simulation reference", r?.reference],
+        ["Payment reference", r?.reference],
       ]}
       totalLabel="Amount donated"
       amount={r?.amount}

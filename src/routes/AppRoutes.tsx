@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { RootLayout } from "@/layouts/RootLayout";
+import PaymentReturnPage from "@/pages/PaymentReturnPage";
 import HomePage from "@/pages/HomePage";
 import HospitalityHome from "@/pages/HospitalityHome";
 import ContactPage from "@/pages/ContactPage";
@@ -37,6 +38,7 @@ export function AppRoutes() {
   return (
     <Routes>
       <Route element={<RootLayout />}>
+        <Route path={paths.paymentReturn} element={<RequireAuth><PaymentReturnPage /></RequireAuth>} />
         <Route path={paths.home} element={<HomePage />} />
         <Route path={paths.hospitality} element={<HospitalityHome />} />
         <Route path={paths.contact} element={<ContactPage />} />

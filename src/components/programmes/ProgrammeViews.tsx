@@ -41,7 +41,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
-import { useAction } from "@/hooks/useHospitality";
+import { usePayment } from "@/hooks/usePayments";
 import {
   useEvents,
   useMaterials,
@@ -56,7 +56,7 @@ import {
   type MaterialRow,
 } from "@/services/programmes/programmes";
 import { kes } from "@/lib/booking";
-import { donationReceiptUrl, eventUrl, paths, ticketUrl } from "@/routes/paths";
+import { eventUrl, paths, ticketUrl } from "@/routes/paths";
 import hero from "@/assets/banner.jpg";
 
 /** Public page wrapper with the standard CSLC hero, breadcrumb and centred title. */
@@ -243,26 +243,11 @@ export function EventDetail({ e }: { e: EventRow }) {
   const [qty, setQty] = useState(1);
   const [attendee, setAttendee] = useState("");
   const [phone, setPhone] = useState("");
-  const buy = useAction(svc.buyTicket, ["tickets", "eventSeats"]);
+  const buy = usePayment();
   const left =
     e.capacity != null ? Math.max(e.capacity - (sold.data ?? 0), 0) : null;
   const past = e.event_date < new Date().toISOString().slice(0, 10);
-  const run = (success: boolean) =>
-    buy.mutate(
-      {
-        id: e.id,
-        quantity: qty,
-        attendee,
-        phone: phone.replace(/\s/g, ""),
-        success,
-      },
-      {
-        onSuccess: (id) =>
-          id
-            ? nav(ticketUrl(id))
-            : alert("Simulated payment failed. No ticket was issued."),
-      },
-    );
+  const run = () => buy.mutate({ kind: "event", id: e.id, quantity: qty, attendee, phone: phone.replace(/\s/g, "") });
   const [posterOpen, setPosterOpen] = useState(false);
   return (
     <>
@@ -499,7 +484,7 @@ export function EventDetail({ e }: { e: EventRow }) {
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="tph">M-Pesa phone number</Label>
+                  <Label htmlFor="tph">Phone number</Label>
                   <Input
                     id="tph"
                     inputMode="tel"
@@ -535,31 +520,21 @@ export function EventDetail({ e }: { e: EventRow }) {
                     disabled={
                       buy.isPending || !phone.trim() || !attendee.trim()
                     }
-                    onClick={() => run(true)}
+                    onClick={run}
                   >
                     {buy.isPending ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : (
                       <Smartphone className="mr-2 h-4 w-4" />
                     )}
-                    Simulate successful payment
+                    Pay with Paystack (Test)
                   </Button>
 
-                  <Button
-                    variant="outline"
-                    className="h-11 w-full"
-                    disabled={
-                      buy.isPending || !phone.trim() || !attendee.trim()
-                    }
-                    onClick={() => run(false)}
-                  >
-                    Simulate failed payment
-                  </Button>
+                  {buy.error && <p role="alert" className="text-sm text-destructive">{buy.error.message}</p>}
                 </div>
 
                 <p className="text-center text-xs leading-relaxed text-muted-foreground">
-                  Payment is currently running in test mode. No actual M-Pesa
-                  transaction will be initiated.
+                  Paystack test mode. Use test payment details only; no real money is charged.
                 </p>
               </>
             )}
@@ -1123,24 +1098,11 @@ export function DonateForm() {
     amount: 1000,
     message: "",
   });
-  const give = useAction(svc.donate, ["donations"]);
+  const give = usePayment();
 
-  const run = (success: boolean) => {
-    // Client-side guard: do not call the donation action for signed-out visitors.
-    if (!user) {
-      nav(`${paths.auth}?next=${encodeURIComponent("/student-programmes")}`);
-      return;
-    }
-
-    give.mutate(
-      { ...f, phone: f.phone.replace(/\s/g, ""), success },
-      {
-        onSuccess: (id) =>
-          id
-            ? nav(donationReceiptUrl(id))
-            : alert("Simulated payment failed. No donation was recorded."),
-      },
-    );
+  const run = () => {
+    if (!user) return;
+    give.mutate({ kind: "donation", ...f, phone: f.phone.replace(/\s/g, "") });
   };
 
   const set =
@@ -1290,7 +1252,7 @@ export function DonateForm() {
                 alert("Please enter a donation amount of at least KSh 10.");
                 return;
               }
-              run(true);
+              run();
             }}
           >
             <div className="border-b border-border/70 pb-5">
@@ -1389,7 +1351,7 @@ export function DonateForm() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="dp">M-Pesa phone number</Label>
+                <Label htmlFor="dp">Phone number</Label>
                 <Input
                   id="dp"
                   type="tel"
@@ -1402,7 +1364,7 @@ export function DonateForm() {
                   className="h-12 rounded-xl"
                 />
                 <p className="text-xs text-muted-foreground">
-                  Enter the phone number for the payment prompt.
+                  Enter your contact phone number.
                 </p>
               </div>
               <div className="space-y-2">
@@ -1458,20 +1420,13 @@ export function DonateForm() {
                 ) : (
                   <>
                     <Smartphone className="mr-2 h-4 w-4" />
-                    Simulate donation of{" "}
+                    Pay with Paystack (Test) ·{" "}
                     {kes(Math.max(0, Number(f.amount) || 0))}
                   </>
                 )}
               </Button>
-              <Button
-                type="button"
-                variant="outline"
-                className="h-11 w-full rounded-xl"
-                disabled={give.isPending}
-                onClick={() => run(false)}
-              >
-                Simulate failed payment
-              </Button>
+              <p className="text-xs text-muted-foreground">Paystack test mode. No real money is charged.</p>
+              {give.error && <p role="alert" className="text-sm text-destructive">{give.error.message}</p>}
             </div>
           </form>
         )}

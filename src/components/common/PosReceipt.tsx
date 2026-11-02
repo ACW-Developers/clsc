@@ -102,7 +102,7 @@ export function PosReceipt(p: Props) {
               </div>
               <p className="mt-5 text-center text-xs">
                 {p.note ??
-                  "Test receipt: this payment was simulated and is not a real M-Pesa transaction."}
+                  "Test receipt: no real money was charged. Not valid as proof of a live payment."}
               </p>
               <footer className="mt-4 text-center text-xs text-muted-foreground">
                 {p.thanks ?? "Thank you for choosing CSLC."}
