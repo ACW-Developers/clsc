@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Smartphone, AlertTriangle } from "lucide-react";
 import { ShopFrame } from "@/components/bookshop/ShopFrame";
 import { Button } from "@/components/ui/button";
@@ -8,24 +8,16 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useCart } from "@/hooks/bookshop/useCart";
 import { useCatalog } from "@/hooks/bookshop/useCatalog";
-import { useAction } from "@/hooks/useHospitality";
-import { catalogService, branchName } from "@/services/bookshop/catalog";
+import { usePayment } from "@/hooks/usePayments";
+import { branchName } from "@/services/bookshop/catalog";
 import { cartTotal, availableStock } from "@/lib/bookshop";
 import { kes } from "@/lib/booking";
-import { bookshopReceiptUrl, paths } from "@/routes/paths";
+import { paths } from "@/routes/paths";
 export default function BookshopCheckoutPage() {
   const cart = useCart(),
     q = useCatalog(),
-    navigate = useNavigate(),
-    [phone, setPhone] = useState(""),
-    [failed, setFailed] = useState(false);
-  const request = useRef(crypto.randomUUID());
-  const pay = useAction(catalogService.checkout, [
-    "books",
-    "orders",
-    "bookshopReceipts",
-    "notifications",
-  ]);
+    [phone, setPhone] = useState("");
+  const pay = usePayment();
   const books = q.data ?? [],
     valid =
       cart.lines.length > 0 &&
@@ -33,27 +25,7 @@ export default function BookshopCheckoutPage() {
         const b = books.find((b) => b.id === l.book_id);
         return b && availableStock(b, cart.branch) >= l.quantity;
       });
-  const run = (success: boolean) =>
-    pay.mutate(
-      {
-        branch: cart.branch,
-        items: cart.lines,
-        phone: phone.replace(/\s/g, ""),
-        success,
-        requestId: request.current,
-      },
-      {
-        onSuccess: (rid) => {
-          if (rid) {
-            cart.clear();
-            navigate(bookshopReceiptUrl(rid));
-          } else {
-            setFailed(true);
-            request.current = crypto.randomUUID();
-          }
-        },
-      },
-    );
+  const run = () => pay.mutate({ kind: "bookshop", branch: cart.branch, items: cart.lines, phone: phone.replace(/\s/g, "") });
   return (
     <ShopFrame>
       <main className="container max-w-xl py-10">
@@ -66,8 +38,7 @@ export default function BookshopCheckoutPage() {
         <Alert className="mb-6">
           <AlertTriangle className="h-4 w-4" />
           <AlertDescription>
-            <strong>Simulated M-Pesa · Test mode.</strong> No M-Pesa request is
-            sent and no money is charged. A successful test reduces branch stock
+            <strong>Paystack · Test mode.</strong> Use test payment details only; no real money is charged. A successful test reduces branch stock
             and creates a receipt.
           </AlertDescription>
         </Alert>
@@ -110,16 +81,9 @@ export default function BookshopCheckoutPage() {
             <p className="text-sm text-muted-foreground">
               Collection at {branchName(cart.branch)} bookshop.
             </p>
-            {failed && (
-              <Alert variant="destructive">
-                <AlertDescription>
-                  The simulated payment failed. Stock was not changed. Try
-                  again.
-                </AlertDescription>
-              </Alert>
-            )}
+            {pay.error && <p role="alert" className="text-sm text-destructive">{pay.error.message}</p>}
             <div className="space-y-2">
-              <Label htmlFor="bookshop-phone">M-Pesa phone number</Label>
+              <Label htmlFor="bookshop-phone">Phone number</Label>
               <Input
                 id="bookshop-phone"
                 type="tel"
@@ -132,19 +96,12 @@ export default function BookshopCheckoutPage() {
             <Button
               className="w-full"
               disabled={pay.isPending || !phone}
-              onClick={() => run(true)}
+              onClick={run}
             >
               <Smartphone className="h-4 w-4" />
-              {pay.isPending ? "Processing…" : "Simulate successful payment"}
+              {pay.isPending ? "Processing…" : "Pay with Paystack (Test)"}
             </Button>
-            <Button
-              variant="outline"
-              className="w-full"
-              disabled={pay.isPending || !phone}
-              onClick={() => run(false)}
-            >
-              Simulate failed payment
-            </Button>
+
             <Link
               to={paths.cart}
               className="block text-center text-sm text-primary"

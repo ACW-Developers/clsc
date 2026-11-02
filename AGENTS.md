@@ -17,7 +17,8 @@
 - First super-admin setup is two-step (register approved mailbox, then claim after email confirmation) in the setup-admin function — server enforces approval and one-time use.
 - Keep first-admin eligibility in the setup function's shared policy module with focused tests — registration and claiming must enforce the same approval.
 - Unbuilt modules route to a shared Coming Soon page driven by `src/config/navigation.ts` — one place to grow the menu.
-- Facility payments run through the simulate_payment security-definer function, which alone may mark bookings paid and issue receipts — clients can never forge payment state.
+- All checkout starts and verifies through the Paystack edge function; only service-role finalization can call the legacy payment RPCs, with atomic idempotence and test-domain/amount/currency checks — clients cannot forge paid state.
+- Paystack callback origins use an explicit allowlist in the payment policy; add the published/custom origin only when approved — prevent checkout redirect abuse.
 - Category display and form fields share src/config/facilityCategories.ts; facility information is stored in sub_services.details and booking requests in notes — consistent rendering without changing trusted pricing rules.
 - Dashboard charts use the existing Recharts dependency and theme controls use next-themes in AppProviders — reuse dependencies and semantic tokens.
 - Admin traffic, overview and log charts share presentation tokens and local-calendar daily aggregation; unavailable traffic dimensions remain explicit instead of changing privacy-conscious tracking for a visual reference.

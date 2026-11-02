@@ -36,7 +36,7 @@ const ReceiptPage = () => {
       : []),
     ["Payment method", rc?.method],
     ["Phone", rc?.phone],
-    ["Simulation reference", rc?.reference],
+    ["Payment reference", rc?.reference],
   ];
   return (
     <PosReceipt

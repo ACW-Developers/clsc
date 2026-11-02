@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, Loader2, Smartphone } from "lucide-react";
 import { SiteHeader } from "@/components/common/SiteHeader";
@@ -8,34 +8,22 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useAction } from "@/hooks/useHospitality";
+import { usePayment } from "@/hooks/usePayments";
 import { hospitalityService as svc } from "@/services/hospitality";
-import { accountView, receiptUrl } from "@/routes/paths";
+import { accountView } from "@/routes/paths";
 import { bookingLabel, kes, labelVariant } from "@/lib/booking";
 
 const CheckoutPage = () => {
   const { id = "" } = useParams();
-  const nav = useNavigate();
   const q = useQuery({
     queryKey: ["bookings", "one", id],
     queryFn: () => svc.getBooking(id),
   });
   const [phone, setPhone] = useState("");
-  const pay = useAction(svc.simulatePayment, [
-    "bookings",
-    "ranges",
-    "receipts",
-  ]);
+  const pay = usePayment();
   const b = q.data;
   const label = b ? bookingLabel(b) : null;
-  const run = (success: boolean) =>
-    pay.mutate(
-      { id, phone: phone.replace(/\s/g, ""), success },
-      {
-        onSuccess: (rid) =>
-          rid ? nav(receiptUrl(rid as string)) : q.refetch(),
-      },
-    );
+  const run = () => pay.mutate({ kind: "booking", id, phone: phone.replace(/\s/g, "") });
 
   return (
     <div className="min-h-screen bg-muted">
@@ -90,8 +78,7 @@ const CheckoutPage = () => {
             <Alert>
               <AlertTriangle className="h-4 w-4" />
               <AlertDescription>
-                <strong>Simulated M-Pesa checkout (test mode).</strong> No real
-                M-Pesa request is sent and no money is charged.
+                <strong>Paystack checkout (test mode).</strong> Use Paystack test payment details only; no real money is charged.
               </AlertDescription>
             </Alert>
             {b.payment_status === "paid" ? (
@@ -112,12 +99,12 @@ const CheckoutPage = () => {
                 {b.payment_status === "failed" && (
                   <Alert variant="destructive">
                     <AlertDescription>
-                      The last simulated payment failed. You can try again.
+                      The last payment failed. You can try again.
                     </AlertDescription>
                   </Alert>
                 )}
                 <div className="space-y-1.5">
-                  <Label htmlFor="ph">M-Pesa phone number</Label>
+                  <Label htmlFor="ph">Phone number</Label>
                   <Input
                     id="ph"
                     inputMode="tel"
@@ -129,23 +116,16 @@ const CheckoutPage = () => {
                 <Button
                   className="w-full"
                   disabled={pay.isPending || !phone}
-                  onClick={() => run(true)}
+                  onClick={run}
                 >
                   {pay.isPending ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     <Smartphone className="h-4 w-4" />
                   )}{" "}
-                  Simulate successful payment of {kes(b.total_amount)}
+                  Pay with Paystack (Test) · {kes(b.total_amount)}
                 </Button>
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  disabled={pay.isPending || !phone}
-                  onClick={() => run(false)}
-                >
-                  Simulate failed payment
-                </Button>
+                {pay.error && <p role="alert" className="text-sm text-destructive">{pay.error.message}</p>}
               </div>
             )}
             <Link

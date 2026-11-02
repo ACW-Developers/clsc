@@ -1,6 +1,7 @@
 /** Single source of truth for route paths. */
 export const paths = {
   home: "/",
+  paymentReturn: "/payments/return",
   contact: "/contact",
   about: "/about",
   auth: "/auth",
