@@ -1,5 +1,9 @@
 # Requested changes
 
+- [x] Securely collect Paystack test secret key.
+- [ ] Connect bookings, bookshop, event tickets and donations to Paystack test checkout with server verification and universal receipts.
+- [ ] Verify test-only enforcement, authorization and checkout return flow.
+
 - [x] Apply Quicksand across all pages, headings and receipts.
 - [x] Add programme/resource presentation content and upcoming events with posters, without testing labels.
 - [x] Add three books with background-free covers and stock at both branches; verify pages and assets.
