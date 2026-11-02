@@ -27,3 +27,4 @@
 - Student programmes (events, materials, donations, devotionals, Bible study, student contributions) live in `services/programmes`, `hooks/programmes`, `components/programmes` and `pages/programmes`; ticket and donation payments run only through security-definer RPCs that set prices, capacity and receipt numbers — clients never write payment records.
 - All receipts and tickets render through `components/common/PosReceipt` — one universal receipt format across modules.
 - Student contributions are moderated by super admins; approval publishes to devotionals/Bible study only via a database trigger with author attribution — clients never publish their own submissions.
+- Leadership team records live in `public.leadership_team`, managed via `services/leadership.ts` + `hooks/useLeadership.ts` and the super-admin Leadership view; the About page renders only published members — keep team content server-driven, never hardcoded.

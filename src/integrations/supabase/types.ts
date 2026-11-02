@@ -535,6 +535,45 @@ export type Database = {
         }
         Relationships: []
       }
+      leadership_team: {
+        Row: {
+          bio: string | null
+          created_at: string
+          full_name: string
+          id: string
+          image_url: string | null
+          is_published: boolean
+          role: string
+          sort_order: number
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          full_name: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          role: string
+          sort_order?: number
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          full_name?: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          role?: string
+          sort_order?: number
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       material_views: {
         Row: {
           id: string

@@ -1,27 +1,23 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, BookMarked, Hotel, Store, UserRound, FileText } from "lucide-react";
+import { BookMarked, Hotel, Store, UserRound, FileText } from "lucide-react";
 import { SiteHeader } from "@/components/common/SiteHeader";
 import { SiteFooter } from "@/components/common/SiteFooter";
 import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/home/InstitutionSections";
 import { site } from "@/config/site";
 import { paths } from "@/routes/paths";
+import { useLeadership } from "@/hooks/useLeadership";
 import hero from "@/assets/banner.jpg";
 import grounds from "@/assets/ufungamano.jpg";
-
-/** Editable placeholders: replace with verified CSLC content when provided. */
-const team = [
-  { role: "Centre Director", area: "Overall leadership", to: paths.about },
-  { role: "Bookshop Manager", area: "Yaya Centre & Kisumu branches", to: paths.bookshop },
-  { role: "Hospitality Manager", area: "Accommodation, conference & dining", to: paths.book },
-  { role: "Programmes Coordinator", area: "Events, materials & resources", to: paths.events },
-];
 
 const Placeholder = ({ children }: { children: React.ReactNode }) => (
   <p className="rounded-xl border border-dashed bg-muted/40 p-4 text-sm italic text-muted-foreground">{children}</p>
 );
 
-const AboutPage = () => (
+const AboutPage = () => {
+  const team = useLeadership();
+  const members = team.data ?? [];
+  return (
   <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-background">
     <SiteHeader />
     <main className="flex-1">
@@ -103,18 +99,26 @@ const AboutPage = () => (
       <section id="team" className="container scroll-mt-24 py-16">
         <Eyebrow>Leadership & team</Eyebrow>
         <h2 className="mt-2 text-3xl font-bold">Meet the Team</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Names and photos will be added once confirmed.</p>
-        <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {team.map((m) => (
-            <div key={m.role} className="rounded-2xl border bg-card p-5 text-center shadow-card">
-              <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-secondary text-primary"><UserRound className="h-9 w-9" /></span>
-              <p className="mt-4 font-semibold">Name to be confirmed</p>
-              <p className="text-sm text-primary">{m.role}</p>
-              <p className="mt-1 text-xs text-muted-foreground">{m.area}</p>
-              <Link to={m.to} className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">View section <ArrowRight className="h-3 w-3" /></Link>
-            </div>
-          ))}
-        </div>
+        {members.length === 0 ? (
+          <p className="mt-4 rounded-xl border border-dashed bg-muted/40 p-4 text-sm italic text-muted-foreground">
+            Our leadership team profiles will be published here soon.
+          </p>
+        ) : (
+          <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {members.map((m) => (
+              <div key={m.id} className="rounded-2xl border bg-card p-5 text-center shadow-card">
+                {m.image_url ? (
+                  <img src={m.image_url} alt={m.full_name} loading="lazy" className="mx-auto h-20 w-20 rounded-full object-cover" />
+                ) : (
+                  <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-secondary text-primary"><UserRound className="h-9 w-9" /></span>
+                )}
+                <p className="mt-4 font-semibold">{m.title ? `${m.title} ` : ""}{m.full_name}</p>
+                <p className="text-sm text-primary">{m.role}</p>
+                {m.bio && <p className="mt-2 line-clamp-4 text-xs leading-relaxed text-muted-foreground">{m.bio}</p>}
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       <section id="research" className="container scroll-mt-24 pb-16">
@@ -132,6 +136,7 @@ const AboutPage = () => (
     </main>
     <SiteFooter />
   </div>
-);
+  );
+};
 
 export default AboutPage;
