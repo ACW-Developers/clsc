@@ -1,27 +1,23 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, BookMarked, Hotel, Store, UserRound, FileText } from "lucide-react";
+import { BookMarked, Hotel, Store, UserRound, FileText } from "lucide-react";
 import { SiteHeader } from "@/components/common/SiteHeader";
 import { SiteFooter } from "@/components/common/SiteFooter";
 import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/home/InstitutionSections";
 import { site } from "@/config/site";
 import { paths } from "@/routes/paths";
+import { useLeadership } from "@/hooks/useLeadership";
 import hero from "@/assets/banner.jpg";
 import grounds from "@/assets/ufungamano.jpg";
-
-/** Editable placeholders: replace with verified CSLC content when provided. */
-const team = [
-  { role: "Centre Director", area: "Overall leadership", to: paths.about },
-  { role: "Bookshop Manager", area: "Yaya Centre & Kisumu branches", to: paths.bookshop },
-  { role: "Hospitality Manager", area: "Accommodation, conference & dining", to: paths.book },
-  { role: "Programmes Coordinator", area: "Events, materials & resources", to: paths.events },
-];
 
 const Placeholder = ({ children }: { children: React.ReactNode }) => (
   <p className="rounded-xl border border-dashed bg-muted/40 p-4 text-sm italic text-muted-foreground">{children}</p>
 );
 
-const AboutPage = () => (
+const AboutPage = () => {
+  const team = useLeadership();
+  const members = team.data ?? [];
+  return (
   <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-background">
     <SiteHeader />
     <main className="flex-1">
