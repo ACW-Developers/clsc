@@ -85,6 +85,13 @@
       "when": 1793392678879,
       "tag": "0011_devotionals_bible_study_contributions",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1793609499565,
+      "tag": "0012_create_leadership_team",
+      "breakpoints": true
     }
   ]
 }
