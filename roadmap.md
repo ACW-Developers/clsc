@@ -1,8 +1,9 @@
 # Requested changes
 
 - [x] Securely collect Paystack test secret key.
-- [ ] Connect bookings, bookshop, event tickets and donations to Paystack test checkout with server verification and universal receipts.
-- [ ] Verify test-only enforcement, authorization and checkout return flow.
+- [x] Connect bookings, bookshop, event tickets and donations to Paystack test checkout with server verification and universal receipts.
+- [x] Verify test-only enforcement, authorization, signed-in checkout initialization and unpaid return flow; 28 tests pass.
+- [ ] Complete a successful Paystack test transaction and verify receipt readback — blocked by Paystack's browser security challenge in automated checks; requires manual test checkout.
 
 - [x] Apply Quicksand across all pages, headings and receipts.
 - [x] Add programme/resource presentation content and upcoming events with posters, without testing labels.
