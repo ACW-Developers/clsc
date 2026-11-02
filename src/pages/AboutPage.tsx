@@ -99,18 +99,26 @@ const AboutPage = () => {
       <section id="team" className="container scroll-mt-24 py-16">
         <Eyebrow>Leadership & team</Eyebrow>
         <h2 className="mt-2 text-3xl font-bold">Meet the Team</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Names and photos will be added once confirmed.</p>
-        <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {team.map((m) => (
-            <div key={m.role} className="rounded-2xl border bg-card p-5 text-center shadow-card">
-              <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-secondary text-primary"><UserRound className="h-9 w-9" /></span>
-              <p className="mt-4 font-semibold">Name to be confirmed</p>
-              <p className="text-sm text-primary">{m.role}</p>
-              <p className="mt-1 text-xs text-muted-foreground">{m.area}</p>
-              <Link to={m.to} className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">View section <ArrowRight className="h-3 w-3" /></Link>
-            </div>
-          ))}
-        </div>
+        {members.length === 0 ? (
+          <p className="mt-4 rounded-xl border border-dashed bg-muted/40 p-4 text-sm italic text-muted-foreground">
+            Our leadership team profiles will be published here soon.
+          </p>
+        ) : (
+          <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {members.map((m) => (
+              <div key={m.id} className="rounded-2xl border bg-card p-5 text-center shadow-card">
+                {m.image_url ? (
+                  <img src={m.image_url} alt={m.full_name} loading="lazy" className="mx-auto h-20 w-20 rounded-full object-cover" />
+                ) : (
+                  <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-secondary text-primary"><UserRound className="h-9 w-9" /></span>
+                )}
+                <p className="mt-4 font-semibold">{m.title ? `${m.title} ` : ""}{m.full_name}</p>
+                <p className="text-sm text-primary">{m.role}</p>
+                {m.bio && <p className="mt-2 line-clamp-4 text-xs leading-relaxed text-muted-foreground">{m.bio}</p>}
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       <section id="research" className="container scroll-mt-24 pb-16">
@@ -128,6 +136,7 @@ const AboutPage = () => {
     </main>
     <SiteFooter />
   </div>
-);
+  );
+};
 
 export default AboutPage;
