@@ -717,6 +717,48 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_sessions: {
+        Row: {
+          amount_minor: number
+          authorization_url: string | null
+          created_at: string
+          currency: string
+          id: string
+          kind: string
+          payload: Json
+          reference: string
+          result_id: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          amount_minor: number
+          authorization_url?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          kind: string
+          payload: Json
+          reference: string
+          result_id?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          amount_minor?: number
+          authorization_url?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          kind?: string
+          payload?: Json
+          reference?: string
+          result_id?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -1086,6 +1128,10 @@ export type Database = {
           start_date: string
         }[]
       }
+      finalize_paystack: {
+        Args: { _amount: number; _currency: string; _reference: string }
+        Returns: Json
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1103,6 +1149,10 @@ export type Database = {
           _user_id: string
         }
         Returns: undefined
+      }
+      paystack_quote: {
+        Args: { _kind: string; _payload: Json; _uid: string }
+        Returns: number
       }
       save_bookshop_book: {
         Args: { _book: Json; _stock: Json }
