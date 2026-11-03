@@ -133,6 +133,20 @@ const AboutPage = () => {
           <Button asChild variant="secondary" className="rounded-full"><Link to={paths.materials}>Programme Materials</Link></Button>
         </div>
       </section>
+      <section aria-label="Our partners" className="overflow-hidden border-y bg-secondary/40 py-6">
+        <div className="flex w-max animate-marquee gap-0 whitespace-nowrap text-sm font-semibold tracking-wide text-foreground/80 sm:text-base hover:[animation-play-state:paused]">
+          {[0, 1].map((k) => (
+            <span key={k} aria-hidden={k > 0} className="flex items-center">
+              {["National Council of Churches of Kenya (NCCK)", "Kenya Conference of Catholic Bishops (KCCB)", "University of Nairobi (UoN)", "National Council of Churches of Kenya (NCCK)", "Kenya Conference of Catholic Bishops (KCCB)", "University of Nairobi (UoN)"].map((n, i) => (
+                <span key={i} className="flex items-center">
+                  <span className="px-6">{n}</span>
+                  <span className="text-xl leading-none text-accent">·</span>
+                </span>
+              ))}
+            </span>
+          ))}
+        </div>
+      </section>
     </main>
     <SiteFooter />
   </div>

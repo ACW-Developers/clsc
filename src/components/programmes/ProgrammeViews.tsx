@@ -216,18 +216,32 @@ export function EventsGrid() {
         <AlertDescription>{q.error.message}</AlertDescription>
       </Alert>
     );
-  if (!rows.length)
-    return (
-      <Empty
-        icon={CalendarDays}
-        text="No upcoming events have been published yet."
-      />
-    );
+  const past = (q.data ?? []).filter((e) => e.event_date < today).reverse();
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-      {rows.map((e) => (
-        <EventCard key={e.id} e={e} />
-      ))}
+    <div className="space-y-12">
+      {rows.length ? (
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+          {rows.map((e) => (
+            <EventCard key={e.id} e={e} />
+          ))}
+        </div>
+      ) : (
+        <Empty icon={CalendarDays} text="No upcoming events have been published yet." />
+      )}
+      {past.length > 0 && (
+        <section aria-labelledby="events-history">
+          <h2 id="events-history" className="mb-1 text-2xl font-bold">Events History</h2>
+          <p className="mb-5 text-sm text-muted-foreground">Completed events</p>
+          <div className="grid grid-cols-1 gap-5 opacity-80 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+            {past.map((e) => (
+              <div key={e.id} className="relative">
+                <span className="absolute left-3 top-3 z-10 rounded-full bg-muted px-3 py-1 text-xs font-semibold text-muted-foreground">Completed</span>
+                <EventCard e={e} />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
