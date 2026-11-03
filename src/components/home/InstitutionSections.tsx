@@ -25,7 +25,18 @@ import hero from "@/assets/hero.jpg";
 import hero2 from "@/assets/hero-2.jpg";
 import hero3 from "@/assets/hero-3.jpg";
 import { useEffect, useState } from "react";
-const heroes = [hero, hero2, hero3];
+import hero4 from "@/assets/hero-4.jpg";
+import hero5 from "@/assets/hero-5.jpg";
+const heroes = [hero, hero2, hero3, hero4, hero5];
+/** Hidden starting state per slide; each slide enters with a different soft effect. */
+const enterFrom: React.CSSProperties[] = [
+  { opacity: 0 },
+  { opacity: 0, transform: "translateX(8%)" },
+  { clipPath: "inset(0 100% 0 0)" },
+  { opacity: 0, filter: "blur(18px)", transform: "scale(1.06)" },
+  { opacity: 0, clipPath: "circle(0% at 50% 50%)" },
+];
+const shown: React.CSSProperties = { opacity: 1, transform: "none", filter: "blur(0)", clipPath: "inset(0 0 0 0)" };
 import reading from "@/assets/bookshop-reading.jpg";
 import grad from "@/assets/grad.jpg";
 
@@ -48,16 +59,23 @@ const Go = ({ to, className, children }: { to: string; className?: string; child
 
 export function InstitutionHero() {
   const [slide, setSlide] = useState(0);
+  const [prev, setPrev] = useState(-1);
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const t = setInterval(() => setSlide((i) => (i + 1) % heroes.length), 6000);
+    const t = setInterval(() => setSlide((i) => { setPrev(i); return (i + 1) % heroes.length; }), 13000);
     return () => clearInterval(t);
   }, []);
   return (
     <section className="relative isolate overflow-hidden bg-primary text-primary-foreground">
-      {heroes.map((src, i) => (
-        <img key={src} src={src} alt={i ? "" : "Ufungamano House, home of CSLC"} aria-hidden={i > 0} fetchPriority={i ? "low" : "high"} loading={i ? "lazy" : "eager"} width={1600} height={912} className={`absolute inset-0 -z-20 h-full w-full object-cover transition-opacity duration-[900ms] ease-in-out will-change-[opacity,transform] motion-safe:animate-kenburns motion-reduce:transition-none ${i === slide ? "opacity-100" : "opacity-0"}`} />
-      ))}
+      {heroes.map((src, i) => {
+        const active = i === slide;
+        const style = i === 4 && active ? { ...shown, clipPath: "circle(75% at 50% 50%)" } : active || i === prev ? shown : enterFrom[i];
+        return (
+          <div key={src} aria-hidden={i > 0} className="absolute inset-0 -z-20 overflow-hidden motion-reduce:!transition-none" style={{ ...style, zIndex: active ? -18 : i === prev ? -19 : -20, transition: active ? "opacity 3s cubic-bezier(.4,0,.2,1), transform 3s cubic-bezier(.4,0,.2,1), filter 3s cubic-bezier(.4,0,.2,1), clip-path 3s cubic-bezier(.4,0,.2,1)" : "none", willChange: "opacity, transform, clip-path" }}>
+            <img src={src} alt={i ? "" : "Ufungamano House, home of CSLC"} fetchPriority={i ? "low" : "high"} loading={i ? "lazy" : "eager"} width={1600} height={912} className="h-full w-full object-cover motion-safe:animate-kenburns" />
+          </div>
+        );
+      })}
       <div className="absolute inset-0 -z-10 bg-hero-dark" />
       <div className="container pb-16 pt-20 md:pb-24 md:pt-28">
         <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
