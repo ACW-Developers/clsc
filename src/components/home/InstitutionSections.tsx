@@ -22,6 +22,10 @@ import { hospitalityServices, site } from "@/config/site";
 import { branchUrl, eventUrl, paths, serviceUrl } from "@/routes/paths";
 import { useEvents } from "@/hooks/programmes/useProgrammes";
 import hero from "@/assets/hero.jpg";
+import hero2 from "@/assets/hero-2.jpg";
+import hero3 from "@/assets/hero-3.jpg";
+import { useEffect, useState } from "react";
+const heroes = [hero, hero2, hero3];
 import reading from "@/assets/bookshop-reading.jpg";
 import grad from "@/assets/grad.jpg";
 
@@ -43,9 +47,16 @@ const Go = ({ to, className, children }: { to: string; className?: string; child
   to.startsWith("#") ? <a href={to} className={className}>{children}</a> : <Link to={to} className={className}>{children}</Link>;
 
 export function InstitutionHero() {
+  const [slide, setSlide] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setSlide((i) => (i + 1) % heroes.length), 6000);
+    return () => clearInterval(t);
+  }, []);
   return (
     <section className="relative isolate overflow-hidden bg-primary text-primary-foreground">
-      <img src={hero} alt="Ufungamano House, home of CSLC" fetchPriority="high" width={1600} height={912} className="absolute inset-0 -z-20 h-full w-full object-cover" />
+      {heroes.map((src, i) => (
+        <img key={src} src={src} alt={i ? "" : "Ufungamano House, home of CSLC"} aria-hidden={i > 0} fetchPriority={i ? "low" : "high"} loading={i ? "lazy" : "eager"} width={1600} height={912} className={`absolute inset-0 -z-20 h-full w-full object-cover transition-opacity duration-[1500ms] ease-in-out ${i === slide ? "opacity-100" : "opacity-0"}`} />
+      ))}
       <div className="absolute inset-0 -z-10 bg-hero-dark" />
       <div className="container pb-16 pt-20 md:pb-24 md:pt-28">
         <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">

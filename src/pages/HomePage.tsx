@@ -1,4 +1,5 @@
 import { SiteHeader } from "@/components/common/SiteHeader";
+import { EventPopup } from "@/components/home/EventPopup";
 import { SiteFooter } from "@/components/common/SiteFooter";
 import { WhyChoose } from "@/components/hospitality/HomeSections";
 import {
@@ -23,6 +24,7 @@ const HomePage = () => (
     <WhyChoose />
     <EnquiryBand />
     <SiteFooter />
+    <EventPopup />
   </div>
 );
 
