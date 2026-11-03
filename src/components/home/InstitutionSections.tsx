@@ -49,13 +49,14 @@ const Go = ({ to, className, children }: { to: string; className?: string; child
 export function InstitutionHero() {
   const [slide, setSlide] = useState(0);
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const t = setInterval(() => setSlide((i) => (i + 1) % heroes.length), 6000);
     return () => clearInterval(t);
   }, []);
   return (
     <section className="relative isolate overflow-hidden bg-primary text-primary-foreground">
       {heroes.map((src, i) => (
-        <img key={src} src={src} alt={i ? "" : "Ufungamano House, home of CSLC"} aria-hidden={i > 0} fetchPriority={i ? "low" : "high"} loading={i ? "lazy" : "eager"} width={1600} height={912} className={`absolute inset-0 -z-20 h-full w-full object-cover transition-opacity duration-[1500ms] ease-in-out ${i === slide ? "opacity-100" : "opacity-0"}`} />
+        <img key={src} src={src} alt={i ? "" : "Ufungamano House, home of CSLC"} aria-hidden={i > 0} fetchPriority={i ? "low" : "high"} loading={i ? "lazy" : "eager"} width={1600} height={912} className={`absolute inset-0 -z-20 h-full w-full object-cover transition-opacity duration-[900ms] ease-in-out will-change-[opacity,transform] motion-safe:animate-kenburns motion-reduce:transition-none ${i === slide ? "opacity-100" : "opacity-0"}`} />
       ))}
       <div className="absolute inset-0 -z-10 bg-hero-dark" />
       <div className="container pb-16 pt-20 md:pb-24 md:pt-28">
