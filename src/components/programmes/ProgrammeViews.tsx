@@ -41,6 +41,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
+import { PaymentMethodPicker, payLabel } from "@/components/common/PaymentMethod";
 import { usePayment } from "@/hooks/usePayments";
 import {
   useEvents,
@@ -497,6 +498,7 @@ export function EventDetail({ e }: { e: EventRow }) {
                   />
                 </div>
 
+                <PaymentMethodPicker value={buy.method} onChange={buy.setMethod} />
                 <div className="space-y-1.5">
                   <Label htmlFor="tph">Phone number</Label>
                   <Input
@@ -541,14 +543,14 @@ export function EventDetail({ e }: { e: EventRow }) {
                     ) : (
                       <Smartphone className="mr-2 h-4 w-4" />
                     )}
-                    Pay with Paystack (Test)
+                    {payLabel(buy.method)}
                   </Button>
 
                   {buy.error && <p role="alert" className="text-sm text-destructive">{buy.error.message}</p>}
                 </div>
 
                 <p className="text-center text-xs leading-relaxed text-muted-foreground">
-                  Paystack test mode. Use test payment details only; no real money is charged.
+                  Sandbox mode: no real money is charged.
                 </p>
               </>
             )}
@@ -1413,6 +1415,7 @@ export function DonateForm() {
               </p>
             </div>
 
+            <PaymentMethodPicker value={give.method} onChange={give.setMethod} />
             <div className="space-y-3">
               <Button
                 type="submit"
@@ -1434,12 +1437,12 @@ export function DonateForm() {
                 ) : (
                   <>
                     <Smartphone className="mr-2 h-4 w-4" />
-                    Pay with Paystack (Test) ·{" "}
+                    {payLabel(give.method)} ·{" "}
                     {kes(Math.max(0, Number(f.amount) || 0))}
                   </>
                 )}
               </Button>
-              <p className="text-xs text-muted-foreground">Paystack test mode. No real money is charged.</p>
+              <p className="text-xs text-muted-foreground">Sandbox mode: no real money is charged.</p>
               {give.error && <p role="alert" className="text-sm text-destructive">{give.error.message}</p>}
             </div>
           </form>

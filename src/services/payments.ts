@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+export type PaymentProvider = "mpesa" | "paystack";
 export type PaymentInput =
   | { kind: "booking"; id: string; phone: string }
   | { kind: "bookshop"; branch: string; items: { book_id: string; quantity: number }[]; phone: string }
@@ -14,8 +15,14 @@ async function invoke(body: unknown) {
   return data;
 }
 export const paymentsService = {
-  async start(payload: PaymentInput) {
-    const data = await invoke({ action: "initialize", payload, origin: window.location.origin });
+  async start({ provider = "paystack", ...payload }: PaymentInput & { provider?: PaymentProvider }) {
+    const data = await invoke({ action: "initialize", payload, provider, origin: window.location.origin });
+    if (provider === "mpesa") {
+      if (!data?.reference) throw new Error("M-Pesa prompt could not be sent");
+      sessionStorage.setItem("cslc-payment-reference", data.reference);
+      window.location.assign(`/payments/return?reference=${encodeURIComponent(data.reference)}&provider=mpesa`);
+      return;
+    }
     if (!data?.authorization_url || new URL(data.authorization_url).origin !== "https://checkout.paystack.com") throw new Error("Checkout is unavailable");
     sessionStorage.setItem("cslc-payment-reference", data.reference);
     window.location.assign(data.authorization_url);

@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { PaymentMethodPicker, payLabel } from "@/components/common/PaymentMethod";
 import { usePayment } from "@/hooks/usePayments";
 import { hospitalityService as svc } from "@/services/hospitality";
 import { accountView } from "@/routes/paths";
@@ -103,6 +104,7 @@ const CheckoutPage = () => {
                     </AlertDescription>
                   </Alert>
                 )}
+                <PaymentMethodPicker value={pay.method} onChange={pay.setMethod} />
                 <div className="space-y-1.5">
                   <Label htmlFor="ph">Phone number</Label>
                   <Input
@@ -123,7 +125,7 @@ const CheckoutPage = () => {
                   ) : (
                     <Smartphone className="h-4 w-4" />
                   )}{" "}
-                  Pay with Paystack (Test) · {kes(b.total_amount)}
+                  {payLabel(pay.method)} · {kes(b.total_amount)}
                 </Button>
                 {pay.error && <p role="alert" className="text-sm text-destructive">{pay.error.message}</p>}
               </div>
