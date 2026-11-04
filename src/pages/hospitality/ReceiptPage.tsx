@@ -1,3 +1,4 @@
+import { PaymentMethodBadge } from "@/components/common/PaymentMethod";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { PosReceipt, type ReceiptRow } from "@/components/common/PosReceipt";
@@ -34,7 +35,7 @@ const ReceiptPage = () => {
           ],
         ] as ReceiptRow[])
       : []),
-    ["Payment method", rc?.method],
+    ["Payment method", <PaymentMethodBadge method={rc?.method} />],
     ["Phone", rc?.phone],
     ["Payment reference", rc?.reference],
   ];

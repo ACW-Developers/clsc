@@ -1,3 +1,4 @@
+import { PaymentMethodBadge } from "@/components/common/PaymentMethod";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { PosReceipt } from "@/components/common/PosReceipt";
@@ -28,7 +29,7 @@ export default function BookshopReceiptPage() {
       date={r?.created_at}
       rows={[
         ["Branch", r ? branchName(r.branch) : ""],
-        ["Payment method", r?.method],
+        ["Payment method", <PaymentMethodBadge method={r?.method} />],
         ["Phone", r?.phone],
         ["Payment reference", r?.reference],
       ]}

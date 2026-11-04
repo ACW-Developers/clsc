@@ -721,11 +721,16 @@ export type Database = {
         Row: {
           amount_minor: number
           authorization_url: string | null
+          callback_token: string | null
+          checkout_request_id: string | null
           created_at: string
           currency: string
+          failure_reason: string | null
           id: string
           kind: string
           payload: Json
+          provider: string
+          provider_receipt: string | null
           reference: string
           result_id: string | null
           status: string
@@ -734,11 +739,16 @@ export type Database = {
         Insert: {
           amount_minor: number
           authorization_url?: string | null
+          callback_token?: string | null
+          checkout_request_id?: string | null
           created_at?: string
           currency?: string
+          failure_reason?: string | null
           id?: string
           kind: string
           payload: Json
+          provider?: string
+          provider_receipt?: string | null
           reference: string
           result_id?: string | null
           status?: string
@@ -747,11 +757,16 @@ export type Database = {
         Update: {
           amount_minor?: number
           authorization_url?: string | null
+          callback_token?: string | null
+          checkout_request_id?: string | null
           created_at?: string
           currency?: string
+          failure_reason?: string | null
           id?: string
           kind?: string
           payload?: Json
+          provider?: string
+          provider_receipt?: string | null
           reference?: string
           result_id?: string | null
           status?: string

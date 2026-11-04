@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useCart } from "@/hooks/bookshop/useCart";
 import { useCatalog } from "@/hooks/bookshop/useCatalog";
+import { PaymentMethodPicker, payLabel } from "@/components/common/PaymentMethod";
 import { usePayment } from "@/hooks/usePayments";
 import { branchName } from "@/services/bookshop/catalog";
 import { cartTotal, availableStock } from "@/lib/bookshop";
@@ -82,6 +83,7 @@ export default function BookshopCheckoutPage() {
               Collection at {branchName(cart.branch)} bookshop.
             </p>
             {pay.error && <p role="alert" className="text-sm text-destructive">{pay.error.message}</p>}
+            <PaymentMethodPicker value={pay.method} onChange={pay.setMethod} />
             <div className="space-y-2">
               <Label htmlFor="bookshop-phone">Phone number</Label>
               <Input
@@ -99,7 +101,7 @@ export default function BookshopCheckoutPage() {
               onClick={run}
             >
               <Smartphone className="h-4 w-4" />
-              {pay.isPending ? "Processing…" : "Pay with Paystack (Test)"}
+              {pay.isPending ? "Processing…" : payLabel(pay.method)}
             </Button>
 
             <Link
