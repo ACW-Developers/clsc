@@ -1,3 +1,4 @@
+import { PaymentMethodBadge } from "@/components/common/PaymentMethod";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
@@ -110,7 +111,7 @@ export function TicketPage() {
         ["Venue", t?.events?.venue],
         ["Attendee", t?.attendee_name],
         ["Admits", `${t?.quantity ?? ""} person(s)`],
-        ["Payment method", t?.method],
+        ["Payment method", <PaymentMethodBadge method={t?.method} />],
         ["Phone", t?.phone],
         ["Payment reference", t?.reference],
       ]}
@@ -140,7 +141,7 @@ export function DonationReceiptPage() {
       rows={[
         ["Donor", r?.donor_name],
         ["Purpose", r?.description],
-        ["Payment method", r?.method],
+        ["Payment method", <PaymentMethodBadge method={r?.method} />],
         ["Phone", r?.phone],
         ["Payment reference", r?.reference],
       ]}
