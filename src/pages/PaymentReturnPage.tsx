@@ -27,7 +27,7 @@ export default function PaymentReturnPage() {
   }, [q.data, client, nav]);
   return <div className="min-h-screen bg-background"><SiteHeader /><main className="container max-w-xl space-y-5 py-16 text-center">
     <h1 className="text-2xl font-bold">{mpesa ? "M-Pesa payment" : "Paystack test payment"}</h1>
-    {mpesa && q.data?.status === "pending" ? <><Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" /><p role="status">Check your phone for the M-Pesa prompt and enter your PIN to approve. This page updates automatically once Safaricom confirms the payment.</p></> :
+    {mpesa && q.data?.status === "pending" && Date.now() - started < 180_000 ? <><Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" /><p role="status">Check your phone for the M-Pesa prompt and enter your PIN to approve. This page updates automatically once Safaricom confirms the payment.</p></> :
     q.isFetching && !q.data ? <><Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" /><p>Checking your payment…</p></> : <>
       <p role="status" className="text-muted-foreground">{q.data?.status === "failed" ? (q.data as { error?: string }).error ?? "The payment was not completed. No receipt was issued." : q.data?.status === "pending" ? "We haven't received confirmation yet. If you approved the prompt, check again in a moment." : q.data?.status === "review" ? "Your test payment was verified, but availability or pricing changed. CSLC must review it before issuing a receipt. Do not pay again." : q.error?.message ?? "No payment reference was found. No receipt has been issued."}</p>
       {reference && q.data?.status !== "review" && <Button onClick={() => void q.refetch()}>Check payment again</Button>}
