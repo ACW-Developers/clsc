@@ -16,11 +16,14 @@ function stamp() {
   return { timestamp, password: btoa(shortcode + passkey + timestamp), shortcode };
 }
 
+let cached: { value: string; until: number } | null = null;
 async function token() {
+  if (cached && cached.until > Date.now()) return cached.value;
   const { key, secret } = creds();
   const r = await fetch(`${BASE}/oauth/v1/generate?grant_type=client_credentials`, { headers: { Authorization: `Basic ${btoa(`${key}:${secret}`)}` } });
   const body = await r.json().catch(() => ({}));
   if (!r.ok || !body.access_token) throw new Error("M-Pesa authentication failed");
+  cached = { value: body.access_token, until: Date.now() + 50 * 60_000 };
   return body.access_token as string;
 }
 
@@ -46,7 +49,8 @@ export async function stkPush(o: { phone: string; amount: number; account: strin
 /** Returns "success", "failed" (with reason) or "pending" based on Daraja's own record. */
 export async function stkQuery(checkoutRequestId: string): Promise<{ state: "success" | "failed" | "pending"; reason?: string }> {
   const { timestamp, password, shortcode } = stamp();
-  const { body } = await call("/mpesa/stkpushquery/v1/query", { BusinessShortCode: shortcode, Password: password, Timestamp: timestamp, CheckoutRequestID: checkoutRequestId });
+  let body: Record<string, unknown>;
+  try { ({ body } = await call("/mpesa/stkpushquery/v1/query", { BusinessShortCode: shortcode, Password: password, Timestamp: timestamp, CheckoutRequestID: checkoutRequestId })); } catch { return { state: "pending" }; }
   if (body.ResultCode === "0" || body.ResultCode === 0) return { state: "success" };
   if (body.ResultCode !== undefined && body.ResultCode !== null) return { state: "failed", reason: String(body.ResultDesc ?? "Payment was not completed") };
   return { state: "pending" };
