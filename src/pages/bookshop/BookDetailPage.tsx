@@ -10,6 +10,7 @@ import { availableStock } from "@/lib/bookshop";
 import { branches } from "@/services/bookshop/catalog";
 import { kes } from "@/lib/booking";
 import { paths } from "@/routes/paths";
+import { Reviews } from "@/components/common/Reviews";
 import { BookCard } from "@/components/bookshop/BookCard";
 export default function BookDetailPage() {
   const { id } = useParams(),
@@ -123,6 +124,7 @@ export default function BookDetailPage() {
             </div>
           </div>
         )}
+        {book && <Reviews kind="book" id={book.id} />}
         {similar.length > 0 && (
           <section className="mt-12 border-t pt-8">
             <h2 className="mb-6 font-serif text-2xl font-bold">

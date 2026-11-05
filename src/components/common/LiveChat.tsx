@@ -87,7 +87,7 @@ export function LiveChat() {
   if (!open)
     return (
       <button onClick={() => { setOpen(true); setMin(false); }} aria-label="Open live chat" title="Live chat"
-        className="fixed bottom-20 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-elegant transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:bottom-6 sm:right-6">
+        className="fixed bottom-4 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-2xl transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:bottom-6 sm:right-6">
         <MessageCircle className="h-6 w-6" />
         {unread > 0 && <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold text-accent-foreground">{unread}</span>}
       </button>
@@ -95,7 +95,7 @@ export function LiveChat() {
 
   return (
     <div role="dialog" aria-label="CSLC live chat"
-      className="fixed bottom-3 right-3 z-50 flex w-[calc(100vw-1.5rem)] max-w-sm flex-col overflow-hidden rounded-2xl border bg-card shadow-elegant animate-in fade-in slide-in-from-bottom-4 sm:bottom-6 sm:right-6">
+      className="fixed bottom-3 right-3 z-50 flex w-[calc(100vw-1.5rem)] max-w-sm flex-col overflow-hidden rounded-2xl border bg-card shadow-2xl animate-in fade-in slide-in-from-bottom-4 sm:bottom-6 sm:right-6">
       <header className="flex items-center gap-3 bg-primary px-4 py-3 text-primary-foreground">
         <MessageCircle className="h-5 w-5 shrink-0" />
         <div className="min-w-0 flex-1">

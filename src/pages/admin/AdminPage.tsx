@@ -21,6 +21,7 @@ import {
   Sun,
   BookMarked,
   Sparkles,
+  Star,
 } from "lucide-react";
 import { ContributionsModeration, ResourcesAdmin } from "@/components/programmes/ResourceViews";
 import { DashboardShell } from "@/components/common/DashboardShell";
@@ -47,6 +48,7 @@ import {
   MaterialsAdmin,
 } from "@/components/programmes/ProgrammeAdmin";
 import { TrafficAnalytics } from "@/components/admin/TrafficAnalytics";
+import { AdminReviews } from "@/components/admin/AdminReviews";
 import { LeadershipAdmin } from "@/components/admin/LeadershipAdmin";
 
 const views: (DashView & { superOnly?: boolean })[] = [
@@ -117,6 +119,7 @@ const views: (DashView & { superOnly?: boolean })[] = [
     group: "Hospitality",
   },
   { id: "users", label: "Users", icon: UsersIcon },
+  { id: "reviews", label: "Reviews", icon: Star, superOnly: true },
   {
     id: "leadership",
     label: "Leadership",
@@ -157,6 +160,7 @@ const AdminPage = () => {
       {view === "services" && <Services />}
       {view === "facilities" && <Facilities />}
       {view === "users" && <Users />}
+      {view === "reviews" && <AdminReviews />}
       {view === "leadership" && <LeadershipAdmin />}
       {view === "traffic" && <TrafficAnalytics />}
       {view === "logs" && <Logs />}

@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { NavigationScroll } from "@/components/common/NavigationScroll";
+import { LiveChat } from "@/components/common/LiveChat";
 import { useTrafficTracking } from "@/hooks/analytics/useTraffic";
 
 /** Top-level shell shared by every page. Header/footer will be added here. */
@@ -11,6 +12,7 @@ export function RootLayout() {
       <main className="flex flex-1 flex-col">
         <Outlet />
       </main>
+      <LiveChat />
     </div>
   );
 }
