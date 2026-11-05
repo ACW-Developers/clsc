@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { useAllTickets, useEnquiries } from "@/hooks/useSupport";
 import { supportService } from "@/services/support";
+import { AdminLiveChat } from "@/components/admin/AdminLiveChat";
 import { useAction } from "@/hooks/useHospitality";
 
 const variant = (s: string) =>
@@ -42,8 +43,9 @@ export function AdminSupport() {
   const error = enquiries.error || tickets.error;
 
   return (
-    <Tabs defaultValue="tickets">
-      <TabsList>
+    <Tabs defaultValue="chat">
+      <TabsList className="flex-wrap h-auto">
+        <TabsTrigger value="chat">Live Chat</TabsTrigger>
         <TabsTrigger value="tickets">
           User Tickets ({tickets.data?.length ?? 0})
         </TabsTrigger>
@@ -59,6 +61,10 @@ export function AdminSupport() {
           <AlertDescription>{(error as Error).message}</AlertDescription>
         </Alert>
       )}
+
+      <TabsContent value="chat" className="mt-4">
+        <AdminLiveChat />
+      </TabsContent>
 
       <TabsContent value="tickets" className="mt-4 grid gap-3">
         {tickets.data?.length === 0 && (
