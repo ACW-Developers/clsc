@@ -299,6 +299,71 @@ export type Database = {
           },
         ]
       }
+      chat_messages: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          sender: string
+          session_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          sender: string
+          session_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          sender?: string
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "chat_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_sessions: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          last_message_at: string
+          name: string
+          phone: string
+          status: string
+          token: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          last_message_at?: string
+          name: string
+          phone: string
+          status?: string
+          token?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          last_message_at?: string
+          name?: string
+          phone?: string
+          status?: string
+          token?: string
+        }
+        Relationships: []
+      }
       contact_enquiries: {
         Row: {
           admin_notes: string | null
@@ -905,6 +970,63 @@ export type Database = {
         }
         Relationships: []
       }
+      reviews: {
+        Row: {
+          author_name: string
+          book_id: string | null
+          comment: string
+          created_at: string
+          id: string
+          kind: string
+          rating: number
+          status: string
+          sub_service_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          author_name?: string
+          book_id?: string | null
+          comment?: string
+          created_at?: string
+          id?: string
+          kind: string
+          rating: number
+          status?: string
+          sub_service_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          author_name?: string
+          book_id?: string | null
+          comment?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          rating?: number
+          status?: string
+          sub_service_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_sub_service_id_fkey"
+            columns: ["sub_service_id"]
+            isOneToOne: false
+            referencedRelation: "sub_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       services: {
         Row: {
           category: string
@@ -1122,6 +1244,30 @@ export type Database = {
         }
         Returns: string
       }
+      chat_reply: { Args: { _body: string; _id: string }; Returns: undefined }
+      chat_send: {
+        Args: { _body: string; _id: string; _token: string }
+        Returns: undefined
+      }
+      chat_start: {
+        Args: {
+          _email: string
+          _message: string
+          _name: string
+          _phone: string
+        }
+        Returns: Json
+      }
+      chat_thread: {
+        Args: { _id: string; _token: string }
+        Returns: {
+          body: string
+          created_at: string
+          id: string
+          sender: string
+          status: string
+        }[]
+      }
       donation_receipt: {
         Args: { _id: string }
         Returns: {
@@ -1168,6 +1314,10 @@ export type Database = {
       paystack_quote: {
         Args: { _kind: string; _payload: Json; _uid: string }
         Returns: number
+      }
+      review_eligible: {
+        Args: { _kind: string; _target: string }
+        Returns: boolean
       }
       save_bookshop_book: {
         Args: { _book: Json; _stock: Json }
