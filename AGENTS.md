@@ -29,3 +29,5 @@
 - All receipts and tickets render through `components/common/PosReceipt` — one universal receipt format across modules.
 - Student contributions are moderated by super admins; approval publishes to devotionals/Bible study only via a database trigger with author attribution — clients never publish their own submissions.
 - Leadership team records live in `public.leadership_team`, managed via `services/leadership.ts` + `hooks/useLeadership.ts` and the super-admin Leadership view; the About page renders only published members — keep team content server-driven, never hardcoded.
+- Reviews live in `public.reviews`; eligibility (paid book order or paid, started facility booking) and author name are enforced by the `guard_review` trigger, super admins moderate via the Reviews view — clients cannot self-certify purchases.
+- Live chat visitors are anonymous and hold a secret session token in localStorage; they only use token-checked RPCs and get a data-free broadcast doorbell on `chat-<token>`, while staff read tables via RLS — no table access for anon.

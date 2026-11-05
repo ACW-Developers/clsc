@@ -1,3 +1,4 @@
+import { Reviews } from "@/components/common/Reviews";
 import { useMemo, useState, type FormEvent } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
@@ -361,6 +362,7 @@ const FacilityPage = () => {
                 </ul>
               </div>
             )}
+            {fac && <Reviews kind="facility" id={fac.id} />}
           </div>
 
           {/* Booking panel */}
