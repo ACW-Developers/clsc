@@ -91,7 +91,7 @@ const ProgrammeAreaPage = () => {
                 <button onClick={() => setOpen(featured)} className="group grid w-full overflow-hidden rounded-2xl border bg-card text-left shadow-card transition hover:shadow-elegant md:grid-cols-2">
                   <img src={featured.image_url || fallback} alt="" loading="lazy" className="h-60 w-full object-cover transition duration-500 group-hover:scale-[1.03] md:h-full md:min-h-72" />
                   <div className="flex flex-col justify-center gap-3 p-6 sm:p-8">
-                    <span className="w-fit rounded-full bg-accent/15 px-3 py-1 text-xs font-semibold text-accent-foreground">Latest</span>
+                    <span className="w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">Latest</span>
                     <h3 className="text-xl font-bold group-hover:text-primary sm:text-2xl">{featured.title}</h3>
                     <Meta a={featured} />
                     <p className="line-clamp-4 text-sm leading-relaxed text-muted-foreground">{featured.summary || featured.body}</p>
