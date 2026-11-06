@@ -5,6 +5,7 @@ import HomePage from "@/pages/HomePage";
 import HospitalityHome from "@/pages/HospitalityHome";
 import ContactPage from "@/pages/ContactPage";
 import AboutPage from "@/pages/AboutPage";
+import ProgrammeAreaPage from "@/pages/programmes/ProgrammeAreaPage";
 import AuthPage from "@/pages/AuthPage";
 import ResetPasswordPage from "@/pages/ResetPasswordPage";
 import SetupAdminPage from "@/pages/SetupAdminPage";
@@ -43,6 +44,7 @@ export function AppRoutes() {
         <Route path={paths.hospitality} element={<HospitalityHome />} />
         <Route path={paths.contact} element={<ContactPage />} />
         <Route path={paths.about} element={<AboutPage />} />
+        <Route path={paths.programmeArea} element={<ProgrammeAreaPage />} />
         <Route path={paths.auth} element={<AuthPage />} />
         <Route path={paths.resetPassword} element={<ResetPasswordPage />} />
         <Route path={paths.adminSetup} element={<SetupAdminPage />} />
