@@ -22,7 +22,9 @@ import {
   BookMarked,
   Sparkles,
   Star,
+  Newspaper,
 } from "lucide-react";
+import { ActivitiesAdmin } from "@/components/programmes/ActivitiesAdmin";
 import { ContributionsModeration, ResourcesAdmin } from "@/components/programmes/ResourceViews";
 import { DashboardShell } from "@/components/common/DashboardShell";
 import { ProfileForm } from "@/components/common/ProfileForm";
@@ -104,6 +106,13 @@ const views: (DashView & { superOnly?: boolean })[] = [
     group: "Student Programmes",
   },
   {
+    id: "activities",
+    label: "Programme Activities",
+    icon: Newspaper,
+    group: "Student Programmes",
+    superOnly: true,
+  },
+  {
     id: "donations",
     label: "Donations",
     icon: HeartHandshake,
@@ -154,6 +163,7 @@ const AdminPage = () => {
       {view === "devotionals" && <ResourcesAdmin kind="devotional" />}
       {view === "biblestudy" && <ResourcesAdmin kind="bible_study" />}
       {view === "contributions" && <ContributionsModeration />}
+      {view === "activities" && <ActivitiesAdmin />}
       {view === "donations" && <DonationsInsights />}
       {view === "support" && <AdminSupport />}
       {view === "receipts" && <ReceiptsTable />}

@@ -4,6 +4,7 @@ export const paths = {
   paymentReturn: "/payments/return",
   contact: "/contact",
   about: "/about",
+  programmeArea: "/about/programmes/:slug",
   auth: "/auth",
   resetPassword: "/reset-password",
   admin: "/admin",
@@ -48,4 +49,5 @@ export const branchUrl = (branch: string) => `/bookshop/branch/${branch}`;
 export const bookshopReceiptUrl = (id: string) => `/bookshop/receipts/${id}`;
 export const eventUrl = (id: string) => `/events/${id}`;
 export const ticketUrl = (id: string) => `/events/tickets/${id}`;
+export const programmeAreaUrl = (slug: string) => `/about/programmes/${slug}`;
 export const donationReceiptUrl = (id: string) => `/donate/receipts/${id}`;

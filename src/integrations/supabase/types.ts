@@ -869,6 +869,48 @@ export type Database = {
         }
         Relationships: []
       }
+      programme_activities: {
+        Row: {
+          activity_date: string
+          area: string
+          body: string
+          created_at: string
+          id: string
+          image_url: string | null
+          is_published: boolean
+          location: string | null
+          summary: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          activity_date?: string
+          area: string
+          body?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          location?: string | null
+          summary?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          activity_date?: string
+          area?: string
+          body?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          location?: string | null
+          summary?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       receipts: {
         Row: {
           amount: number
