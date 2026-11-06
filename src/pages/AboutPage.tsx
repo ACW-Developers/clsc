@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, BookMarked, Hotel, Store, UserRound, FileText } from "lucide-react";
 import { programmeAreas } from "@/config/programmeAreas";
-import { programmeAreaUrl } from "@/routes/paths";
 import { SiteHeader } from "@/components/common/SiteHeader";
 import { SiteFooter } from "@/components/common/SiteFooter";
 import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/home/InstitutionSections";
 import { site } from "@/config/site";
-import { paths } from "@/routes/paths";
+import { paths, programmeAreaUrl } from "@/routes/paths";
 import { useLeadership } from "@/hooks/useLeadership";
 import hero from "@/assets/banner.jpg";
 import grounds from "@/assets/ufungamano.jpg";
