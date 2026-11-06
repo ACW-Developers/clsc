@@ -88,7 +88,7 @@ const ProgrammeAreaPage = () => {
               <p className="mt-6 rounded-xl border border-dashed bg-card p-6 text-sm italic text-muted-foreground">Past activities for this programme will be shared here soon.</p>
             ) : (
               <div className="mt-8 space-y-8">
-                <button onClick={() => setOpen(featured)} className="group grid w-full overflow-hidden rounded-2xl border bg-card text-left shadow-card transition hover:shadow-elegant md:grid-cols-2">
+                <button onClick={() => setOpen(featured)} className="group grid w-full overflow-hidden rounded-2xl border bg-card text-left shadow-card transition hover:shadow-lg md:grid-cols-2">
                   <img src={featured.image_url || fallback} alt="" loading="lazy" className="h-60 w-full object-cover transition duration-500 group-hover:scale-[1.03] md:h-full md:min-h-72" />
                   <div className="flex flex-col justify-center gap-3 p-6 sm:p-8">
                     <span className="w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">Latest</span>
@@ -101,7 +101,7 @@ const ProgrammeAreaPage = () => {
                 {rest.length > 0 && (
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {rest.map((a) => (
-                      <button key={a.id} onClick={() => setOpen(a)} className="group flex flex-col overflow-hidden rounded-2xl border bg-card text-left shadow-card transition hover:-translate-y-1 hover:shadow-elegant">
+                      <button key={a.id} onClick={() => setOpen(a)} className="group flex flex-col overflow-hidden rounded-2xl border bg-card text-left shadow-card transition hover:-translate-y-1 hover:shadow-lg">
                         <img src={a.image_url || fallback} alt="" loading="lazy" className="h-48 w-full object-cover" />
                         <div className="flex flex-1 flex-col gap-2 p-5">
                           <Meta a={a} />

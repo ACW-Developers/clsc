@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
-import { BookMarked, Hotel, Store, UserRound, FileText } from "lucide-react";
+import { ArrowRight, BookMarked, Hotel, Store, UserRound, FileText } from "lucide-react";
+import { programmeAreas } from "@/config/programmeAreas";
+import { programmeAreaUrl } from "@/routes/paths";
 import { SiteHeader } from "@/components/common/SiteHeader";
 import { SiteFooter } from "@/components/common/SiteFooter";
 import { Button } from "@/components/ui/button";
@@ -29,7 +31,8 @@ const AboutPage = () => {
             <Link to={paths.home} className="hover:underline">Home</Link><span>/</span><span aria-current="page">About</span>
           </nav>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">About <span className="font-script text-5xl font-normal text-accent sm:text-6xl">CSLC?</span></h1>
-          <p className="mx-auto mt-4 max-w-xl text-sm opacity-90 sm:text-base">{site.name}, {site.location}.</p>
+          <p className="mt-3 font-script text-3xl text-accent sm:text-4xl">Empowered to Transform</p>
+          <p className="mx-auto mt-3 max-w-xl text-sm opacity-90 sm:text-base">{site.name}, {site.location}.</p>
         </div>
       </section>
 
@@ -93,6 +96,29 @@ const AboutPage = () => {
             <h2 className="mb-4 mt-2 text-2xl font-bold">Our History</h2>
             <Placeholder>A Christian Centre of excellence empowering university students holistically in order to transform society.</Placeholder>
           </div>
+        </div>
+      </section>
+
+      <section id="programmes" className="container scroll-mt-24 py-16">
+        <div className="mx-auto max-w-2xl text-center">
+          <Eyebrow>Student programmes</Eyebrow>
+          <h2 className="mt-2 text-3xl font-bold">Empowered to <span className="font-script text-4xl font-normal text-accent">Transform</span></h2>
+          <p className="mt-3 text-muted-foreground">Four programme areas shape how we walk with students — in faith, leadership and life.</p>
+        </div>
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          {programmeAreas.map((a) => (
+            <Link key={a.slug} to={programmeAreaUrl(a.slug)} className="group relative flex flex-col overflow-hidden rounded-2xl border bg-card shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+              <div className="relative h-48 overflow-hidden">
+                <img src={a.image} alt={a.title} loading="lazy" width={1200} height={800} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+                <span className="absolute bottom-3 left-3 flex h-10 w-10 items-center justify-center rounded-full bg-card text-primary shadow-card"><a.icon className="h-5 w-5" /></span>
+              </div>
+              <div className="flex flex-1 flex-col gap-2 p-5">
+                <h3 className="font-bold leading-snug group-hover:text-primary">{a.title}</h3>
+                <p className="text-sm text-muted-foreground">{a.short}</p>
+                <span className="mt-auto flex items-center gap-1 pt-3 text-sm font-semibold text-primary">Explore programme <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 

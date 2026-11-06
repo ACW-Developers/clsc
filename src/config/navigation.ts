@@ -21,6 +21,7 @@ export const mainNav: NavGroup[] = [
       { label: "About CSLC", to: paths.about, description: "Who we are and what we do" },
       { label: "Our Mission", to: `${paths.about}#mission` },
       { label: "Our History", to: `${paths.about}#history` },
+      { label: "Programme Areas", to: `${paths.about}#programmes` },
       { label: "Leadership & Team", to: `${paths.about}#team` },
       { label: "Research & Publications", to: `${paths.about}#research` },
     ],
