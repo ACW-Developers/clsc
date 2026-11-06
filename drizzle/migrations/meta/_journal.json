@@ -120,6 +120,13 @@
       "when": 1793913125746,
       "tag": "0016_reviews_and_live_chat",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1793998998833,
+      "tag": "0017_create_programme_activities",
+      "breakpoints": true
     }
   ]
 }
