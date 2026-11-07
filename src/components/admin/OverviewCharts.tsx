@@ -73,7 +73,7 @@ const inPeriod = (iso: string, days: number) => {
 function Trend({ change, days }: { change: number | null; days: number }) {
   if (change === null)
     return (
-      <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[11px] font-semibold text-accent-foreground">
+      <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[11px] font-semibold text-accent">
         New this period
       </span>
     );
