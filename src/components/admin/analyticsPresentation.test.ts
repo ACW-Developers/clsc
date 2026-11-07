@@ -28,8 +28,8 @@ describe("overview period trends", () => {
   });
 
   it("compares the last 7 days with the 7 days before", () => {
-    const rows = [at(7, 300), at(2, 100), at(31 - 31 + 1, 50), at(-5, 999)];
-    // Nov 1..7 current = 300+100+50, Oct 25..31 previous = none
+    const rows = [at(7, 300), at(2, 100), at(1, 50), at(-10, 999)];
+    // Nov 1..7 current = 300+100+50; Oct 25..31 previous is empty; Oct 21 is ignored
     const r = periodTotals(rows, 7, (x) => x.amount, now);
     expect(r.current).toBe(450);
     expect(r.previous).toBe(0);
