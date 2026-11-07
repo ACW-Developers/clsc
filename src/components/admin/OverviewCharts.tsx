@@ -140,7 +140,7 @@ function KpiCard({
     <button
       type="button"
       onClick={onClick}
-      className="group relative min-w-0 overflow-hidden rounded-xl border bg-card p-4 pb-12 text-left shadow-card transition duration-300 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="group relative flex min-w-0 flex-col justify-start overflow-hidden rounded-xl border bg-card p-4 pb-12 text-left shadow-card transition duration-300 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <span className="absolute inset-y-0 left-0 w-1" style={{ background: hsl(tone) }} />
       <div className="flex items-start justify-between gap-2">
@@ -378,32 +378,23 @@ export function OverviewDashboard({ go }: { go: (v: string) => void }) {
           </div>
           <div className="h-72" role="img" aria-label={`Revenue per day by department over the last ${days} days`}>
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={m.series} margin={{ top: 8, right: 8, bottom: 0, left: 0 }}>
-                <defs>
-                  {MODULES.map((mod) => (
-                    <linearGradient key={mod.key} id={`rev-${mod.key}`} x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor={hsl(mod.tone)} stopOpacity={0.4} />
-                      <stop offset="100%" stopColor={hsl(mod.tone)} stopOpacity={0.02} />
-                    </linearGradient>
-                  ))}
-                </defs>
+              <BarChart data={m.series} margin={{ top: 8, right: 8, bottom: 0, left: 0 }}>
                 <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="day" fontSize={11} minTickGap={24} tickLine={false} axisLine={false} stroke="hsl(var(--muted-foreground))" />
                 <YAxis width={44} fontSize={11} tickLine={false} axisLine={false} tickFormatter={compact} stroke="hsl(var(--muted-foreground))" />
-                <Tooltip contentStyle={chartTooltipStyle} formatter={(v: number, n: string) => [kes(v), n]} />
-                {MODULES.filter((mod) => !hidden.includes(mod.key)).map((mod) => (
-                  <Area
+                <Tooltip contentStyle={chartTooltipStyle} cursor={{ fill: "hsl(var(--muted))" }} formatter={(v: number, n: string) => [kes(v), n]} />
+                {MODULES.filter((mod) => !hidden.includes(mod.key)).map((mod, i, list) => (
+                  <Bar
                     key={mod.key}
                     dataKey={mod.key}
                     stackId="rev"
-                    type="monotone"
-                    stroke={hsl(mod.tone)}
-                    strokeWidth={2}
-                    fill={`url(#rev-${mod.key})`}
+                    fill={hsl(mod.tone)}
+                    maxBarSize={days === 7 ? 36 : 14}
+                    radius={i === list.length - 1 ? [4, 4, 0, 0] : 0}
                     animationDuration={700}
                   />
                 ))}
-              </AreaChart>
+              </BarChart>
             </ResponsiveContainer>
           </div>
         </Panel>
@@ -447,18 +438,24 @@ export function OverviewDashboard({ go }: { go: (v: string) => void }) {
       <div className="grid min-w-0 gap-4 lg:grid-cols-3">
         <Panel title="Bookings by category" icon={BedDouble}>
           {m.categories.length ? (
-            <div className="h-64" role="img" aria-label={m.categories.map((c) => `${c.name}: ${c.value}`).join("; ")}>
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={m.categories} layout="vertical" margin={{ top: 0, right: 16, bottom: 0, left: 0 }}>
-                  <XAxis type="number" hide allowDecimals={false} />
-                  <YAxis type="category" dataKey="name" width={110} fontSize={11} tickLine={false} axisLine={false} stroke="hsl(var(--muted-foreground))" />
-                  <Tooltip contentStyle={chartTooltipStyle} cursor={{ fill: "hsl(var(--muted))" }} />
-                  <Bar dataKey="value" name="Bookings" radius={[0, 6, 6, 0]} barSize={16} fill={hsl("--chart-2")} animationDuration={700} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+            <ul className="space-y-4">
+              {m.categories.map((c, i) => (
+                <li key={c.name}>
+                  <div className="mb-1.5 flex justify-between text-sm">
+                    <span>{c.name}</span>
+                    <span className="font-semibold">{c.value}</span>
+                  </div>
+                  <div className="h-2 overflow-hidden rounded-full bg-muted">
+                    <div
+                      className="h-full rounded-full transition-all duration-700"
+                      style={{ width: `${(c.value / m.categories[0].value) * 100}%`, background: hsl(["--chart-2", "--primary", "--chart-3", "--chart-4", "--chart-5"][i % 5]) }}
+                    />
+                  </div>
+                </li>
+              ))}
+            </ul>
           ) : (
-            <p className="flex h-64 items-center justify-center text-sm text-muted-foreground">No bookings in the last {days} days</p>
+            <p className="flex h-48 items-center justify-center text-sm text-muted-foreground">No bookings in the last {days} days</p>
           )}
         </Panel>
 
