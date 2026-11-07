@@ -129,18 +129,23 @@ const AboutPage = () => {
             Our leadership team profiles will be published here soon.
           </p>
         ) : (
-          <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {members.map((m) => (
-              <div key={m.id} className="rounded-2xl border bg-card p-5 text-center shadow-card">
-                {m.image_url ? (
-                  <img src={m.image_url} alt={m.full_name} loading="lazy" className="mx-auto h-20 w-20 rounded-full object-cover" />
-                ) : (
-                  <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-secondary text-primary"><UserRound className="h-9 w-9" /></span>
-                )}
-                <p className="mt-4 font-semibold">{m.title ? `${m.title} ` : ""}{m.full_name}</p>
-                <p className="text-sm text-primary">{m.role}</p>
-                {m.bio && <p className="mt-2 line-clamp-4 text-xs leading-relaxed text-muted-foreground">{m.bio}</p>}
-              </div>
+              <article key={m.id} className="group overflow-hidden rounded-2xl border bg-card shadow-card transition hover:-translate-y-1 hover:shadow-lg">
+                <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+                  {m.image_url ? (
+                    <img src={m.image_url} alt={m.full_name} loading="lazy" width={480} height={480} className="h-full w-full object-cover object-top transition duration-700 group-hover:scale-105" />
+                  ) : (
+                    <span className="flex h-full items-center justify-center text-primary"><UserRound className="h-14 w-14" /></span>
+                  )}
+                  <span className="absolute inset-x-0 bottom-0 h-1 bg-accent" />
+                </div>
+                <div className="p-5 text-center">
+                  <h3 className="text-lg font-bold">{m.title ? `${m.title} ` : ""}{m.full_name}</h3>
+                  <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-primary">{m.role}</p>
+                  {m.bio && <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-muted-foreground">{m.bio}</p>}
+                </div>
+              </article>
             ))}
           </div>
         )}

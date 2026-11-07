@@ -14,7 +14,8 @@ export const useMaterials = (all = false) =>
 export function useTickets(management = false) {
   const { user } = useAuth();
   return useQuery({
-    queryKey: ["tickets", management ? "all" : user?.id],
+    // Distinct from support tickets, which use the "tickets" key.
+    queryKey: ["eventTickets", management ? "all" : user?.id],
     queryFn: () => svc.listTickets(management ? undefined : user?.id),
     enabled: !!user,
   });

@@ -46,7 +46,7 @@ import {
 } from "@/services/hospitality";
 
 import { categoryConfig } from "@/config/facilityCategories";
-import { OverviewCharts } from "./OverviewCharts";
+import { OverviewDashboard } from "./OverviewCharts";
 import { StatCard } from "@/components/common/StatCard";
 import { UserAnalytics } from "./UserAnalytics";
 import { useOrders } from "@/hooks/bookshop/useOrders";
@@ -166,125 +166,7 @@ function Card({ label, value }: { label: string; value: ReactNode }) {
 }
 
 export function Overview({ go }: { go: (v: string) => void }) {
-  const b = useBookings(),
-    s = useServices(),
-    f = useSubServices(),
-    p = useProfiles();
-  const orders = useOrders(true),
-    donations = useDonations(true),
-    books = useCatalog();
-  const dev = useResources("devotional", true),
-    study = useResources("bible_study", true),
-    contrib = useContributions(true);
-  const count = (st: string) =>
-    b.data?.filter((x) => x.status === st).length ?? 0;
-  const hospitalitySales = (b.data ?? [])
-    .filter((x) => x.payment_status === "paid")
-    .reduce((n, x) => n + Number(x.total_amount ?? 0), 0);
-  const bookSales = (orders.data ?? [])
-    .filter((x) => x.payment_status === "paid")
-    .reduce((n, x) => n + Number(x.amount), 0);
-  return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h2 className="text-2xl font-bold">CSLC at a glance</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Hospitality, bookshop and student programme records
-          </p>
-        </div>
-        <p className="text-xs text-muted-foreground">
-          {new Date().toLocaleDateString("en-KE", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
-        </p>
-      </div>
-      {[b, orders, donations, books, p].some((q) => q.error) && (
-        <Alert variant="destructive">
-          <AlertDescription>
-            Some records could not be loaded. Refresh to try again.
-          </AlertDescription>
-        </Alert>
-      )}
-      <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
-        <StatCard label="Bookings" value={b.data?.length ?? "–"} />
-        <StatCard
-          label="Bookshop orders"
-          value={orders.data?.length ?? "–"}
-          icon={ShoppingBag}
-        />
-        <StatCard
-          label="Combined sales"
-          value={
-            b.data && orders.data ? kes(hospitalitySales + bookSales) : "–"
-          }
-        />
-        <StatCard
-          label="Registered users"
-          value={p.data?.length ?? "–"}
-          icon={UsersIcon}
-        />
-        <StatCard label="Facilities" value={f.data?.length ?? "–"} />
-        <StatCard
-          label="Book titles"
-          value={books.data?.length ?? "–"}
-          icon={BookOpen}
-        />
-        <StatCard
-          label="Donations received"
-          value={
-            donations.data
-              ? kes(
-                  donations.data
-                    .filter((d) => d.status === "received")
-                    .reduce((n, d) => n + Number(d.amount), 0),
-                )
-              : "–"
-          }
-        />
-        <StatCard
-          label="Devotionals published"
-          value={dev.data?.filter((r) => r.is_published).length ?? "–"}
-          icon={Sun}
-        />
-        <StatCard
-          label="Bible study resources"
-          value={study.data?.filter((r) => r.is_published).length ?? "–"}
-          icon={BookMarked}
-        />
-        <StatCard
-          label="Pending submissions"
-          value={contrib.data?.filter((c) => c.status === "pending").length ?? "–"}
-          icon={ClockIcon}
-          detail="Awaiting moderation"
-        />
-        <StatCard
-          label="Approved contributions"
-          value={contrib.data?.filter((c) => c.status === "approved").length ?? "–"}
-          icon={Sparkles}
-        />
-      </div>
-      <div className="flex flex-wrap gap-2">
-        <Button onClick={() => go("bookings")}>Review bookings</Button>
-        <Button variant="outline" onClick={() => go("facilities")}>
-          <Plus className="h-4 w-4" /> Add facility
-        </Button>
-        <Button variant="outline" onClick={() => go("services")}>
-          Manage services
-        </Button>
-      </div>
-      <State q={b} empty={false}>
-        <OverviewCharts
-          bookings={b.data ?? []}
-          orders={orders.data ?? []}
-          donations={donations.data ?? []}
-        />
-      </State>
-    </div>
-  );
+  return <OverviewDashboard go={go} />;
 }
 
 export function Bookings() {
