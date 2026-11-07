@@ -166,6 +166,11 @@ function Card({ label, value }: { label: string; value: ReactNode }) {
 }
 
 export function Overview({ go }: { go: (v: string) => void }) {
+  return <OverviewDashboard go={go} />;
+}
+
+/** @deprecated Previous overview layout, kept unused for reference. */
+export function LegacyOverview({ go }: { go: (v: string) => void }) {
   const b = useBookings(),
     s = useServices(),
     f = useSubServices(),
