@@ -4,7 +4,7 @@ export type PaymentInput =
   | { kind: "booking"; id: string; phone: string }
   | { kind: "bookshop"; branch: string; items: { book_id: string; quantity: number }[]; phone: string }
   | { kind: "event"; id: string; quantity: number; attendee: string; phone: string }
-  | { kind: "donation"; name: string; email: string; phone: string; amount: number; message: string };
+  | { kind: "donation"; name: string; email: string; phone: string; amount: number; message: string; fund?: string; frequency?: string };
 async function invoke(body: unknown) {
   const { data, error } = await supabase.functions.invoke("paystack", { body });
   if (error) {

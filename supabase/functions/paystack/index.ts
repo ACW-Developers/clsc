@@ -9,8 +9,11 @@ const payload = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("booking"), id: z.string().uuid(), phone }),
   z.object({ kind: z.literal("bookshop"), branch: z.enum(["yaya", "kisumu"]), phone, items: z.array(z.object({ book_id: z.string().uuid(), quantity: z.number().int().min(1).max(99) })).min(1).max(50) }),
   z.object({ kind: z.literal("event"), id: z.string().uuid(), quantity: z.number().int().min(1).max(10), attendee: z.string().trim().min(2).max(120), phone }),
-  z.object({ kind: z.literal("donation"), name: z.string().trim().min(2).max(120), email: z.string().email().max(200), phone, amount: z.number().min(10).max(1000000), message: z.string().max(500) }),
+  z.object({ kind: z.literal("donation"), name: z.string().trim().min(2).max(120), email: z.string().trim().email().max(200), phone, amount: z.number().int().min(10).max(1000000), message: z.string().trim().max(400), fund: z.enum(["general", "leadership-development", "spiritual-formation", "mentorship-life-skills", "student-wellbeing"]).default("general"), frequency: z.enum(["once", "monthly", "quarterly", "annually"]).default("once") }),
 ]);
+// Server-owned labels: the donation description is composed here, never taken verbatim from the browser.
+const fundLabels = { general: "Where most needed", "leadership-development": "Leadership Development", "spiritual-formation": "Spiritual Formation & Discipleship", "mentorship-life-skills": "Mentorship & Life Skills", "student-wellbeing": "Student Wellbeing & Campus Engagement" } as const;
+const frequencyLabels = { once: "One-time gift", monthly: "Monthly pledge", quarterly: "Quarterly pledge", annually: "Annual pledge" } as const;
 const bodySchema = z.discriminatedUnion("action", [
   z.object({ action: z.literal("initialize"), payload, origin: z.string().url(), provider: z.enum(["paystack", "mpesa"]).default("paystack") }),
   z.object({ action: z.literal("verify"), reference: z.string().regex(/^CSLC-(TEST|MPESA)-[a-f0-9-]{36}$/) }),
@@ -93,6 +96,10 @@ Deno.serve(async (req) => {
     const parsed = bodySchema.safeParse(JSON.parse(raw));
     if (!parsed.success) return json({ error: "Check your payment details and try again" }, 400);
     const input = parsed.data;
+    if (input.action === "initialize" && input.payload.kind === "donation") {
+      const d = input.payload;
+      d.message = `${fundLabels[d.fund]} · ${frequencyLabels[d.frequency]}${d.message ? ` — ${d.message}` : ""}`;
+    }
     if (input.action === "verify") return await verify(input.reference, uid);
     if (!checkoutOrigin(input.origin) || req.headers.get("origin") !== input.origin) return json({ error: "This site is not approved for payment return links yet" }, 400);
     const { data: account } = await db.auth.admin.getUserById(uid);
