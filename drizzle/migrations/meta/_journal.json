@@ -127,6 +127,13 @@
       "when": 1793998998833,
       "tag": "0017_create_programme_activities",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1794169288892,
+      "tag": "0018_migration",
+      "breakpoints": true
     }
   ]
 }
