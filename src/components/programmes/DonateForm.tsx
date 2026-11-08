@@ -271,7 +271,7 @@ export function DonateForm() {
                     )}
                   >
                     <span className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-xl", on ? "bg-primary text-primary-foreground" : "bg-muted text-primary")}>
-                      <x.icon className="h-4.5 w-4.5 h-[18px] w-[18px]" />
+                      <x.icon className="h-[18px] w-[18px]" />
                     </span>
                     <span className="min-w-0">
                       <span className="block text-sm font-semibold">{x.title}</span>
