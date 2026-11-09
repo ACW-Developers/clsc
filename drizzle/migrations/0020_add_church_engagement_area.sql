@@ -1,0 +1,2 @@
+ALTER TABLE public.programme_activities DROP CONSTRAINT IF EXISTS programme_activities_area_check;
+ALTER TABLE public.programme_activities ADD CONSTRAINT programme_activities_area_check CHECK (area IN ('leadership-development','spiritual-formation','mentorship-life-skills','student-church-engagement','student-wellbeing'));

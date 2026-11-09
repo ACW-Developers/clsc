@@ -1,5 +1,9 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, BookMarked, Hotel, Store, UserRound, FileText } from "lucide-react";
+import {
+  ArrowRight, BadgeCheck, BookMarked, Briefcase, Church, Cross, FileText, GraduationCap, Handshake, Hotel,
+  Quote, ShieldCheck, Sprout, Store, UserRound, Users,
+} from "lucide-react";
 import { programmeAreas } from "@/config/programmeAreas";
 import { SiteHeader } from "@/components/common/SiteHeader";
 import { SiteFooter } from "@/components/common/SiteFooter";
@@ -10,6 +14,47 @@ import { paths, programmeAreaUrl } from "@/routes/paths";
 import { useLeadership } from "@/hooks/useLeadership";
 import hero from "@/assets/banner.jpg";
 import grounds from "@/assets/ufungamano.jpg";
+
+const coreValues = [
+  { t: "Integrity", d: "Honesty and consistency in all we do.", i: ShieldCheck },
+  { t: "Professionalism", d: "Excellence and diligence in service.", i: BadgeCheck },
+  { t: "Stewardship", d: "Faithful care of every resource entrusted to us.", i: Sprout },
+  { t: "Christ-Centeredness", d: "Christ at the heart of our life and work.", i: Cross },
+  { t: "Ecumenism", d: "Unity across Christian traditions.", i: Handshake },
+];
+
+const impact = [
+  { v: 20000, l: "Student leaders trained", i: Users },
+  { v: 30000, l: "Students mentored", i: GraduationCap },
+  { v: 80, l: "Internship opportunities", i: Briefcase },
+  { v: 200, l: "Chaplains", i: Church },
+];
+
+/** Counts up once when scrolled into view; static for reduced-motion users. */
+const CountUp = ({ to }: { to: number }) => {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return setN(to);
+    let raf = 0;
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      io.disconnect();
+      const start = performance.now();
+      const tick = (t: number) => {
+        const p = Math.min(1, (t - start) / 1600);
+        setN(Math.round(to * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    }, { threshold: 0.4 });
+    io.observe(el);
+    return () => { io.disconnect(); cancelAnimationFrame(raf); };
+  }, [to]);
+  return <span ref={ref}>{n.toLocaleString("en-KE")}</span>;
+};
 
 const Placeholder = ({ children }: { children: React.ReactNode }) => (
   <p className="rounded-xl border border-dashed bg-muted/40 p-4 text-sm italic text-muted-foreground">{children}</p>
@@ -30,7 +75,7 @@ const AboutPage = () => {
             <Link to={paths.home} className="hover:underline">Home</Link><span>/</span><span aria-current="page">About</span>
           </nav>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">About <span className="font-script text-5xl font-normal text-accent sm:text-6xl">CSLC?</span></h1>
-          <p className="mt-3 font-script text-3xl text-accent sm:text-4xl">Empowered to Transform</p>
+          <p className="mt-3 font-script text-3xl text-accent sm:text-4xl">Thematic Areas</p>
           <p className="mx-auto mt-3 max-w-xl text-sm opacity-90 sm:text-base">{site.name}, {site.location}.</p>
         </div>
       </section>
@@ -101,13 +146,13 @@ const AboutPage = () => {
       <section id="programmes" className="container scroll-mt-24 py-16">
         <div className="mx-auto max-w-2xl text-center">
           <Eyebrow>Student programmes</Eyebrow>
-          <h2 className="mt-2 text-3xl font-bold">Empowered to <span className="font-script text-4xl font-normal text-accent">Transform</span></h2>
-          <p className="mt-3 text-muted-foreground">Four programme areas shape how we walk with students — in faith, leadership and life.</p>
+          <h2 className="mt-2 text-3xl font-bold">Thematic <span className="font-script text-4xl font-normal text-accent">Areas</span></h2>
+          <p className="mt-3 text-muted-foreground">Five thematic areas shape how we walk with students — in faith, leadership and life.</p>
         </div>
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-          {programmeAreas.map((a) => (
-            <Link key={a.slug} to={programmeAreaUrl(a.slug)} className="group relative flex flex-col overflow-hidden rounded-2xl border bg-card shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-lg">
-              <div className="relative h-48 overflow-hidden">
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
+          {programmeAreas.map((a, i) => (
+            <Link key={a.slug} to={programmeAreaUrl(a.slug)} className={`group relative flex flex-col overflow-hidden rounded-2xl border bg-card shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-lg ${i < 2 ? "lg:col-span-3" : "lg:col-span-2"} ${i === programmeAreas.length - 1 ? "sm:col-span-2 lg:col-span-2" : ""}`}>
+              <div className={`relative overflow-hidden ${i < 2 ? "h-48 lg:h-60" : "h-48"}`}>
                 <img src={a.image} alt={a.title} loading="lazy" width={1200} height={800} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
                 <span className="absolute bottom-3 left-3 flex h-10 w-10 items-center justify-center rounded-full bg-card text-primary shadow-card"><a.icon className="h-5 w-5" /></span>
               </div>
@@ -118,6 +163,58 @@ const AboutPage = () => {
               </div>
             </Link>
           ))}
+        </div>
+      </section>
+
+      <section id="values" className="scroll-mt-24 bg-secondary/50 py-16">
+        <div className="container">
+          <div className="mx-auto max-w-2xl text-center">
+            <Eyebrow>What guides us</Eyebrow>
+            <h2 className="mt-2 text-3xl font-bold">Core <span className="font-script text-4xl font-normal text-accent">Values</span></h2>
+            <p className="mt-3 text-muted-foreground">The convictions behind every programme, service and relationship at CSLC.</p>
+          </div>
+          <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
+            {coreValues.map(({ t, d, i: Icon }, n) => (
+              <article key={t} className={`group relative overflow-hidden rounded-2xl border bg-card p-5 shadow-card transition duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg sm:p-6 ${n === coreValues.length - 1 ? "col-span-2 md:col-span-1" : ""}`}>
+                <span aria-hidden className="absolute right-4 top-3 text-4xl font-bold text-primary/5 transition group-hover:text-accent/15">0{n + 1}</span>
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-card transition group-hover:bg-accent group-hover:text-accent-foreground"><Icon className="h-6 w-6" /></span>
+                <h3 className="mt-4 text-lg font-bold">{t}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{d}</p>
+                <span aria-hidden className="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-accent transition duration-500 group-hover:scale-x-100" />
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="impact" className="relative isolate scroll-mt-24 overflow-hidden bg-primary py-16 text-primary-foreground sm:py-20">
+        <img src={grounds} alt="" loading="lazy" className="absolute inset-0 -z-20 h-full w-full object-cover opacity-20" />
+        <div className="absolute inset-0 -z-10 bg-hero-dark opacity-90" />
+        <div className="container">
+          <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:items-center">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Our impact</p>
+              <h2 className="mt-2 text-3xl font-bold sm:text-4xl">
+                <span className="text-6xl text-accent sm:text-7xl">10+</span> years of empowering students for <span className="font-script text-5xl font-normal text-accent">transformation</span>
+              </h2>
+              <figure className="mt-8 rounded-2xl border border-primary-foreground/15 bg-primary-foreground/5 p-6 backdrop-blur-sm">
+                <Quote className="h-7 w-7 text-accent" />
+                <blockquote className="mt-3 text-sm leading-relaxed opacity-90 sm:text-base">
+                  “Looking back, my life is a testimony to the power of intentional mentorship and leadership development. I have experienced CSLC as a student, an ECMP intern, and now as a staff member.”
+                </blockquote>
+                <figcaption className="mt-4 text-sm font-semibold">David Musembi <span className="font-normal opacity-75">· Programs Assistant, CSLC</span></figcaption>
+              </figure>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {impact.map(({ v, l, i: Icon }) => (
+                <div key={l} className="rounded-2xl border border-primary-foreground/15 bg-primary-foreground/10 p-5 backdrop-blur-sm transition hover:bg-primary-foreground/15 sm:p-7">
+                  <Icon className="h-6 w-6 text-accent" />
+                  <p className="mt-4 text-3xl font-bold tabular-nums sm:text-5xl"><CountUp to={v} />+</p>
+                  <p className="mt-1 text-sm opacity-85">{l}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 

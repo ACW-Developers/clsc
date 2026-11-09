@@ -141,6 +141,13 @@
       "when": 1794207949466,
       "tag": "0019_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1794227142474,
+      "tag": "0020_add_church_engagement_area",
+      "breakpoints": true
     }
   ]
 }

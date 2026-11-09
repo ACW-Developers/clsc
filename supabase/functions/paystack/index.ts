@@ -9,10 +9,10 @@ const payload = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("booking"), id: z.string().uuid(), phone }),
   z.object({ kind: z.literal("bookshop"), branch: z.enum(["yaya", "kisumu"]), phone, items: z.array(z.object({ book_id: z.string().uuid(), quantity: z.number().int().min(1).max(99) })).min(1).max(50) }),
   z.object({ kind: z.literal("event"), id: z.string().uuid(), quantity: z.number().int().min(1).max(10), attendee: z.string().trim().min(2).max(120), phone }),
-  z.object({ kind: z.literal("donation"), name: z.string().trim().min(2).max(120), email: z.string().trim().email().max(200), phone, amount: z.number().int().min(10).max(1000000), message: z.string().trim().max(400), fund: z.enum(["general", "leadership-development", "spiritual-formation", "mentorship-life-skills", "student-wellbeing"]).default("general"), frequency: z.enum(["once", "monthly", "quarterly", "annually"]).default("once") }),
+  z.object({ kind: z.literal("donation"), name: z.string().trim().min(2).max(120), email: z.string().trim().email().max(200), phone, amount: z.number().int().min(10).max(1000000), message: z.string().trim().max(400), fund: z.enum(["general", "leadership-development", "spiritual-formation", "mentorship-life-skills", "student-church-engagement", "student-wellbeing"]).default("general"), frequency: z.enum(["once", "monthly", "quarterly", "annually"]).default("once") }),
 ]);
 // Server-owned labels: the donation description is composed here, never taken verbatim from the browser.
-const fundLabels = { general: "Where most needed", "leadership-development": "Leadership Development", "spiritual-formation": "Spiritual Formation & Discipleship", "mentorship-life-skills": "Mentorship & Life Skills", "student-wellbeing": "Student Wellbeing & Campus Engagement" } as const;
+const fundLabels = { general: "Where most needed", "leadership-development": "Leadership and Capacity Development", "spiritual-formation": "Student Spiritual Formation Programme", "mentorship-life-skills": "Mentorship and Life-Skills", "student-church-engagement": "Student Church Engagement Programme", "student-wellbeing": "Student Wellness Programme" } as const;
 const frequencyLabels = { once: "One-time gift", monthly: "Monthly pledge", quarterly: "Quarterly pledge", annually: "Annual pledge" } as const;
 const bodySchema = z.discriminatedUnion("action", [
   z.object({ action: z.literal("initialize"), payload, origin: z.string().url(), provider: z.enum(["paystack", "mpesa"]).default("paystack") }),

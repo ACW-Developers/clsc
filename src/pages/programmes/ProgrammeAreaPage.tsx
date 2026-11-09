@@ -57,13 +57,13 @@ const ProgrammeAreaPage = () => {
               <span aria-current="page">{area.title}</span>
             </nav>
             <h1 className="mx-auto max-w-3xl text-3xl font-bold tracking-tight sm:text-5xl">{area.title}</h1>
-            <p className="mt-3 font-script text-3xl text-accent sm:text-4xl">Empowered to Transform</p>
+            <p className="mt-3 font-script text-3xl text-accent sm:text-4xl">Thematic Areas</p>
           </div>
         </section>
 
         <section className="container grid gap-10 py-14 lg:grid-cols-[1.4fr_1fr] lg:items-center">
           <div>
-            <Eyebrow>About this programme</Eyebrow>
+            <Eyebrow>About this thematic area</Eyebrow>
             <h2 className="mt-2 text-2xl font-bold sm:text-3xl">{area.short}</h2>
             <p className="mt-4 leading-relaxed text-muted-foreground">{area.description}</p>
           </div>
@@ -119,8 +119,8 @@ const ProgrammeAreaPage = () => {
         </section>
 
         <section className="container py-14">
-          <h2 className="text-xl font-bold">Other programmes</h2>
-          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <h2 className="text-xl font-bold">Other thematic areas</h2>
+          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {programmeAreas.filter((p) => p.slug !== area.slug).map((p) => (
               <Link key={p.slug} to={programmeAreaUrl(p.slug)} className="flex items-center gap-3 rounded-xl border bg-card p-4 text-sm font-semibold transition hover:border-primary hover:text-primary">
                 <p.icon className="h-5 w-5 shrink-0 text-primary" />{p.title}
