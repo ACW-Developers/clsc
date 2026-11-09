@@ -167,7 +167,7 @@ export function DonateForm() {
         ))}
       </div>
 
-      <div className="grid items-start gap-6 lg:grid-cols-12 lg:gap-8">
+      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12 lg:gap-8">
         {/* Giving form */}
         <form
           noValidate
@@ -352,7 +352,7 @@ export function DonateForm() {
         </form>
 
         {/* Impact panel */}
-        <aside className="space-y-5 lg:sticky lg:top-28 lg:col-span-5">
+        <aside className="min-w-0 space-y-5 lg:sticky lg:top-28 lg:col-span-5">
           <div className="relative isolate overflow-hidden rounded-3xl bg-primary text-primary-foreground shadow-xl">
             <img src={heroImage} alt="Students celebrating together at sunset" loading="lazy" decoding="async" className="h-56 w-full object-cover sm:h-64" />
             <div className="absolute inset-x-0 top-0 h-56 bg-gradient-to-t from-primary via-primary/20 to-transparent sm:h-64" />
