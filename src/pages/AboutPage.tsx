@@ -176,7 +176,7 @@ const AboutPage = () => {
           <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
             {coreValues.map(({ t, d, i: Icon }, n) => (
               <article key={t} className={`group relative overflow-hidden rounded-2xl border bg-card p-5 shadow-card transition duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg sm:p-6 ${n === coreValues.length - 1 ? "col-span-2 md:col-span-1" : ""}`}>
-                <span aria-hidden className="absolute -right-2 -top-3 text-6xl font-bold text-primary/5 transition group-hover:text-accent/15">0{n + 1}</span>
+                <span aria-hidden className="absolute right-4 top-3 text-4xl font-bold text-primary/5 transition group-hover:text-accent/15">0{n + 1}</span>
                 <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-card transition group-hover:bg-accent group-hover:text-accent-foreground"><Icon className="h-6 w-6" /></span>
                 <h3 className="mt-4 text-lg font-bold">{t}</h3>
                 <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{d}</p>
