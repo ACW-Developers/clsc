@@ -65,10 +65,12 @@ export function ProgrammeFrame({
   title,
   intro,
   children,
+  image = hero,
 }: {
   title: string;
   intro: string;
   children: ReactNode;
+  image?: string;
 }) {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground selection:bg-primary/20">
@@ -76,7 +78,7 @@ export function ProgrammeFrame({
       <main className="flex-1">
         <section className="relative isolate overflow-hidden bg-slate-950">
           <img
-            src={hero}
+            src={image}
             alt=""
             className="absolute inset-0 -z-20 h-full w-full object-cover"
           />
