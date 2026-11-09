@@ -91,7 +91,7 @@ const trust: { icon: LucideIcon; title: string; text: string }[] = [
 const faqs = [
   { q: "Is my payment secure?", a: "Yes. Amounts are checked on our servers and every payment is confirmed directly with M-Pesa or Paystack before a receipt is issued. Card details and M-Pesa PINs are entered with the payment provider, never on this site." },
   { q: "How do monthly, quarterly or yearly gifts work?", a: "Today's gift is charged once. Your chosen rhythm is recorded with the gift as a pledge so CSLC can plan with you — you will never be charged automatically." },
-  { q: "Can I choose what my gift supports?", a: "Yes. Pick one of the four student programme areas, or choose “Where most needed” so CSLC can direct it to the greatest need." },
+  { q: "Can I choose what my gift supports?", a: "Yes. Pick one of the five CSLC thematic areas, or choose “Where most needed” so CSLC can direct it to the greatest need." },
   { q: "Where can I find my receipts?", a: "Your receipt opens as soon as the payment is confirmed, and every donation is listed under My Donations in your account." },
 ];
 
@@ -266,7 +266,7 @@ export function DonateForm() {
                     onClick={() => patch({ fund: x.id })}
                     className={cn(
                       "flex items-start gap-3 rounded-2xl border-2 p-3.5 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                      x.id === "general" && "sm:col-span-2",
+                      (x.id === "general" || x === funds[funds.length - 1]) && "sm:col-span-2",
                       on ? "border-primary bg-primary/5" : "border-border hover:border-primary/40",
                     )}
                   >
@@ -357,7 +357,7 @@ export function DonateForm() {
             <img src={heroImage} alt="Students celebrating together at sunset" loading="lazy" decoding="async" className="h-56 w-full object-cover sm:h-64" />
             <div className="absolute inset-x-0 top-0 h-56 bg-gradient-to-t from-primary via-primary/20 to-transparent sm:h-64" />
             <div className="relative -mt-16 space-y-4 p-6 sm:p-7">
-              <p className="font-script text-4xl leading-none text-accent">Empowered to Transform</p>
+              <p className="font-script text-4xl leading-none text-accent">Thematic Areas</p>
               <p className="text-sm leading-7 text-primary-foreground/80">
                 Your generosity helps CSLC nurture servant leaders, deepen faith and walk alongside students through campus life and beyond.
               </p>

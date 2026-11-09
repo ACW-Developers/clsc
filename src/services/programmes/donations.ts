@@ -12,6 +12,7 @@ export const donationFunds = [
   "leadership-development",
   "spiritual-formation",
   "mentorship-life-skills",
+  "student-church-engagement",
   "student-wellbeing",
 ] as const;
 

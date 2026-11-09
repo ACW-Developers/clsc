@@ -1,48 +1,89 @@
-import { Compass, Crown, HeartHandshake, Sprout, type LucideIcon } from "lucide-react";
+import { Church, Compass, Crown, HeartHandshake, Sprout, type LucideIcon } from "lucide-react";
 import leadership from "@/assets/programmes/area-leadership.jpg";
 import spiritual from "@/assets/programmes/area-spiritual.jpg";
 import mentorship from "@/assets/programmes/area-mentorship.jpg";
+import church from "@/assets/programmes/area-church.jpg";
 import wellbeing from "@/assets/programmes/area-wellbeing.jpg";
 
-/** The four CSLC student programme areas. Slugs match the database check constraint. */
+/** The five CSLC thematic areas (from the CSLC profile). Slugs match the database check constraint. */
 export const programmeAreas = [
   {
     slug: "leadership-development",
-    title: "Leadership Development",
-    short: "Servant leadership through conferences, seminars and training.",
+    title: "Leadership and Capacity Development",
+    short: "Instilling servant leadership in Christian students and student leaders.",
     description:
-      "We nurture servant leaders who lead with integrity, humility and purpose. Through conferences, seminars and practical training, students are equipped to influence their campuses, churches and communities for good.",
-    focus: ["Leadership conferences", "Seminars & workshops", "Practical leadership training"],
+      "This programme seeks to build the capacity of Christian students, Student Government officials, and the general student body with the aim of instilling the values of servant leadership, supporting them to grow as leaders, and improving service delivery to their constituents.",
+    focus: [
+      "Christian student leaders training — Nairobi and Western",
+      "Leaders transition support programme",
+      "Annual Christian student leaders conference",
+      "Student Government mentorship programme — UNSA",
+      "Global Leadership Summit support",
+      "Annual student leadership summit",
+      "Student Leadership Academy",
+    ],
     image: leadership,
     icon: Crown,
   },
   {
-    slug: "spiritual-formation",
-    title: "Spiritual Formation & Discipleship",
-    short: "Christian faith, spiritual growth and biblical understanding.",
-    description:
-      "We walk alongside students as they grow in Christian faith. Worship, fellowship, Bible study and discipleship deepen spiritual maturity and a sound understanding of Scripture.",
-    focus: ["Bible study & discipleship", "Worship & prayer", "Spiritual growth"],
-    image: spiritual,
-    icon: Sprout,
-  },
-  {
     slug: "mentorship-life-skills",
-    title: "Mentorship & Life Skills",
-    short: "Campus life, professional development and life beyond university.",
+    title: "Mentorship and Life-Skills",
+    short: "Helping students cope with life's issues and make the best of its opportunities.",
     description:
-      "We connect students with mentors and practical skills for campus life, professional growth and the transition beyond university — preparing them to thrive in work, family and society.",
-    focus: ["Mentorship", "Professional development", "Life beyond university"],
+      "This is a programme designed to help students cope with issues that they face in their lives and to make the best out of the opportunities that life offers them.",
+    focus: [
+      "First Year Mentorship Programme — Campus Smart",
+      "Orientation leaders training",
+      "Mentorship classes",
+      "Finalists programme",
+      "Young Leaders Programme",
+      "Gender-based mentorship programme",
+    ],
     image: mentorship,
     icon: Compass,
   },
   {
-    slug: "student-wellbeing",
-    title: "Student Wellbeing & Campus Engagement",
-    short: "Counselling, orientation, campus forums and social engagement.",
+    slug: "student-church-engagement",
+    title: "Student Church Engagement Programme",
+    short: "A one-year internship exposing graduates to Christian ministry.",
     description:
-      "We care for the whole student. Counselling, orientation, campus forums and social engagement foster wellbeing, belonging and an active, caring campus community.",
-    focus: ["Counselling", "Orientation", "Campus forums & social engagement"],
+      "This is a one-year internship programme which is designed to equip and expose university graduates to Christian ministry in the church and Christian organizations.",
+    focus: ["ECMP internship recruitment, training and placement", "ECMP hosts follow-up programme"],
+    image: church,
+    icon: Church,
+  },
+  {
+    slug: "spiritual-formation",
+    title: "Student Spiritual Formation Programme",
+    short: "Encouraging Christian maturity, witness and unity on campus.",
+    description:
+      "This programme aims at encouraging Christian maturity, witness, and promoting unity among Christian groups on the campus.",
+    focus: [
+      "Worship experience services",
+      "Student mission outreach",
+      "Campus ministry network",
+      "Chaplaincy support programme",
+      "Worship leaders training",
+      "Student morning devotion and chapel services",
+      "Meeting facilities for student small groups",
+    ],
+    image: spiritual,
+    icon: Sprout,
+  },
+  {
+    slug: "student-wellbeing",
+    title: "Student Wellness Programme",
+    short: "Holistic care — spiritual, mental, social and physical wellbeing.",
+    description:
+      "This involves programmes that target holistic ministry to students, which includes spiritual, mental, social, and physical well-being and support for needy students.",
+    focus: [
+      "Student Wellness Summit",
+      "Support for needy students",
+      "Students work-study programme",
+      "Counselling and psycho-social support",
+      "Advocacy",
+      "Student Wellness Support Network",
+    ],
     image: wellbeing,
     icon: HeartHandshake,
   },
