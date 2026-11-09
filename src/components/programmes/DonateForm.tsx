@@ -142,7 +142,7 @@ export function DonateForm() {
       setErrors(out);
       return;
     }
-    give.mutate({ kind: "donation", ...r.data });
+    give.mutate({ kind: "donation", ...(r.data as Required<DonationInput>) });
   };
 
   const amount = Number.isFinite(f.amount) ? Math.max(0, f.amount) : 0;
