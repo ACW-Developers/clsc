@@ -18,6 +18,7 @@ import {
   programmesService as svc,
 } from "@/services/programmes/programmes";
 import { accountView, paths } from "@/routes/paths";
+import donateHero from "@/assets/programmes/donate-hero.webp";
 
 export function EventsPage() {
   const { id } = useParams();
@@ -84,7 +85,11 @@ export const ContributionsPage = () => (
 );
 
 export const DonatePage = () => (
-  <ProgrammeFrame title="Donate" intro="Contribute to CSLC student programmes.">
+  <ProgrammeFrame
+    title="Give to Student Programmes"
+    intro="Your generosity equips students to lead with integrity, grow in faith and thrive beyond university."
+    image={donateHero}
+  >
     <DonateForm />
   </ProgrammeFrame>
 );
