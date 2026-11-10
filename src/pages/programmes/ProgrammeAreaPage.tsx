@@ -83,7 +83,7 @@ const ProgrammeAreaPage = () => {
               <ol className="divide-y">
                 {area.focus.map((f, i) => (
                   <li key={f} className="flex items-start gap-4 px-6 py-4 text-sm font-medium">
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/25 text-xs font-bold text-primary tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-primary tabular-nums">{String(i + 1).padStart(2, "0")}</span>
                     <span className="pt-1">{f}</span>
                   </li>
                 ))}
