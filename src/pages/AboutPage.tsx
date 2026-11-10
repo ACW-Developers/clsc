@@ -245,7 +245,7 @@ const AboutPage = () => {
                 <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-primary transition group-hover:bg-accent" />
                 <div className="flex items-center justify-between">
                   <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-card"><Icon className="h-6 w-6" /></span>
-                  <span className="text-3xl font-bold tabular-nums text-accent">0{n + 1}</span>
+                  <span className="text-3xl font-bold tabular-nums text-primary/25">0{n + 1}</span>
                 </div>
                 <h3 className="mt-5 text-lg font-bold">{t}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{d}</p>
