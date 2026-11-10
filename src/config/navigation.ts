@@ -22,6 +22,7 @@ export const mainNav: NavGroup[] = [
       { label: "Thematic Areas", to: `${paths.about}#programmes` },
       { label: "Core Values", to: `${paths.about}#values` },
       { label: "Our Impact", to: `${paths.about}#impact` },
+      { label: "Areas of Partnership", to: `${paths.about}#partnership` },
       { label: "Leadership & Team", to: `${paths.about}#team` },
     ],
   },

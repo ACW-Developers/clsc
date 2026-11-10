@@ -7,35 +7,35 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 350 35% 12%;
+    --foreground: 2 35% 13%;
     --card: 0 0% 100%;
-    --card-foreground: 350 35% 12%;
+    --card-foreground: 2 35% 13%;
     --popover: 0 0% 100%;
-    --popover-foreground: 350 35% 12%;
-    --primary: 350 68% 27%;
+    --popover-foreground: 2 35% 13%;
+    --primary: 2 46% 46%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 350 60% 38%;
-    --secondary: 30 45% 96%;
-    --secondary-foreground: 350 68% 27%;
+    --primary-glow: 2 52% 56%;
+    --secondary: 34 55% 95%;
+    --secondary-foreground: 2 46% 40%;
     --muted: 30 30% 96%;
     --muted-foreground: 350 8% 40%;
-    --accent: 38 85% 47%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 34 60% 67%;
+    --accent-foreground: 2 45% 18%;
     --destructive: 0 84.2% 50%;
     --destructive-foreground: 0 0% 100%;
     --border: 30 20% 89%;
     --input: 30 20% 89%;
-    --ring: 350 68% 27%;
+    --ring: 2 46% 46%;
     --chart-2: 196 75% 43%;
     --chart-3: 164 58% 36%;
-    --chart-4: 38 85% 47%;
+    --chart-4: 34 60% 60%;
     --chart-5: 315 40% 48%;
     --radius: 0.75rem;
-    --shadow-card: 0 10px 30px -12px hsl(350 40% 20% / 0.18);
+    --shadow-card: 0 10px 30px -12px hsl(2 40% 20% / 0.18);
     --gradient-overlay: linear-gradient(
       180deg,
-      hsl(350 40% 8% / 0) 40%,
-      hsl(350 40% 8% / 0.8) 100%
+      hsl(2 40% 8% / 0) 40%,
+      hsl(2 40% 8% / 0.8) 100%
     );
     --gradient-hero-fade: linear-gradient(
       90deg,
@@ -45,9 +45,9 @@
     );
     --gradient-hero-dark: linear-gradient(
       90deg,
-      hsl(350 40% 6% / 0.78) 0%,
-      hsl(350 40% 6% / 0.55) 55%,
-      hsl(350 40% 6% / 0.3) 100%
+      hsl(2 40% 6% / 0.78) 0%,
+      hsl(2 40% 6% / 0.55) 55%,
+      hsl(2 40% 6% / 0.3) 100%
     );
 
     --sidebar-background: 0 0% 98%;

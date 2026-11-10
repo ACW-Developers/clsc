@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  ArrowRight, BadgeCheck, BookMarked, Briefcase, Church, Cross, FileText, GraduationCap, Handshake, Hotel,
+  ArrowRight, BadgeCheck, BookMarked, Briefcase, Church, Cross, FileText, GraduationCap, HandCoins, HandHelping, Handshake, HeartPulse, Hotel,
   Quote, ShieldCheck, Sprout, Store, UserRound, Users,
 } from "lucide-react";
 import { programmeAreas } from "@/config/programmeAreas";
@@ -29,6 +29,13 @@ const impact = [
   { v: 30000, l: "Students mentored", i: GraduationCap },
   { v: 80, l: "Internship opportunities", i: Briefcase },
   { v: 200, l: "Chaplains", i: Church },
+];
+
+const partnership = [
+  { t: "Service Delivery", d: "Engage with students as a", items: ["Facilitator", "Mentor", "Counselor"], i: HandHelping },
+  { t: "Funding", d: "Support", items: ["Leadership Training", "Mentorship", "Student Wellness Campaigns", "Mission and Outreach"], i: HandCoins },
+  { t: "Church Engagement", d: "Sponsor and support", items: ["An ECMP Intern to serve in a local church", "Theological Training"], i: Church },
+  { t: "Student Wellness", d: "Provide", items: ["Scholarships", "Internships", "Work-Study opportunities", "Bursaries"], i: HeartPulse },
 ];
 
 /** Counts up once when scrolled into view; static for reduced-motion users. */
@@ -220,6 +227,41 @@ const AboutPage = () => {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="partnership" className="relative scroll-mt-24 overflow-hidden bg-secondary/60 py-16">
+        <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/25 blur-3xl" />
+        <div className="container relative">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="flex items-center justify-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-primary"><span className="h-px w-6 bg-current" /> Walk with us <span className="h-px w-6 bg-current" /></p>
+            <h2 className="mt-2 text-3xl font-bold">Areas of <span className="text-primary">Partnership</span></h2>
+            <p className="mt-3 text-muted-foreground">Four ways individuals, churches and organisations can join us in empowering students for transformation.</p>
+          </div>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {partnership.map(({ t, d, items, i: Icon }, n) => (
+              <article key={t} className="group relative flex flex-col overflow-hidden rounded-2xl border bg-card p-6 shadow-card transition duration-300 hover:-translate-y-1 hover:border-accent hover:shadow-lg">
+                <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-primary transition group-hover:bg-accent" />
+                <div className="flex items-center justify-between">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-card"><Icon className="h-6 w-6" /></span>
+                  <span className="text-3xl font-bold tabular-nums text-accent">0{n + 1}</span>
+                </div>
+                <h3 className="mt-5 text-lg font-bold">{t}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{d}</p>
+                <ul className="mt-4 space-y-2 border-t border-dashed pt-4">
+                  {items.map((x) => (
+                    <li key={x} className="flex items-start gap-2 text-sm font-medium">
+                      <span aria-hidden className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-accent" />{x}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+          <div className="mt-10 flex flex-wrap justify-center gap-3">
+            <Button asChild className="rounded-full"><Link to={paths.contact}>Become a partner <ArrowRight className="ml-1 h-4 w-4" /></Link></Button>
+            <Button asChild variant="outline" className="rounded-full"><Link to={paths.donate}>Give to student programmes</Link></Button>
           </div>
         </div>
       </section>
