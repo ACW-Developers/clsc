@@ -14,6 +14,7 @@ import { paths, programmeAreaUrl } from "@/routes/paths";
 import { useLeadership } from "@/hooks/useLeadership";
 import hero from "@/assets/banner.jpg";
 import grounds from "@/assets/ufungamano.jpg";
+import home from "@/assets/hero.jpg";
 
 const coreValues = [
   { t: "Integrity", d: "Honesty and consistency in all we do.", i: ShieldCheck },
@@ -145,14 +146,16 @@ const AboutPage = () => {
 
       <section id="programmes" className="container scroll-mt-24 py-16">
         <div className="mx-auto max-w-2xl text-center">
-          <Eyebrow>Student programmes</Eyebrow>
-          <h2 className="mt-2 text-3xl font-bold">Thematic <span className="font-script text-4xl font-normal text-accent">Areas</span></h2>
+          <div className="text-center lg:ml-56">
+            <Eyebrow>Student programmes</Eyebrow>
+          </div>
+          <h2 className="mt-2 text-3xl font-bold">Thematic Areas</h2>
           <p className="mt-3 text-muted-foreground">Five thematic areas shape how we walk with students — in faith, leadership and life.</p>
         </div>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
           {programmeAreas.map((a, i) => (
             <Link key={a.slug} to={programmeAreaUrl(a.slug)} className={`group relative flex flex-col overflow-hidden rounded-2xl border bg-card shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-lg ${i < 2 ? "lg:col-span-3" : "lg:col-span-2"} ${i === programmeAreas.length - 1 ? "sm:col-span-2 lg:col-span-2" : ""}`}>
-              <div className={`relative overflow-hidden ${i < 2 ? "h-48 lg:h-60" : "h-48"}`}>
+              <div className={`relative overflow-hidden ${i < 2 ? "h-64 sm:h-76 lg:h-80" : "h-60 sm:h-64 lg:h-72"}`}>
                 <img src={a.image} alt={a.title} loading="lazy" width={1200} height={800} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
                 <span className="absolute bottom-3 left-3 flex h-10 w-10 items-center justify-center rounded-full bg-card text-primary shadow-card"><a.icon className="h-5 w-5" /></span>
               </div>
@@ -169,7 +172,10 @@ const AboutPage = () => {
       <section id="values" className="scroll-mt-24 bg-secondary/50 py-16">
         <div className="container">
           <div className="mx-auto max-w-2xl text-center">
+            <div className="text-center lg:ml-64">
             <Eyebrow>What guides us</Eyebrow>
+          </div>
+            
             <h2 className="mt-2 text-3xl font-bold">Core <span className="font-script text-4xl font-normal text-accent">Values</span></h2>
             <p className="mt-3 text-muted-foreground">The convictions behind every programme, service and relationship at CSLC.</p>
           </div>
@@ -188,7 +194,7 @@ const AboutPage = () => {
       </section>
 
       <section id="impact" className="relative isolate scroll-mt-24 overflow-hidden bg-primary py-16 text-primary-foreground sm:py-20">
-        <img src={grounds} alt="" loading="lazy" className="absolute inset-0 -z-20 h-full w-full object-cover opacity-20" />
+        <img src={home} alt="" loading="lazy" className="absolute inset-0 -z-20 h-full w-full object-cover opacity-30" />
         <div className="absolute inset-0 -z-10 bg-hero-dark opacity-90" />
         <div className="container">
           <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:items-center">
@@ -253,15 +259,15 @@ const AboutPage = () => {
           <div className="flex gap-4">
             <FileText className="h-8 w-8 shrink-0 text-accent" />
             <div>
-              <h2 className="text-2xl font-bold">Research & Publications</h2>
-              <p className="mt-1 text-sm opacity-85">Details of CSLC research and publications will be shared here once provided. Meanwhile, explore our programme materials.</p>
+              <h2 className="text-2xl font-bold">Student Programmes</h2>
+              <p className="mt-1 text-sm opacity-85">Explore our student programmes and get involved in shaping the future of Christian education.</p>
             </div>
           </div>
           <Button asChild variant="secondary" className="rounded-full"><Link to={paths.materials}>Programme Materials</Link></Button>
         </div>
       </section>
-      <section aria-label="Our partners" className="overflow-hidden border-y bg-secondary/40 py-6">
-        <div className="flex w-max animate-marquee gap-0 whitespace-nowrap text-sm font-semibold tracking-wide text-foreground/80 sm:text-base hover:[animation-play-state:paused]">
+      <section aria-label="Our partners" className="overflow-hidden border-y bg-primary py-6">
+        <div className="flex w-max animate-marquee gap-0 whitespace-nowrap text-sm font-semibold tracking-wide text-white sm:text-base hover:[animation-play-state:paused]">
           {[0, 1].map((k) => (
             <span key={k} aria-hidden={k > 0} className="flex items-center">
               {["National Council of Churches of Kenya (NCCK)", "Kenya Conference of Catholic Bishops (KCCB)", "University of Nairobi (UoN)", "National Council of Churches of Kenya (NCCK)", "Kenya Conference of Catholic Bishops (KCCB)", "University of Nairobi (UoN)"].map((n, i) => (
