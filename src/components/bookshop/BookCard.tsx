@@ -55,7 +55,7 @@ export function BookCard({ book, branch }: { book: Book; branch: Branch }) {
         <p className="flex items-center gap-1 text-xs text-muted-foreground">
           {book.rating != null && book.rating_count > 0 ? (
             <>
-              <Star className="h-3.5 w-3.5 fill-accent text-accent" />
+              <Star className="h-3.5 w-3.5 fill-accent text-primary/50" />
               {book.rating} ({book.rating_count})
             </>
           ) : (

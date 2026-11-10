@@ -176,7 +176,7 @@ export function DonateForm() {
         >
           <header className="flex flex-wrap items-start justify-between gap-3 border-b border-border/70 pb-6">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Give with purpose</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Give with purpose</p>
               <h2 className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">Make a gift</h2>
               <p className="mt-1 text-sm text-muted-foreground">It takes less than a minute.</p>
             </div>
@@ -377,7 +377,7 @@ export function DonateForm() {
 
           <div className="rounded-3xl border border-border/70 bg-card p-5 shadow-sm sm:p-6">
             <div className="flex items-start gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/15 text-accent">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/25 text-primary">
                 <BadgeCheck className="h-5 w-5" />
               </span>
               <div className="space-y-1">

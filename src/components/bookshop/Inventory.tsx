@@ -155,7 +155,7 @@ export function Inventory() {
           </div>
           <section>
             <h2 className="mb-4 flex items-center gap-2 font-semibold">
-              <AlertTriangle className="h-5 w-5 text-accent" />
+              <AlertTriangle className="h-5 w-5 text-primary" />
               Low-stock alerts
             </h2>
             {!low.length ? (
@@ -170,7 +170,7 @@ export function Inventory() {
                     className="rounded-lg border border-accent/40 bg-card p-4"
                   >
                     <div className="mb-3 flex items-start justify-between gap-2">
-                      <AlertTriangle className="h-5 w-5 text-accent" />
+                      <AlertTriangle className="h-5 w-5 text-primary" />
                       <Badge
                         variant={s.quantity === 0 ? "destructive" : "secondary"}
                       >
