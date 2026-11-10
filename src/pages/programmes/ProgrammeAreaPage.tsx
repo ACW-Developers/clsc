@@ -61,19 +61,39 @@ const ProgrammeAreaPage = () => {
           </div>
         </section>
 
-        <section className="container grid gap-10 py-14 lg:grid-cols-[1.4fr_1fr] lg:items-center">
-          <div>
-            <Eyebrow>About this thematic area</Eyebrow>
-            <h2 className="mt-2 text-2xl font-bold sm:text-3xl">{area.short}</h2>
-            <p className="mt-4 leading-relaxed text-muted-foreground">{area.description}</p>
-          </div>
-          <ul className="space-y-3 rounded-2xl border bg-card p-6 shadow-card">
-            {area.focus.map((f) => (
-              <li key={f} className="flex items-center gap-3 text-sm font-medium">
-                <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />{f}
-              </li>
-            ))}
-          </ul>
+        <section className="container grid gap-8 py-14 lg:grid-cols-[1.35fr_1fr] lg:gap-12">
+          <article className="min-w-0">
+            <div className="relative overflow-hidden rounded-2xl shadow-card">
+              <img src={area.image} alt={area.title} loading="lazy" width={1200} height={800} className="aspect-[16/10] w-full object-cover" />
+              <span className="absolute bottom-4 left-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-card"><area.icon className="h-6 w-6" /></span>
+              <span aria-hidden className="absolute inset-x-0 bottom-0 h-1 bg-accent" />
+            </div>
+            <div className="mt-7">
+              <Eyebrow>About this thematic area</Eyebrow>
+              <h2 className="mt-2 text-2xl font-bold sm:text-3xl">{area.short}</h2>
+              <p className="mt-4 border-l-2 border-accent pl-4 leading-relaxed text-muted-foreground">{area.description}</p>
+            </div>
+          </article>
+          <aside className="min-w-0 lg:sticky lg:top-24 lg:self-start">
+            <div className="overflow-hidden rounded-2xl border bg-card shadow-card">
+              <div className="bg-primary px-6 py-5 text-primary-foreground">
+                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">How we work</p>
+                <h2 className="mt-1 text-2xl font-bold">Our Approach</h2>
+              </div>
+              <ol className="divide-y">
+                {area.focus.map((f, i) => (
+                  <li key={f} className="flex items-start gap-4 px-6 py-4 text-sm font-medium">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/25 text-xs font-bold text-primary tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="pt-1">{f}</span>
+                  </li>
+                ))}
+              </ol>
+              <div className="flex flex-wrap gap-2 border-t bg-secondary/60 px-6 py-4">
+                <Button asChild size="sm" className="rounded-full"><Link to={`${paths.about}#partnership`}>Partner with us</Link></Button>
+                <Button asChild size="sm" variant="outline" className="rounded-full"><Link to={paths.donate}>Donate</Link></Button>
+              </div>
+            </div>
+          </aside>
         </section>
 
         <section className="bg-secondary/50 py-14">
