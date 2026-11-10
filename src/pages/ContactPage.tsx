@@ -99,7 +99,7 @@ const ContactPage = () => {
       icon: Phone,
       label: "Call our team",
       value: site.phone,
-      href: `tel:${site.phone.replace(/\s/g, "")}`,
+      href: telHref(site.phones[0]),
       description: "Speak with our team directly.",
     },
     {
@@ -256,8 +256,8 @@ const ContactPage = () => {
 
                 <div className="group relative overflow-hidden rounded-2xl border border-border bg-muted shadow-sm">
                   <iframe
-                    title="CSLC location map — Ufungamano House, Nairobi"
-                    src="https://www.openstreetmap.org/export/embed.html?bbox=36.8050%2C-1.2950%2C36.8250%2C-1.2790&layer=mapnik&marker=-1.2870%2C36.8150"
+                    title="CSLC location map — Ufungamano House, State House/Mamlaka Road"
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=36.8030%2C-1.2870%2C36.8210%2C-1.2720&layer=mapnik&marker=-1.2797%2C36.8118"
                     className="h-64 w-full sm:h-72"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
@@ -272,7 +272,7 @@ const ContactPage = () => {
                     </div>
 
                     <a
-                      href="https://www.openstreetmap.org/?mlat=-1.2870&mlon=36.8150#map=16/-1.2870/36.8150"
+                      href="https://www.openstreetmap.org/?mlat=-1.2797&mlon=36.8118#map=17/-1.2797/36.8118"
                       target="_blank"
                       rel="noreferrer"
                       className="shrink-0 text-xs font-semibold text-primary hover:underline"

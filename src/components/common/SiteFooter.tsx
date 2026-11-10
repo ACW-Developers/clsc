@@ -30,12 +30,13 @@ export function SiteFooter() {
             </li>
             <li className="flex gap-2">
               <Phone className="h-4 w-4 shrink-0 text-primary" />
-              <a
-                href={`tel:${site.phone.replace(/\s/g, "")}`}
-                className="hover:text-primary"
-              >
-                {site.phone}
-              </a>
+              <span className="flex flex-wrap gap-x-2">
+                {site.phones.map((ph, i) => (
+                  <a key={ph} href={telHref(ph)} className="hover:text-primary">
+                    {ph}{i < site.phones.length - 1 && ","}
+                  </a>
+                ))}
+              </span>
             </li>
           </ul>
         </div>

@@ -293,7 +293,7 @@ export function EnquiryBand() {
           <p className="mt-2 text-2xl font-bold sm:text-3xl">Plan a visit, an order or an event with us</p>
           <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm opacity-90">
             <span className="flex items-center gap-2"><MapPin className="h-4 w-4 text-accent" />{site.location}</span>
-            <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="flex items-center gap-2 hover:underline"><Phone className="h-4 w-4 text-accent" />{site.phone}</a>
+            <span className="flex flex-wrap items-center gap-2"><Phone className="h-4 w-4 text-accent" />{site.phones.map((ph, i) => <a key={ph} href={telHref(ph)} className="hover:underline">{ph}{i < site.phones.length - 1 && ","}</a>)}</span>
             <a href={`mailto:${site.email}`} className="flex items-center gap-2 hover:underline"><Mail className="h-4 w-4 text-accent" />{site.email}</a>
           </div>
         </div>

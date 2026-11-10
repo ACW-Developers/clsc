@@ -18,10 +18,14 @@ import {
 export const site = {
   name: "Christian Student Leadership Centre",
   short: "CSLC",
-  location: "Ufungamano House, Nairobi, Kenya",
+  location: "Ufungamano House, State House/Mamlaka Road, Nairobi",
   email: "info@ufungamano.org",
-  phone: "+254 748 290170",
+  phones: ["0725 353 993", "0722 456 735"],
+  /** Display string for compact places such as receipts. */
+  phone: "0725 353 993 / 0722 456 735",
 };
+
+export const telHref = (phone: string) => `tel:+254${phone.replace(/\s/g, "").replace(/^0/, "")}`;
 
 export interface HospitalityService {
   id: string;
