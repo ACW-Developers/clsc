@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ArrowRight, CalendarDays, CheckCircle2, Loader2, MapPin } from "lucide-react";
+import { ArrowRight, CalendarDays, Loader2, MapPin } from "lucide-react";
 import { SiteHeader } from "@/components/common/SiteHeader";
 import { SiteFooter } from "@/components/common/SiteFooter";
 import { Eyebrow } from "@/components/home/InstitutionSections";
