@@ -96,7 +96,7 @@ const AboutPage = () => {
           <div className="mt-3 space-y-4 text-muted-foreground leading-relaxed">
             <p>
               The Christian Student Leadership Centre, Ufungamano House, is a ministry to the Nairobi University community. 
-              Its main objective is to facilitate the development of leadership and other skills to the students and the academic communit
+              Its main objective is to facilitate the development of leadership and other skills to the students and the academic community.
             </p>
             <p>
               In 1965, the University Chaplaincy was given a British Christian Aid Fund
