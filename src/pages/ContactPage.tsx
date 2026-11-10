@@ -22,7 +22,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supportService } from "@/services/support";
-import { site } from "@/config/site";
+import { site, telHref } from "@/config/site";
 import hero from "@/assets/cont.jpg";
 
 const schema = z.object({

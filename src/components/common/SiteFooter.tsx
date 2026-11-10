@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { MapPin, Mail, Phone } from "lucide-react";
-import { hospitalityServices, site } from "@/config/site";
+import { hospitalityServices, site, telHref } from "@/config/site";
 import { comingSoon, paths, serviceUrl } from "@/routes/paths";
 import { BrandLogo } from "./BrandLogo";
 

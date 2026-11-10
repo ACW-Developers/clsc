@@ -18,7 +18,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { hospitalityServices, site } from "@/config/site";
+import { hospitalityServices, site, telHref } from "@/config/site";
 import { branchUrl, eventUrl, paths, serviceUrl } from "@/routes/paths";
 import { useEvents } from "@/hooks/programmes/useProgrammes";
 import hero from "@/assets/hero.jpg";
