@@ -94,10 +94,9 @@ export default function BookDetailPage() {
               </div>
 
               <ul className="grid gap-3 text-sm sm:grid-cols-3">
-                {[[ShieldCheck, "Secure M-Pesa or card"], [Receipt, "Instant receipt"], [MapPin, "Branch collection"]].map(([Icon, label]) => {
-                  const I = Icon as typeof ShieldCheck;
-                  return <li key={label as string} className="flex items-center gap-2 text-muted-foreground"><I className="h-4 w-4 shrink-0 text-primary" />{label as string}</li>;
-                })}
+                {[{ icon: ShieldCheck, label: "Secure M-Pesa or card" }, { icon: Receipt, label: "Instant receipt" }, { icon: MapPin, label: "Branch collection" }].map(({ icon: I, label }) => (
+                  <li key={label} className="flex items-center gap-2 text-muted-foreground"><I className="h-4 w-4 shrink-0 text-primary" />{label}</li>
+                ))}
               </ul>
               {book.isbn && <dl className="flex justify-between border-t pt-4 text-sm"><dt className="text-muted-foreground">ISBN</dt><dd className="font-medium">{book.isbn}</dd></dl>}
             </div>
