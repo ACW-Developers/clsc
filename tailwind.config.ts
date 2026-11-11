@@ -25,11 +25,12 @@ export default {
         mono: ['"Quicksand"', "system-ui", "sans-serif"],
         script: ['"Great Vibes"', "cursive"],
       },
-      boxShadow: { card: "var(--shadow-card)" },
+      boxShadow: { card: "var(--shadow-card)", lift: "var(--shadow-lift)" },
       backgroundImage: {
         overlay: "var(--gradient-overlay)",
         "hero-fade": "var(--gradient-hero-fade)",
         "hero-dark": "var(--gradient-hero-dark)",
+        cover: "var(--gradient-cover)",
       },
       colors: {
         border: "hsl(var(--border))",
@@ -45,6 +46,7 @@ export default {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
+        success: "hsl(var(--success))",
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -83,6 +85,7 @@ export default {
       },
       keyframes: {
         kenburns: { "0%": { transform: "scale(1)" }, "100%": { transform: "scale(1.12) translate(-1.5%, -1%)" } },
+        "pop-in": { "0%": { transform: "scale(0.6)", opacity: "0" }, "70%": { transform: "scale(1.08)", opacity: "1" }, "100%": { transform: "scale(1)" } },
         marquee: { from: { transform: "translateX(0)" }, to: { transform: "translateX(-50%)" } },
         "accordion-down": {
           from: {
@@ -104,6 +107,7 @@ export default {
       animation: {
         kenburns: "kenburns 26s ease-in-out infinite alternate",
         marquee: "marquee 40s linear infinite",
+        "pop-in": "pop-in 0.45s cubic-bezier(0.34,1.56,0.64,1) both",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
