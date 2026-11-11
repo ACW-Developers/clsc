@@ -27,7 +27,7 @@ export function ShopFrame({ children }: { children: ReactNode }) {
               {branches.map((b) => (
                 <Link key={b.id} to={branchUrl(b.id)} aria-current={branchActive(b.id) ? "page" : undefined}
                   className={cn(pill, branchActive(b.id) ? "bg-card text-primary shadow-sm" : "text-muted-foreground hover:text-foreground")}>
-                  <MapPin className="hidden h-3.5 w-3.5 sm:block" />{b.id === "yaya" ? "Yaya Centre" : b.name}
+                  <MapPin className="hidden h-3.5 w-3.5 sm:block" />{b.name}
                 </Link>
               ))}
             </div>

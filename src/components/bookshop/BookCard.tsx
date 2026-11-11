@@ -1,92 +1,69 @@
-import { Link } from "react-router-dom";
-import { ShoppingCart, Star } from "lucide-react";
+import { useState, type CSSProperties } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Check, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Stars } from "@/components/common/Reviews";
 import { useCart } from "@/hooks/bookshop/useCart";
 import { availableStock } from "@/lib/bookshop";
-import { bookUrl } from "@/routes/paths";
+import { cn } from "@/lib/utils";
+import { bookUrl, paths } from "@/routes/paths";
 import { kes } from "@/lib/booking";
 import type { Book, Branch } from "@/services/bookshop/catalog";
-export function BookCard({ book, branch }: { book: Book; branch: Branch }) {
-  const cart = useCart(),
-    stock = availableStock(book, branch);
+
+export const LOW_STOCK = 5;
+
+/** Shared add-to-cart behaviour: confirms branch switches and offers a quick route to the cart. */
+export function useAddToCart() {
+  const cart = useCart(), nav = useNavigate();
+  return (book: Book, branch: Branch, qty = 1) => {
+    const stock = availableStock(book, branch);
+    if (!stock) return false;
+    if (cart.lines.length && cart.branch !== branch && !confirm("Switch branch and replace your current cart?")) return false;
+    cart.add(book.id, branch, stock, qty);
+    toast.success(`${book.title} added to cart`, { action: { label: "View cart", onClick: () => nav(paths.cart) } });
+    return true;
+  };
+}
+
+export const coverFallback = (e: React.SyntheticEvent<HTMLImageElement>) => {
+  e.currentTarget.onerror = null;
+  e.currentTarget.src = "/placeholder.svg";
+};
+
+export function BookCard({ book, branch, style }: { book: Book; branch: Branch; style?: CSSProperties }) {
+  const add = useAddToCart(), stock = availableStock(book, branch);
+  const [added, setAdded] = useState(false);
+  const url = bookUrl(book.id, branch);
   return (
-    <article className="group flex min-w-0 flex-col rounded-lg border bg-card transition hover:shadow-card">
-      <Link
-        to={bookUrl(book.id, branch)}
-        className="relative flex aspect-[5/5] items-center justify-center overflow-hidden bg-muted p-0"
-      >
-        <img
-          src={book.image_url || "/placeholder.svg"}
-          alt={`${book.title} book cover`}
-          loading="lazy"
-          width={240}
-          height={320}
-          className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
-          onError={(e) => {
-            e.currentTarget.onerror = null;
-            e.currentTarget.src = "/placeholder.svg";
-          }}
-        />
-        {book.is_sample && (
-          <Badge
-            variant="secondary"
-            className="absolute left-2 top-2 text-[10px]"
-          >
-            Demo stock
-          </Badge>
-        )}
+    <article style={style}
+      className="group relative flex min-w-0 flex-col overflow-hidden rounded-2xl border bg-card transition-all duration-300 animate-in fade-in slide-in-from-bottom-3 fill-mode-both hover:-translate-y-1 hover:border-primary/20 hover:shadow-lift motion-reduce:animate-none motion-reduce:hover:translate-y-0">
+      <Link to={url} tabIndex={-1} aria-hidden className="relative block aspect-[4/5] overflow-hidden bg-cover p-5 sm:p-6">
+        <img src={book.image_url || "/placeholder.svg"} alt="" loading="lazy" width={240} height={320} onError={coverFallback}
+          className="h-full w-full object-contain drop-shadow-xl transition-transform duration-500 ease-out group-hover:scale-[1.06] motion-reduce:group-hover:scale-100" />
+        <div className="absolute left-2.5 top-2.5 flex flex-col items-start gap-1">
+          {!stock ? <span className="rounded-full bg-foreground/80 px-2 py-0.5 text-[10px] font-semibold text-background">Out of stock</span>
+            : stock <= LOW_STOCK && <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] font-semibold text-primary-foreground">Only {stock} left</span>}
+          {book.is_sample && <span className="rounded-full bg-card/90 px-2 py-0.5 text-[10px] font-medium text-muted-foreground">Demo stock</span>}
+        </div>
       </Link>
-      <div className="flex flex-1 flex-col gap-2 p-3 sm:p-4">
-        <p className="text-[11px] uppercase text-muted-foreground">
-          {book.category}
-        </p>
-        <Link
-          to={bookUrl(book.id, branch)}
-          className="font-semibold leading-snug hover:text-primary"
-        >
+      <button type="button" aria-label={`Add ${book.title} to cart`} title={stock ? "Add to cart" : "Out of stock"} disabled={!stock}
+        onClick={() => { if (add(book, branch)) { setAdded(true); setTimeout(() => setAdded(false), 1500); } }}
+        className={cn("absolute right-3 top-[calc(min(125%,100%*1.25)-3.25rem)] flex h-10 w-10 items-center justify-center rounded-full shadow-card transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-0",
+          "md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:focus-visible:translate-y-0 md:focus-visible:opacity-100",
+          added ? "bg-success text-primary-foreground" : "bg-card text-primary hover:bg-primary hover:text-primary-foreground")}
+        style={{ top: "auto" }}>
+        {added ? <Check className="h-4 w-4 animate-pop-in" /> : <ShoppingBag className="h-4 w-4" />}
+      </button>
+      <div className="flex flex-1 flex-col gap-1.5 p-3.5 sm:p-4">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-primary/80">{book.category}</p>
+        <Link to={url} className="line-clamp-2 font-semibold leading-snug transition-colors after:absolute after:inset-0 after:content-[''] hover:text-primary focus-visible:outline-none focus-visible:after:rounded-2xl focus-visible:after:ring-2 focus-visible:after:ring-ring">
           {book.title}
         </Link>
-        <p className="text-xs text-muted-foreground">{book.author}</p>
-        <p className="line-clamp-2 text-xs text-muted-foreground">
-          {book.description.split("Demonstration listing")[0]}
-        </p>
-        <p className="flex items-center gap-1 text-xs text-muted-foreground">
-          {book.rating != null && book.rating_count > 0 ? (
-            <>
-              <Star className="h-3.5 w-3.5 fill-accent text-primary/50" />
-              {book.rating} ({book.rating_count})
-            </>
-          ) : (
-            "Not yet rated"
-          )}
-        </p>
-        <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-2">
-          <strong className="text-sm text-primary">{kes(book.price)}</strong>
-          <Button
-            size="icon"
-            variant="outline"
-            aria-label={`Add ${book.title} to cart`}
-            title="Add to cart"
-            disabled={!stock}
-            onClick={() => {
-              if (
-                cart.lines.length &&
-                cart.branch !== branch &&
-                !confirm("Switch branch and replace the current cart?")
-              )
-                return;
-              cart.add(book.id, branch, stock);
-              toast.success("Book added to cart");
-            }}
-          >
-            <ShoppingCart className="h-4 w-4" />
-          </Button>
+        <p className="truncate text-xs text-muted-foreground">{book.author}</p>
+        <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+          {book.rating != null && book.rating_count > 0 ? <><Stars value={Math.round(book.rating)} size="h-3 w-3" /><span>({book.rating_count})</span></> : <span>Not yet rated</span>}
         </div>
-        <p className="text-[11px] text-muted-foreground">
-          {stock ? `${stock} in stock` : "Out of stock"}
-        </p>
+        <p className="mt-auto pt-2 text-base font-bold text-foreground">{kes(book.price)}</p>
       </div>
     </article>
   );
