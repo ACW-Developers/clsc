@@ -58,11 +58,11 @@ export function useCart() {
     setBranch(branch: Branch) {
       commit({ branch, lines: branch === cart.branch ? cart.lines : [] });
     },
-    add(book_id: string, branch: Branch, max: number) {
-      if (max < 1) return;
+    add(book_id: string, branch: Branch, max: number, qty = 1) {
+      if (max < 1 || qty < 1) return;
       const lines = branch === cart.branch ? cart.lines : [];
       const found = lines.find((l) => l.book_id === book_id);
-      const quantity = Math.min(99, max, (found?.quantity ?? 0) + 1);
+      const quantity = Math.min(99, max, (found?.quantity ?? 0) + Math.floor(qty));
       commit({
         branch,
         lines: found
