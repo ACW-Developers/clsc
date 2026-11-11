@@ -1,3 +1,4 @@
+import { mpesaReason } from "./policy.ts";
 // Daraja (M-Pesa) sandbox STK Push helpers. Credentials stay server-side.
 const BASE = "https://sandbox.safaricom.co.ke";
 
@@ -52,6 +53,6 @@ export async function stkQuery(checkoutRequestId: string): Promise<{ state: "suc
   let body: Record<string, unknown>;
   try { ({ body } = await call("/mpesa/stkpushquery/v1/query", { BusinessShortCode: shortcode, Password: password, Timestamp: timestamp, CheckoutRequestID: checkoutRequestId })); } catch { return { state: "pending" }; }
   if (body.ResultCode === "0" || body.ResultCode === 0) return { state: "success" };
-  if (body.ResultCode !== undefined && body.ResultCode !== null) return { state: "failed", reason: String(body.ResultDesc ?? "Payment was not completed") };
+  if (body.ResultCode !== undefined && body.ResultCode !== null) return { state: "failed", reason: mpesaReason(body.ResultCode, body.ResultDesc) };
   return { state: "pending" };
 }
