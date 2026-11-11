@@ -24,6 +24,8 @@ interface Props {
   thanks?: string;
   backTo: string;
   backLabel: string;
+  /** Optional on-screen message above the receipt (never printed). */
+  banner?: ReactNode;
 }
 
 /** Universal CSLC POS receipt used by hospitality, bookshop, tickets and donations. */
@@ -67,6 +69,7 @@ export function PosReceipt(p: Props) {
                 </Button>
               </div>
             </div>
+            {p.banner && <div className="mb-4 print:hidden">{p.banner}</div>}
             <article
               id="receipt"
               className="pos-receipt mx-auto max-w-sm border bg-card p-5 shadow-card sm:p-7 print:border-0 print:shadow-none"

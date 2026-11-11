@@ -1,7 +1,7 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { z } from "npm:zod@3";
-import { checkoutOrigin, verifiedTestPayment } from "./policy.ts";
+import { checkoutOrigin, verifiedTestPayment, reusablePrompt, mpesaReason, PROMPT_REUSE_MS } from "./policy.ts";
 import { stkPush, stkQuery } from "./mpesa.ts";
 
 const phone = z.string().regex(/^(\+?254|0)[17][0-9]{8}$/);
@@ -69,6 +69,11 @@ Deno.serve(async (req) => {
       const id = typeof cb?.CheckoutRequestID === "string" ? cb.CheckoutRequestID : "";
       const { data: s } = await db.from("payment_sessions").select("reference,callback_token").eq("checkout_request_id", id).maybeSingle();
       if (!s || s.callback_token !== cbToken) return json({ ResultCode: 0, ResultDesc: "Ignored" });
+      // A failure report can only cancel this pending session; success is still confirmed with Daraja's status query below.
+      if (cb.ResultCode !== 0 && cb.ResultCode !== "0") {
+        await db.from("payment_sessions").update({ status: "failed", failure_reason: mpesaReason(cb.ResultCode, cb.ResultDesc) }).eq("checkout_request_id", id).eq("status", "pending");
+        return json({ ResultCode: 0, ResultDesc: "Accepted" });
+      }
       const receipt = cb?.CallbackMetadata?.Item?.find((i: { Name: string }) => i.Name === "MpesaReceiptNumber")?.Value;
       if (cb.ResultCode === 0 && typeof receipt === "string" && /^[A-Z0-9]{8,12}$/.test(receipt)) await db.from("payment_sessions").update({ provider_receipt: receipt }).eq("checkout_request_id", id);
       await verify(s.reference);
@@ -106,6 +111,11 @@ Deno.serve(async (req) => {
     if (!account?.user?.email) return json({ error: "Your account needs an email address" }, 400);
     const quote = await db.rpc("paystack_quote", { _uid: uid, _kind: input.payload.kind, _payload: input.payload });
     if (quote.error || !quote.data) return json({ error: quote.error?.message ?? "Payment amount is unavailable" }, 400);
+    if (input.provider === "mpesa") {
+      const { data: recent } = await db.from("payment_sessions").select("reference,payload,created_at,provider,status").eq("user_id", uid).eq("kind", input.payload.kind).eq("status", "pending").gte("created_at", new Date(Date.now() - PROMPT_REUSE_MS).toISOString());
+      const existing = reusablePrompt(recent ?? [], input.payload);
+      if (existing) return json({ reference: existing, provider: "mpesa", reused: true });
+    }
     const { count } = await db.from("payment_sessions").select("id", { count: "exact", head: true }).eq("user_id", uid).gte("created_at", new Date(Date.now() - 60_000).toISOString());
     if ((count ?? 0) >= 5) return json({ error: "Please wait a minute before trying again" }, 429);
     if (input.provider === "mpesa") {
