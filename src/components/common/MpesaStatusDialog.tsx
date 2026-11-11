@@ -20,14 +20,15 @@ interface Props {
 export function MpesaStatusDialog({ reference, reused, amount, phone, onClose, onCompleted }: Props) {
   const q = usePaymentStatus(reference ?? "");
   const status = q.data?.status;
-  const handed = useRef<string | null>(null);
+  const handed = useRef<string | null>(null), onDone = useRef(onCompleted);
+  onDone.current = onCompleted;
   useEffect(() => {
     const p = q.data;
     if (p?.status !== "completed" || !p.id || handed.current === reference) return;
     handed.current = reference;
-    const t = setTimeout(() => onCompleted({ ...p, id: p.id! }), 1400);
-    return () => clearTimeout(t);
-  }, [q.data, reference, onCompleted]);
+    const id = p.id;
+    setTimeout(() => onDone.current({ ...p, id }), 1400);
+  }, [q.data, reference]);
 
   const done = status === "completed", failed = status === "failed" || (!!q.error && !q.data);
   const timedOut = status === "pending" && !q.waiting;

@@ -23,7 +23,6 @@ const phoneOk = (p: string) => /^(\+?254|0)[17][0-9]{8}$/.test(p);
 export default function BookshopCheckoutPage() {
   const cart = useCart(), q = useCatalog(), nav = useNavigate(), client = useQueryClient();
   const [phone, setPhone] = useState(""), [touched, setTouched] = useState(false);
-  const [prompt, setPrompt] = useState<{ reference: string; reused?: boolean } | null>(null);
   const pay = usePayment({ inline: true });
   const books = q.data ?? [];
   const valid = cart.lines.length > 0 && cart.lines.every((l) => {
@@ -36,14 +35,14 @@ export default function BookshopCheckoutPage() {
     if (!phoneOk(cleanPhone)) return;
     pay.mutate({ kind: "bookshop", branch: cart.branch, items: cart.lines, phone: cleanPhone });
   };
-  if (pay.data && pay.data.reference !== prompt?.reference && pay.method === "mpesa") setPrompt(pay.data);
+  const prompt = pay.method === "mpesa" && pay.data ? pay.data : null;
   const completed = useCallback((p: { id: string }) => {
     sessionStorage.removeItem("cslc-payment-reference");
     cart.clear();
     void client.invalidateQueries();
     nav(bookshopReceiptUrl(p.id), { replace: true, state: { paid: true } });
   }, [cart, client, nav]);
-  const close = () => { setPrompt(null); pay.reset(); };
+  const close = () => pay.reset();
 
   return (
     <ShopFrame>
