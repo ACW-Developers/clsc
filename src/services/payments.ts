@@ -1,5 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 export type PaymentProvider = "mpesa" | "paystack";
+export type PaymentStatus = { kind: PaymentInput["kind"]; id?: string; status: "pending" | "completed" | "failed" | "review"; error?: string };
 export type PaymentInput =
   | { kind: "booking"; id: string; phone: string }
   | { kind: "bookshop"; branch: string; items: { book_id: string; quantity: number }[]; phone: string }
@@ -15,11 +16,13 @@ async function invoke(body: unknown) {
   return data;
 }
 export const paymentsService = {
-  async start({ provider = "paystack", ...payload }: PaymentInput & { provider?: PaymentProvider }) {
+  /** Starts checkout. With `inline`, M-Pesa returns its reference so the page can track the prompt in place. */
+  async start({ provider = "paystack", inline = false, ...payload }: PaymentInput & { provider?: PaymentProvider; inline?: boolean }): Promise<{ reference: string; reused?: boolean } | void> {
     const data = await invoke({ action: "initialize", payload, provider, origin: window.location.origin });
     if (provider === "mpesa") {
       if (!data?.reference) throw new Error("M-Pesa prompt could not be sent");
       sessionStorage.setItem("cslc-payment-reference", data.reference);
+      if (inline) return { reference: data.reference, reused: !!data.reused };
       window.location.assign(`/payments/return?reference=${encodeURIComponent(data.reference)}&provider=mpesa`);
       return;
     }
@@ -27,7 +30,7 @@ export const paymentsService = {
     sessionStorage.setItem("cslc-payment-reference", data.reference);
     window.location.assign(data.authorization_url);
   },
-  async verify(reference: string): Promise<{ kind: PaymentInput["kind"]; id?: string; status: string }> {
+  async verify(reference: string): Promise<PaymentStatus> {
     return invoke({ action: "verify", reference });
   },
 };

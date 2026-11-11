@@ -53,6 +53,7 @@ export async function stkQuery(checkoutRequestId: string): Promise<{ state: "suc
   let body: Record<string, unknown>;
   try { ({ body } = await call("/mpesa/stkpushquery/v1/query", { BusinessShortCode: shortcode, Password: password, Timestamp: timestamp, CheckoutRequestID: checkoutRequestId })); } catch { return { state: "pending" }; }
   if (body.ResultCode === "0" || body.ResultCode === 0) return { state: "success" };
+  if (String(body.ResultCode) === "4999") return { state: "pending" }; // still being processed
   if (body.ResultCode !== undefined && body.ResultCode !== null) return { state: "failed", reason: mpesaReason(body.ResultCode, body.ResultDesc) };
   return { state: "pending" };
 }
