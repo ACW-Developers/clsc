@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { Lock, MapPin, ShieldCheck } from "lucide-react";
@@ -36,12 +36,12 @@ export default function BookshopCheckoutPage() {
     pay.mutate({ kind: "bookshop", branch: cart.branch, items: cart.lines, phone: cleanPhone });
   };
   const prompt = pay.method === "mpesa" && pay.data ? pay.data : null;
-  const completed = useCallback((p: { id: string }) => {
+  const completed = (p: { id: string }) => {
     sessionStorage.removeItem("cslc-payment-reference");
     cart.clear();
     void client.invalidateQueries();
     nav(bookshopReceiptUrl(p.id), { replace: true, state: { paid: true } });
-  }, [cart, client, nav]);
+  };
   const close = () => pay.reset();
 
   return (

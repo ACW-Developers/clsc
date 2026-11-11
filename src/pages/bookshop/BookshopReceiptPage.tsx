@@ -1,10 +1,11 @@
 import { PaymentMethodBadge } from "@/components/common/PaymentMethod";
-import { useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { CheckCircle2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { PosReceipt } from "@/components/common/PosReceipt";
 import { catalogService, branchName } from "@/services/bookshop/catalog";
 import { kes } from "@/lib/booking";
-import { accountView } from "@/routes/paths";
+import { accountView, paths } from "@/routes/paths";
 
 export default function BookshopReceiptPage() {
   const { id = "" } = useParams();
@@ -19,6 +20,7 @@ export default function BookshopReceiptPage() {
     enabled: !!q.data,
   });
   const r = q.data;
+  const paid = (useLocation().state as { paid?: boolean } | null)?.paid;
   return (
     <PosReceipt
       loading={q.isLoading}
@@ -41,6 +43,15 @@ export default function BookshopReceiptPage() {
       }
       backTo={accountView("receipts")}
       backLabel="Back to receipts"
+      banner={paid && (
+        <div role="status" className="flex items-start gap-3 rounded-2xl border border-success/30 bg-success/10 p-4 animate-in fade-in slide-in-from-top-2 duration-500">
+          <CheckCircle2 className="h-6 w-6 shrink-0 animate-pop-in text-success" />
+          <div className="min-w-0 text-sm">
+            <p className="font-semibold">Payment confirmed — thank you!</p>
+            <p className="text-muted-foreground">Your receipt is saved under My receipts. Show it when collecting your books. <Link to={paths.bookshop} className="font-medium text-primary hover:underline">Keep shopping</Link></p>
+          </div>
+        </div>
+      )}
     >
       <section className="mt-4 border-t border-dashed pt-3 text-xs">
         <div className="flex justify-between font-bold">
