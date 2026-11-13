@@ -12,6 +12,14 @@ export type BookingStatus = Database["public"]["Enums"]["booking_status"];
 export type AppRole = Database["public"]["Enums"]["app_role"];
 export type Profile = T["profiles"]["Row"];
 export type ActivityLog = T["activity_logs"]["Row"];
+export interface LogFilters {
+  page: number;
+  pageSize: number;
+  module: string;
+  operation: string;
+  since?: string;
+  term: string;
+}
 export type Receipt = T["receipts"]["Row"];
 
 export const BOOKING_STATUSES: BookingStatus[] = [
@@ -217,14 +225,40 @@ export const hospitalityService = {
     ),
 
   // Logs & settings
-  listLogs: async () =>
-    must(
+  /** Server-paginated, filtered activity log (staff-only via RLS). */
+  listLogs: async (f: LogFilters): Promise<{ rows: ActivityLog[]; total: number }> => {
+    let q = supabase
+      .from("activity_logs")
+      .select("*", { count: "exact" })
+      .order("created_at", { ascending: false })
+      .range((f.page - 1) * f.pageSize, f.page * f.pageSize - 1);
+    if (f.module !== "all") q = q.eq("module", f.module);
+    if (f.operation !== "all") q = q.eq("operation", f.operation);
+    if (f.since) q = q.gte("created_at", f.since);
+    const term = f.term.replace(/[%,()*\\]/g, " ").trim();
+    if (term)
+      q = q.or(
+        ["action", "summary", "actor_name", "module"]
+          .map((c) => `${c}.ilike.%${term}%`)
+          .join(","),
+      );
+    const { data, error, count } = await q;
+    if (error) throw new Error(error.message);
+    return { rows: data ?? [], total: count ?? 0 };
+  },
+  /** Lightweight timestamps for the activity trend chart. */
+  logTrend: async (days: number) => {
+    const since = new Date();
+    since.setHours(0, 0, 0, 0);
+    since.setDate(since.getDate() - days + 1);
+    return must(
       await supabase
         .from("activity_logs")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(500),
-    ),
+        .select("created_at, operation")
+        .gte("created_at", since.toISOString())
+        .limit(5000),
+    );
+  },
   getSettings: async () =>
     must(await supabase.from("app_settings").select("*")),
   saveSetting: async (key: string, value: Record<string, unknown>) =>
