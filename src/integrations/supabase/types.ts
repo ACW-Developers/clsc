@@ -18,28 +18,40 @@ export type Database = {
         Row: {
           action: string
           actor_id: string | null
+          actor_name: string | null
+          changes: Json | null
           created_at: string
           entity: string
           entity_id: string | null
           id: string
+          module: string
+          operation: string
           summary: string | null
         }
         Insert: {
           action: string
           actor_id?: string | null
+          actor_name?: string | null
+          changes?: Json | null
           created_at?: string
           entity: string
           entity_id?: string | null
           id?: string
+          module?: string
+          operation?: string
           summary?: string | null
         }
         Update: {
           action?: string
           actor_id?: string | null
+          actor_name?: string | null
+          changes?: Json | null
           created_at?: string
           entity?: string
           entity_id?: string | null
           id?: string
+          module?: string
+          operation?: string
           summary?: string | null
         }
         Relationships: []
@@ -1343,6 +1355,9 @@ export type Database = {
         Returns: boolean
       }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      log_module: { Args: { _entity: string }; Returns: string }
+      log_noun: { Args: { _entity: string; _row?: Json }; Returns: string }
+      log_value: { Args: { _v: Json }; Returns: Json }
       notify: {
         Args: {
           _audience: string
