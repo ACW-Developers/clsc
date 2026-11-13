@@ -1,3 +1,4 @@
+import { ActivityLogs } from "@/components/admin/ActivityLogs";
 import { useSearchParams } from "react-router-dom";
 import {
   Activity,
@@ -32,7 +33,6 @@ import { ReceiptsTable } from "@/components/common/ReceiptsTable";
 import {
   Bookings,
   Facilities,
-  Logs,
   Overview,
   Services,
   Settings,
@@ -173,7 +173,7 @@ const AdminPage = () => {
       {view === "reviews" && <AdminReviews />}
       {view === "leadership" && <LeadershipAdmin />}
       {view === "traffic" && <TrafficAnalytics />}
-      {view === "logs" && <Logs />}
+      {view === "logs" && <ActivityLogs />}
       {view === "profile" && <ProfileForm />}
       {view === "settings" && <Settings />}
     </DashboardShell>

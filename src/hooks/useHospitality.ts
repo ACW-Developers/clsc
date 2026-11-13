@@ -1,6 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { hospitalityService as svc } from "@/services/hospitality";
+import { hospitalityService as svc, type LogFilters } from "@/services/hospitality";
 import { useAuth } from "./useAuth";
 
 export const useServices = () =>
@@ -47,11 +47,20 @@ export const useAllRoles = () => {
     enabled: isStaff && !isLoading,
   });
 };
-export const useLogs = () => {
+export const useLogs = (f: LogFilters) => {
   const { isStaff, isLoading } = useRoles();
   return useQuery({
-    queryKey: ["logs"],
-    queryFn: svc.listLogs,
+    queryKey: ["logs", f],
+    queryFn: () => svc.listLogs(f),
+    enabled: isStaff && !isLoading,
+    placeholderData: keepPreviousData,
+  });
+};
+export const useLogTrend = (days = 7) => {
+  const { isStaff, isLoading } = useRoles();
+  return useQuery({
+    queryKey: ["logs", "trend", days],
+    queryFn: () => svc.logTrend(days),
     enabled: isStaff && !isLoading,
   });
 };

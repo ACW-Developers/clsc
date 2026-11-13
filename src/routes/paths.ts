@@ -23,6 +23,8 @@ export const paths = {
   cart: "/bookshop/cart",
   bookshopCheckout: "/bookshop/checkout",
   bookshopReceipt: "/bookshop/receipts/:id",
+  programmes: "/programmes",
+  privacy: "/privacy",
   events: "/events",
   eventDetail: "/events/:id",
   ticket: "/events/tickets/:id",
