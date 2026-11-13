@@ -173,7 +173,7 @@ export function ActivityLogs() {
                 <Legend wrapperStyle={{ fontSize: 12 }} />
                 <Bar dataKey="Created" stackId="a" fill={chartColors[0]} isAnimationActive={false} />
                 <Bar dataKey="Updated" stackId="a" fill={chartColors[1]} isAnimationActive={false} />
-                <Bar dataKey="Deleted" stackId="a" fill={chartColors[3] ?? chartColors[2]} radius={[3, 3, 0, 0]} isAnimationActive={false} />
+                <Bar dataKey="Deleted" stackId="a" fill="hsl(var(--destructive))" radius={[3, 3, 0, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </div>
