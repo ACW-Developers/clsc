@@ -32,3 +32,6 @@
 - Reviews live in `public.reviews`; eligibility (paid book order or paid, started facility booking) and author name are enforced by the `guard_review` trigger, super admins moderate via the Reviews view — clients cannot self-certify purchases.
 - Live chat visitors are anonymous and hold a secret session token in localStorage; they only use token-checked RPCs and get a data-free broadcast doorbell on `chat-<token>`, while staff read tables via RLS — no table access for anon.
 - Programme areas are fixed in `config/programmeAreas.ts` (slugs = `programme_activities.area` check); activities are super-admin managed, shown published-only.
+
+- Activity logs are written only by the `log_activity` trigger (descriptive action, module, actor name snapshot, field-level changes) and read staff-only with server-side pagination/filters — clients cannot forge audit entries and the log stays fast as it grows.
+- The Student Programmes hub (`/programmes`) aggregates existing programme hooks; the Privacy Policy (`/privacy`) names Supabase as backend provider — keep both in sync when modules or data processors change.
