@@ -21,9 +21,9 @@
 - Paystack callback origins use an explicit allowlist in the payment policy; add the published/custom origin only when approved — prevent checkout redirect abuse.
 - Category display and form fields share src/config/facilityCategories.ts; facility information is stored in sub_services.details and booking requests in notes — consistent rendering without changing trusted pricing rules.
 - Dashboard charts use the existing Recharts dependency and theme controls use next-themes in AppProviders — reuse dependencies and semantic tokens.
-- Admin traffic, overview and log charts share presentation tokens and local-calendar daily aggregation; unavailable traffic dimensions remain explicit instead of changing privacy-conscious tracking for a visual reference.
+- Admin charts share presentation tokens and local-calendar daily aggregation; unavailable traffic dimensions stay labelled — honest analytics.
 - Traffic tracking uses a validated rate-limited public RPC with staff-only reads; collect only sanitized page paths and browser-reported device/OS, never query strings, form values, IPs or user identity — keep analytics minimal and privacy-conscious.
-- Shared StatCard and profile/security forms serve dashboard modules; signup consent is validated through the shared registration schema — maintain consistent presentation and submission rules.
+- Shared StatCard/profile forms serve dashboards; signup consent is validated by the shared registration schema — consistency.
 - Facility uploads are resized and compressed before storage; labelled sample media uses asset pointers — reduce transfer size without changing logo storage.
 - Student programmes (events, materials, donations, devotionals, Bible study, student contributions) live in `services/programmes`, `hooks/programmes`, `components/programmes` and `pages/programmes`; ticket and donation payments run only through security-definer RPCs that set prices, capacity and receipt numbers — clients never write payment records.
 - All receipts and tickets render through `components/common/PosReceipt` — one universal receipt format across modules.
@@ -32,3 +32,5 @@
 - Reviews live in `public.reviews`; eligibility (paid book order or paid, started facility booking) and author name are enforced by the `guard_review` trigger, super admins moderate via the Reviews view — clients cannot self-certify purchases.
 - Live chat visitors are anonymous and hold a secret session token in localStorage; they only use token-checked RPCs and get a data-free broadcast doorbell on `chat-<token>`, while staff read tables via RLS — no table access for anon.
 - Programme areas are fixed in `config/programmeAreas.ts` (slugs = `programme_activities.area` check); activities are super-admin managed, shown published-only.
+
+- Activity logs come only from the `log_activity` trigger and are read staff-only with server-side paging — audit entries can't be forged.
