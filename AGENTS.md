@@ -33,5 +33,4 @@
 - Live chat visitors are anonymous and hold a secret session token in localStorage; they only use token-checked RPCs and get a data-free broadcast doorbell on `chat-<token>`, while staff read tables via RLS — no table access for anon.
 - Programme areas are fixed in `config/programmeAreas.ts` (slugs = `programme_activities.area` check); activities are super-admin managed, shown published-only.
 
-- Activity logs are written only by the `log_activity` trigger (descriptive action, module, actor name snapshot, field-level changes) and read staff-only with server-side pagination/filters — clients cannot forge audit entries and the log stays fast as it grows.
-- The Student Programmes hub (`/programmes`) aggregates existing programme hooks; the Privacy Policy (`/privacy`) names Supabase as backend provider — keep both in sync when modules or data processors change.
+- Activity logs come only from the `log_activity` trigger and are read staff-only with server-side paging — audit entries can't be forged.
