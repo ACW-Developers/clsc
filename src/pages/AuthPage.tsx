@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Loader2, Mail, User } from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -235,7 +235,12 @@ const AuthPage = () => {
                 className="text-xs font-normal leading-relaxed"
               >
                 I consent to CSLC processing my account and contact details to
-                manage my bookings, orders, and support requests.
+                manage my bookings, orders, and support requests, as described in
+                the{" "}
+                <Link to={paths.privacy} target="_blank" className="font-medium text-primary underline-offset-4 hover:underline">
+                  Privacy Policy
+                </Link>
+                .
               </Label>
             </div>
             {errors.consent && (

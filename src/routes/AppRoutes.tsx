@@ -32,6 +32,8 @@ import {
   TicketPage,
 } from "@/pages/programmes/ProgrammePages";
 import NotFoundPage from "@/pages/NotFoundPage";
+import StudentProgrammesPage from "@/pages/programmes/StudentProgrammesPage";
+import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
 import { RequireAuth } from "@/components/common/RouteGuards";
 import { paths } from "./paths";
 
@@ -102,6 +104,8 @@ export function AppRoutes() {
             </RequireAuth>
           }
         />
+        <Route path={paths.programmes} element={<StudentProgrammesPage />} />
+        <Route path={paths.privacy} element={<PrivacyPolicyPage />} />
         <Route path={paths.events} element={<EventsPage />} />
         <Route path={paths.eventDetail} element={<EventsPage />} />
         <Route

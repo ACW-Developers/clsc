@@ -49,7 +49,7 @@ export const Eyebrow = ({ children, light }: { children: React.ReactNode; light?
 const pillars: { icon: LucideIcon; title: string; text: string; to: string }[] = [
   { icon: Store, title: "Bookshop", text: "Yaya Centre & Kisumu", to: paths.bookshop },
   { icon: Hotel, title: "Hospitality", text: "Stay, meet and dine", to: "#hospitality" },
-  { icon: CalendarDays, title: "Student Programmes", text: "Events & materials", to: paths.events },
+  { icon: CalendarDays, title: "Student Programmes", text: "Events & materials", to: paths.programmes },
   { icon: BookMarked, title: "Spiritual Resources", text: "Devotionals & Bible study", to: paths.devotionals },
   { icon: HandHeart, title: "Give", text: "Support student ministry", to: paths.donate },
 ];
@@ -117,7 +117,7 @@ export function InstitutionHero() {
 const departments = [
   { title: "Bookshop & E-commerce", text: "Christian books, Bibles and resources from our Yaya Centre and Kisumu branches — browse and shop online.", image: reading, to: paths.bookshop, cta: "Shop Books", icon: ShoppingBag },
   { title: "Hospitality Services", text: "Accommodation, conference halls, dining, grounds, outside catering and hostels at Ufungamano House.", image: hospitalityServices[1].image, to: "#hospitality", cta: "View Services", icon: Hotel },
-  { title: "Student Programmes", text: "Events, programme materials, devotionals and Bible study resources that equip student leaders.", image: grad, to: paths.events, cta: "See Programmes", icon: School },
+  { title: "Student Programmes", text: "Events, programme materials, devotionals and Bible study resources that equip student leaders.", image: grad, to: paths.programmes, cta: "See Programmes", icon: School },
 ];
 
 export function Departments() {
