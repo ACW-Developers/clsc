@@ -21,7 +21,7 @@
 - Paystack callback origins use an explicit allowlist in the payment policy; add the published/custom origin only when approved — prevent checkout redirect abuse.
 - Category display and form fields share src/config/facilityCategories.ts; facility information is stored in sub_services.details and booking requests in notes — consistent rendering without changing trusted pricing rules.
 - Dashboard charts use the existing Recharts dependency and theme controls use next-themes in AppProviders — reuse dependencies and semantic tokens.
-- Admin traffic, overview and log charts share presentation tokens and local-calendar daily aggregation; unavailable traffic dimensions remain explicit instead of changing privacy-conscious tracking for a visual reference.
+- Admin charts share presentation tokens and local-calendar daily aggregation; unavailable traffic dimensions stay labelled — honest analytics.
 - Traffic tracking uses a validated rate-limited public RPC with staff-only reads; collect only sanitized page paths and browser-reported device/OS, never query strings, form values, IPs or user identity — keep analytics minimal and privacy-conscious.
 - Shared StatCard and profile/security forms serve dashboard modules; signup consent is validated through the shared registration schema — maintain consistent presentation and submission rules.
 - Facility uploads are resized and compressed before storage; labelled sample media uses asset pointers — reduce transfer size without changing logo storage.
