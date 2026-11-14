@@ -23,7 +23,7 @@
 - Dashboard charts use the existing Recharts dependency and theme controls use next-themes in AppProviders — reuse dependencies and semantic tokens.
 - Admin charts share presentation tokens and local-calendar daily aggregation; unavailable traffic dimensions stay labelled — honest analytics.
 - Traffic tracking uses a validated rate-limited public RPC with staff-only reads; collect only sanitized page paths and browser-reported device/OS, never query strings, form values, IPs or user identity — keep analytics minimal and privacy-conscious.
-- Shared StatCard and profile/security forms serve dashboard modules; signup consent is validated through the shared registration schema — maintain consistent presentation and submission rules.
+- Shared StatCard/profile forms serve dashboards; signup consent is validated by the shared registration schema — consistency.
 - Facility uploads are resized and compressed before storage; labelled sample media uses asset pointers — reduce transfer size without changing logo storage.
 - Student programmes (events, materials, donations, devotionals, Bible study, student contributions) live in `services/programmes`, `hooks/programmes`, `components/programmes` and `pages/programmes`; ticket and donation payments run only through security-definer RPCs that set prices, capacity and receipt numbers — clients never write payment records.
 - All receipts and tickets render through `components/common/PosReceipt` — one universal receipt format across modules.
