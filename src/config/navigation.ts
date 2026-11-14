@@ -59,6 +59,7 @@ export const mainNav: NavGroup[] = [
   {
     label: "Student Programmes",
     items: [
+      { label: "Programmes Overview", to: paths.programmes, description: "Events, learning and spiritual resources" },
       { label: "Events Calendar", to: paths.events },
       { label: "Programme Materials", to: paths.materials },
       { label: "Donate Now", to: paths.donate },

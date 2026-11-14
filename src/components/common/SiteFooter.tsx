@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { MapPin, Mail, Phone } from "lucide-react";
 import { hospitalityServices, site, telHref } from "@/config/site";
-import { comingSoon, paths, serviceUrl } from "@/routes/paths";
+import { paths, serviceUrl } from "@/routes/paths";
 import { BrandLogo } from "./BrandLogo";
 
 export function SiteFooter() {
@@ -66,17 +66,17 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
-              <Link to={comingSoon("mission")} className="hover:text-primary">
+              <Link to={paths.about} className="hover:text-primary">
                 About CSLC
               </Link>
             </li>
             <li>
-              <Link to={comingSoon("bookshop")} className="hover:text-primary">
+              <Link to={paths.bookshop} className="hover:text-primary">
                 Bookshop
               </Link>
             </li>
             <li>
-              <Link to={comingSoon("events")} className="hover:text-primary">
+              <Link to={paths.programmes} className="hover:text-primary">
                 Student Programmes
               </Link>
             </li>
@@ -89,7 +89,10 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t py-5 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} {site.name}. All rights reserved.
+        © {new Date().getFullYear()} {site.name}. All rights reserved. ·{" "}
+        <Link to={paths.privacy} className="hover:text-primary hover:underline">
+          Privacy Policy
+        </Link>
       </div>
     </footer>
   );
