@@ -24,7 +24,7 @@ import { eventDate } from "@/services/programmes/programmes";
 import { programmeAreas } from "@/config/programmeAreas";
 import { eventUrl, paths, programmeAreaUrl } from "@/routes/paths";
 import hero from "@/assets/grad.jpg";
-import gather from "@/assets/banner.jpg";
+import gather from "@/assets/hero-4.jpg";
 
 const day = (d: string) =>
   new Date(`${d}T00:00:00`).toLocaleDateString("en-KE", { day: "numeric", month: "long", year: "numeric" });
